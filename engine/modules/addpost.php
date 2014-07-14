@@ -536,6 +536,15 @@ if( ! $allow_addnews ) {
 		}
 		$tpl->set( '{selected-cat}', $cat_info[ $sel_cat ]['name'] );
 
+		$tpl->copy_template .= <<< HTML
+<input type="hidden" value="{$sel_cat}" name="sel_cat" id="sel_cat" />
+<script>
+$(document).ready(function() {
+	var obj = $("#sel_cat");
+	onCategoryChange( obj );
+});
+</script>
+HTML;
 		
 		$xfieldsaction = "categoryfilter";
 		include_once ENGINE_DIR . '/inc/xfields.php';
