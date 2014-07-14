@@ -20,7 +20,7 @@
 	</file>
 	<file name="engine/inc/options.php">
 		<operation>
-			<ignoreif><![CDATA[]]></ignoreif>
+			<ignoreif><![CDATA[<span>{$lang['forum_0']}</span>]]></ignoreif>
 			<search position="after" offset="3"><![CDATA[<i class="icon-rss"></i>]]></search>
 			<add><![CDATA[<!-- SimpleBB -->
     <div class="col-sm-1 action-nav-button">
@@ -32,10 +32,10 @@
 <!-- SimpleBB -->]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[]]></ignoreif>
+			<ignoreif><![CDATA[document.getElementById('forum').style.display = "none";]]></ignoreif>
 			<search position="after"><![CDATA[document.getElementById('smartphone').style.display = "none";]]></search>
 			<add><![CDATA[// SimpleBB
-document.getElementById('forum').style.display = "none";
+				document.getElementById('forum').style.display = "none";
 // SimpleBB]]></add>
 		</operation>
 		<operation>
