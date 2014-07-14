@@ -244,6 +244,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
+'forum_1'				=>	"Konunun açılacağı Forum belirtilmedi",
+'forum_2'				=>	"Hata oluştu",
 // SimpleBB
 ]]></add>
 		</operation>
