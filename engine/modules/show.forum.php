@@ -85,27 +85,29 @@ class SimpleBB {
 
 	private function GenerateStats( ) {
 		$where = implode( ",", $this->_forum_cat_ids );
-		$row = $this->db->super_query( "SELECT title, autor, id, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) ORDER BY date DESC LIMIT 0,1" );
-		$_p = $row; unset( $row );
-		if ( $this->optimize == $this->ON ) {
-			$this->db->query( "SELECT COUNT(id) as count, approve FROM " . PREFIX . "_post WHERE category IN ({$where}) GROUP BY approve" );
-			while( $row = $this->db->get_row() ) {
-				if ( $row['approve'] == "1" ) $_p['ocount'] = $row['count'];
-				else $_p['ncount'] = $row['count'];
+		if ( count( $this->_forum_cat_ids ) > 0 ) {
+			$row = $this->db->super_query( "SELECT title, autor, id, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) ORDER BY date DESC LIMIT 0,1" );
+			$_p = $row; unset( $row );
+			if ( $this->optimize == $this->ON ) {
+				$this->db->query( "SELECT COUNT(id) as count, approve FROM " . PREFIX . "_post WHERE category IN ({$where}) GROUP BY approve" );
+				while( $row = $this->db->get_row() ) {
+					if ( $row['approve'] == "1" ) $_p['ocount'] = $row['count'];
+					else $_p['ncount'] = $row['count'];
+				}
+				$_p['tcount'] = $_p['ncount'] + $_p['ocount'];
+				$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
+				$_p['ccount'] = $row['count'];
+			} else {
+				$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE category IN ({$where})" );
+				$_p['tcount'] = $row['count'];
+				$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE approve ='1' AND category IN ({$where})" );
+				$_p['ocount'] = $row['count'];
+				$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
+				$_p['ccount'] = $row['count'];
+				$_p['ncount'] = $_p['tcount'] - $_p['ocount'];
 			}
-			$_p['tcount'] = $_p['ncount'] + $_p['ocount'];
-			$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
-			$_p['ccount'] = $row['count'];
-		} else {
-			$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE category IN ({$where})" );
-			$_p['tcount'] = $row['count'];
-			$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE approve ='1' AND category IN ({$where})" );
-			$_p['ocount'] = $row['count'];
-			$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
-			$_p['ccount'] = $row['count'];
-			$_p['ncount'] = $_p['tcount'] - $_p['ocount'];
-		}
-		unset( $row, $where );
+			unset( $row, $where );
+		} else $_p = array();
 		return $_p;
 	}
 
@@ -272,10 +274,12 @@ class SimpleBB {
 	}
 
 	private function FindComments( ) {
-		$where = implode( ",", $this->_forum_ids );
-		$this->db->query("SELECT SUM(comm_num) as comm, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
-		while( $data = $this->db->get_row() ) {
-			$this->comments[ $data['category'] ] = $data['comm'];
+		if ( count( $this->_forum_ids ) > 0 ) {
+			$where = implode( ",", $this->_forum_ids );
+			$this->db->query("SELECT SUM(comm_num) as comm, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
+			while( $data = $this->db->get_row() ) {
+				$this->comments[ $data['category'] ] = $data['comm'];
+			}
 		}
 	}
 
