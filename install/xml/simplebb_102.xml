@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>SimpleBB</id>
+	<version>1.0</version>
+	<vqmver>2.4.1</vqmver>
+	<author>MaRZoCHi</author>
+	<file name="engine/classes/google.class.php">
+		<operation>
+			<ignoreif><![CDATA["http://forum.dle.net.tr"]]></ignoreif>
+			<search position="replace"><![CDATA[$loc = htmlspecialchars( $loc, ENT_QUOTES, 'ISO-8859-1' );]]></search>
+			<add><![CDATA[// SimpleBB
+		global $config;
+		$cat_info = get_vars( "category" );
+		if ( $config['forum_use_subdomain'] AND ! empty( $cat_info[ $config['forum_id'] ]['alt_name'] ) ) {
+			$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
+			$loc = str_replace ( "http://" . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $loc );
+		}
+		// SimpleBB]]></add>
+		</operation>
+	</file>
+	<file name="engine/inc/options.php">
+		<operation>
+			<ignoreif><![CDATA[]]></ignoreif>
+			<search position="after" offset="3"><![CDATA[<i class="icon-rss"></i>]]></search>
+			<add><![CDATA[<!-- SimpleBB -->
+    <div class="col-sm-1 action-nav-button">
+      <a href="javascript:ChangeOption('forum');" class="tip" title="{$lang['forum_1']}">
+        <i class="icon-comments"></i>
+        <span>{$lang['forum_0']}</span>
+      </a>
+    </div>
+<!-- SimpleBB -->]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[]]></ignoreif>
+			<search position="after"><![CDATA[document.getElementById('smartphone').style.display = "none";]]></search>
+			<add><![CDATA[// SimpleBB
+document.getElementById('forum').style.display = "none";
+// SimpleBB]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[<div class="title">{$lang['forum_1']}</div>]]></ignoreif>
+			<search position="before"><![CDATA[if(!is_writable(ENGINE_DIR . '/data/config.php')) {]]></search>
+			<add><![CDATA[// SimpleBB
+	echo <<<HTML
+<div id="forum" class="box" style='display:none'>
+	<div class="box-header">
+		<div class="title">{$lang['forum_1']}</div>
+	</div>
+	<div class="box-content">
+		<table class="table table-normal">
+HTML;
+	$main_cats = array( "" => $lang['forum_14'] );
+	foreach( $cat_info as $cat ) { if ( $cat['parentid'] == "0" ) { $main_cats[$cat['id']] = $cat['name']; } }
+	showRow( $lang['forum_15'], $lang['forum_16'], makeDropDown( $main_cats, "save_con[forum_id]", "{$config['forum_id']}" ) );
+	showRow( $lang['forum_6'], $lang['forum_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[forum_title_limit]\" value=\"{$config['forum_title_limit']}\" size=\"20\" />" );
+	showRow( $lang['forum_8'], $lang['forum_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[forum_post_limit]\" value=\"{$config['forum_post_limit']}\" size=\"20\" />" );
+	showRow( $lang['forum_9'], $lang['forum_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[forum_stat_title_limit]\" value=\"{$config['forum_stat_title_limit']}\" size=\"20\" />" );
+	showRow( $lang['forum_2'], $lang['forum_3'], makeCheckBox( "save_con[forum_use_subdomain]", "{$config['forum_use_subdomain']}" ) );
+	showRow( $lang['forum_10'], $lang['forum_11'], makeCheckBox( "save_con[forum_show_banners]", "{$config['forum_show_banners']}" ) );
+	showRow( $lang['forum_12'], $lang['forum_13'], makeCheckBox( "save_con[forum_optimized_sql]", "{$config['forum_optimized_sql']}" ) );
+	echo "</table></div></div>";
+// SimpleBB]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$save_con['forum_id'] = intval($save_con['forum_id']);]]></ignoreif>
+			<search position="after"><![CDATA[$save_con['comments_lazyload'] = intval($save_con['comments_lazyload']);]]></search>
+			<add><![CDATA[
+// SimpleBB
+	$save_con['forum_id'] = intval($save_con['forum_id']);
+	$save_con['forum_title_limit'] = intval($save_con['forum_title_limit']);
+	$save_con['forum_post_limit'] = intval($save_con['forum_post_limit']);
+	$save_con['forum_stat_title_limit'] = intval($save_con['forum_stat_title_limit']);
+	$save_con['forum_use_subdomain'] = intval($save_con['forum_use_subdomain']);
+	$save_con['forum_show_banners'] = intval($save_con['forum_show_banners']);
+	$save_con['forum_optimized_sql'] = intval($save_con['forum_optimized_sql']);
+// SimpleBB]]></add>
+		</operation>
+
+	</file>
+	<file name="engine/engine.php">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
+			<search position="before"><![CDATA[case "changemail" :]]></search>
+			<add><![CDATA[
+// SimpleBB
+	case "addpost" :
+		if ( $is_logged ) {
+			$config['allow_cache'] = false;
+			include ENGINE_DIR . '/modules/addpost.php';
+		} else
+			msgbox ( $lang['all_err_1'], $lang['forum_0'] );
+		break;
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[include_once (ENGINE_DIR . '/modules/show.forum.php');]]></ignoreif>
+			<search position="before"><![CDATA[if ($active) {]]></search>
+			<add><![CDATA[
+// SimpleBB
+			include_once (ENGINE_DIR . '/modules/show.forum.php');
+			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id );
+			if ( $category_id == $config['forum_id'] ) { $forum_where = "main"; }
+			else if ( in_array( $category_id, $forum->get_cats() ) ) { $forum_where = "cat"; } 
+			else if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "forum"; }
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$subaction == '' AND $category_id != $config['forum_id']]></ignoreif>
+			<search position="replace" index="1"><![CDATA[if ($do == "cat" and $category != '' and $subaction == '') {]]></search>
+			<add><![CDATA[
+// SimpleBB
+			if ($do == "cat" and $category != '' and $subaction == '' AND $category_id != $config['forum_id']) {
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[include_once (ENGINE_DIR . '/modules/show.forum.php');]]></ignoreif>
+			<search position="before"><![CDATA[include_once (ENGINE_DIR . '/modules/show.short.php');]]></search>
+			<add><![CDATA[
+// SimpleBB
+				if ( $category_id == $config['forum_id'] ) {
+					if ( $config['forum_use_subdomain'] && strpos( $_SERVER['SERVER_NAME'], $cat_info[ $config['forum_id'] ]['alt_name'] . "." ) !== 0 ) {
+						header("HTTP/1.0 301 Moved Permanently");
+						header("Location: http://{$cat_info[ $config['forum_id'] ]['alt_name']}.{$_SERVER['SERVER_NAME']}");
+						die("Redirect");
+					}
+					$forum->run();
+					$tpl->result["content"] = $forum->html( );
+				} else {
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );]]></ignoreif>
+			<search position="before"><![CDATA[if ($config['allow_rss']) $metatags .= <<<HTML]]></search>
+			<add><![CDATA[
+// SimpleBB
+else if ( isset( $full_link ) ) {
+	$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
+	$metatags .= "
+<link rel=\"canonical\" href=\"" . str_replace ( "http://" . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $full_link ) . "\" />";
+}
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB-else]]></ignoreif>
+			<search position="replace"><![CDATA[} elseif ($news_found and $cache_id < 6) create_cache ( "news", $tpl->result['content'], $cache_id . $cache_prefix, true );]]></search>
+			<add><![CDATA[
+				} elseif ($news_found and $cache_id < 6) create_cache ( "news", $tpl->result['content'], $cache_id . $cache_prefix, true );
+// SimpleBB-else
+				}
+// SimpleBB-else
+]]></add>
+		</operation>
+
+		<operation>
+			<ignoreif><![CDATA[header("Location: {$redirect_url}");]]></ignoreif>
+			<search position="before"><![CDATA[if ($re_cat != $_GET['category'] OR substr ( $_SERVER['REQUEST_URI'], - 1, 1 ) != '/' ) {]]></search>
+			<add><![CDATA[
+// SimpleBB - Redirect1
+				if ( strpos( $_SERVER['REQUEST_URI'], "/" . $cat_info[ $config['forum_id'] ]['alt_name'] ) !== false ) {
+					$redirect_url = "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['SERVER_NAME'] ) . str_replace( "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "", $_SERVER['REQUEST_URI'] );
+					header("HTTP/1.0 301 Moved Permanently");
+					header("Location: {$redirect_url}");
+					die("Redirect");
+				}
+// SimpleBB - Redirect1
+]]></add>
+		</operation>
+
+		<operation>
+			<ignoreif><![CDATA[if ( strpos( $re_cat, $cat_info[ $config['forum_id'] ]['alt_name'] . "/" ) === false ) {]]></ignoreif>
+			<search position="after"><![CDATA[$re_url = reset ( $re_url );]]></search>
+			<add><![CDATA[
+// SimpleBB - Redirect
+					if ( strpos( $re_cat, $cat_info[ $config['forum_id'] ]['alt_name'] . "/" ) === false ) {
+// SimpleBB - Redirect
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[die("Redirect");}]]></ignoreif>
+			<search position="replace"><![CDATA[die("Redirect");]]></search>
+			<add><![CDATA[die("Redirect");}]]></add>
+		</operation>
+	</file>
+	<file name="index.php">
+		<operation>
+			<ignoreif><![CDATA[// if ($replace_url) $tpl->result['main']]]></ignoreif>
+			<search position="replace"><![CDATA[if ($replace_url) $tpl->result['main'] = str_replace ( $replace_url[0]."/", $replace_url[1]."/", $tpl->result['main'] );]]></search>
+			<add><![CDATA[// if ($replace_url) $tpl->result['main'] = str_replace ( $replace_url[0]."/", $replace_url[1]."/", $tpl->result['main'] );]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[// Simple BB]]></ignoreif>
+			<search position="before"><![CDATA[echo $tpl->result['main'];]]></search>
+			<add><![CDATA[
+// SimpleBB
+include ROOT_DIR . '/engine/modules/simplebb.php';
+// SimpleBB
+]]></add>
+		</operation>
+	</file>
+	<file name=".htaccess">
+		<operation>
+			<ignoreif><![CDATA[RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]]></ignoreif>
+			<search position="after"><![CDATA[RewriteEngine On]]></search>
+			<add><![CDATA[# SimpleBB
+RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]
+# SimpleBB]]></add>
+		</operation>
+	</file>
+	<file name="language/Turkish/adminpanel.lng">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
+			<search position="after"><![CDATA['wysiwyg_language'		=>  "tr",]]></search>
+			<add><![CDATA[
+// SimpleBB
+'forum_0'				=>	"Forum",
+'forum_1'				=>	"Forum Ayarları",
+'forum_2'				=>	"Subdomain kullanımı",
+'forum_3'				=>	"Forumunuz alt domain olarak çalıştırma istiyorsanız bu ayarı aktifleştirin. Gerekli ayarlamalar için buraya tıklayın.",
+'forum_6'				=>	"Başlık için karakter limiti",
+'forum_7'				=>	"Girilen limite göre başlıklar kısaltılacaktır",
+'forum_8'				=>	"Son mesaj için karakter limiti",
+'forum_9'				=>	"İstatistikler için karakter limiti",
+'forum_10'				=>	"Reklamları göster",
+'forum_11'				=>	"Forumda reklam kodlarını aktifleştirir. Böylece reklamlarınızı forum anasayfasında da kullanabilirsiniz.",
+'forum_12'				=>	"SQL Optimizasyonu",
+'forum_13'				=>	"Eğer fazla sayıda forum oluşturduysanız ve çok kullanıcısı olan bir siteniz varsa bu ayar MySQL açısından ciddi performans artışı sağlar.",
+'forum_14'				=>	"-- Kategori Seçiniz --",
+'forum_15'				=>	"Forum olarak kullanılacak kategori",
+'forum_16'				=>	"Sadece ana kategoriler gösterilmektedir. Forum olarak kullanmak istediğiniz kategoriyi seçin",
+// SimpleBB
+]]></add>
+		</operation>
+	</file>
+	<file name="language/Turkish/website.lng">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
+			<search position="after"><![CDATA[wysiwyg_language'		=>  "tr",]]></search>
+			<add><![CDATA[
+// SimpleBB
+'forum_0'				=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
+// SimpleBB
+]]></add>
+		</operation>
+	</file>
+</modification>
