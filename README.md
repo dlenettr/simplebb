@@ -1,22 +1,15 @@
 simplebb for DLE ( DataLife Engine )
 ========
+* Yapımcı: Mehmet Hanoğlu ( dle.net.tr )
+* Tarih  : 15.07.2014
+* Lisans : MIT
+* DLE    : Yalnızca 10.2
+
 
 Açıklamalar :
-=====================
-Yapımcı: Mehmet Hanoğlu ( dle.net.tr )
-Tarih  : 15.07.2014
-Lisans : MIT
-DLE    : Yalnızca 10.2
-
-
-Açıklama
 --------------------
 Forum kategori ve alt kategori olmak üzere 2 derinliğe göre ayarlanmıştır. 1. Derinlik için kategori, 2. Derinlik için forum diyoruz.
-Hiyerarşi olarak bu şekilde :
-SimpleBB >
-  Kategori >
-    Forum >
-      Konular
+Hiyerarşi olarak bu şekilde : SimpleBB > Kategori > Forum > Konular
 DLE kategori sistemini kullandığı için her türlü düzenlemeyi yapabilirsiniz.
 
 Sistem İşleyişi
