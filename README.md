@@ -39,6 +39,13 @@ Kurulum ve Kaldırma
 Şablon Düzenlemeleri :
 --------------------
 
+addpost.tpl dosyası addnews.tpl dosyanızın aynısı olabilir, sadece kategori seçimini kaldırmanız gerekli.
+Bu şablon dosyası için kullanılabilir tag, {selected-cat} belirtilen kategorinin adıdır:
+~~~
+{selected-cat}
+~~~
+
+
 Herhangi bir .tpl dosyasında kullanılabilir taglar
 --------------------
 
