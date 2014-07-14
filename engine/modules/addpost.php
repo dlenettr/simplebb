@@ -20,7 +20,7 @@ if( ! defined( 'DATALIFEENGINE' ) ) {
 $allow_addnews = true;
 
 if ( ! isset( $_REQUEST['cat'] ) ) {
-	msgbox( "Hata oluştu", "Konunun açılacağı Forum belirtilmedi <a href=\"$PHP_SELF?do=addnews\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+	msgbox( $lang['forum_2'], $lang['forum_1'] . " <a href=\"$PHP_SELF?do=addnews\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
 	die();
 }
 
