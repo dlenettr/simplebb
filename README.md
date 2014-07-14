@@ -37,7 +37,7 @@ Kurulum ve Kaldırma
 
 
 Şablon Düzenlemeleri :
-=====================
+--------------------
 
 Herhangi bir .tpl dosyasında kullanılabilir taglar
 --------------------
