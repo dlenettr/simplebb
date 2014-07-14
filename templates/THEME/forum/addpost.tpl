@@ -44,12 +44,11 @@
 		</div>[/not-wysywyg]
 		{fullarea}
 	</div>
-	<!--div class="contain">
+	<div class="contain">
 		<table cellpadding="6" cellspacing="1" border="0">
-			{-xfields-}
+			{xfields}
 		</table>
-		İlave alanlar manuel olarak eklenecek
-	</div-->
+	</div>
     <div class="contain">
 		<div>
 			<label for="tags"><i class="fa fa-question-circle"></i>Etiketler</label>
