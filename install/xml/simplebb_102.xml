@@ -198,7 +198,9 @@ else if ( isset( $full_link ) ) {
 			<search position="before"><![CDATA[echo $tpl->result['main'];]]></search>
 			<add><![CDATA[
 // SimpleBB
-include ROOT_DIR . '/engine/modules/simplebb.php';
+if ( ! in_array( $dle_module, array("addnews") ) ) {
+	include ROOT_DIR . '/engine/modules/simplebb.php';
+}
 // SimpleBB
 ]]></add>
 		</operation>
