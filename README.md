@@ -23,6 +23,17 @@ Subdomain Kullanımı
 SimpleBB subdomain kullanımı destekliyor. Bununla beraber gerekli yönlendirme ve SEO önlemleri alındı.
 Subdomain kullanımı açıldığında subdomain siz olarak girilen tüm forum linkleri otomatik olarak subdomain li haline yönlendirilecek.
 Yönlendirme vs. oluşabilecek hatalar nedeniyle canonical linki tanımlandı. Böylece forumdaki her konuda canonical metası mevcut olacaktır.
+Yapmanız gereken ek işlemler :
+
+.htaccess dosyasına eklemeniz gereken kod ( DLE.NET.TR için örnek kullanım. "forum" subdomaini için yazılmıştır. )
+~~~
+# Forum redirect
+RewriteCond %{HTTP_HOST} ^forum\.dle\.net\.tr$ [NC]
+RewriteRule ^$ index.php?do=cat&category=forum [L,NC]
+~~~
+
+Bu eklemeden sonra CPanel'den ile dinamik subdomain oluşturmalısınız.
+Subdomain alanına sadece * ( Yıldız ) yazarak "Kaydet" e basın. Bu şekilde herhangi bir subdomain yazımını .htaccess ile istediğiniz linke yönelendirebilirsiniz.
 
 
 SQL Optimizasyonu
