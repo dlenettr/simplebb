@@ -117,7 +117,7 @@ HTML;
 ]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[include_once (ENGINE_DIR . '/modules/show.forum.php');]]></ignoreif>
+			<ignoreif><![CDATA[$tpl->result["content"] = $forum->html( );]]></ignoreif>
 			<search position="before"><![CDATA[include_once (ENGINE_DIR . '/modules/show.short.php');]]></search>
 			<add><![CDATA[
 // SimpleBB
@@ -183,7 +183,7 @@ else if ( isset( $full_link ) ) {
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[die("Redirect");}]]></ignoreif>
-			<search position="replace"><![CDATA[die("Redirect");]]></search>
+			<search position="replace" index="2"><![CDATA[die("Redirect");]]></search>
 			<add><![CDATA[die("Redirect");}]]></add>
 		</operation>
 	</file>
