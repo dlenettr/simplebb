@@ -2,7 +2,7 @@
 	<div class="phead"><h3>Yeni Konu Ekleme Paneli: '{selected-cat}'</h3></div>
 	<div class="contain">
 		<div class="l">
-			<label for="title"><i class="fa fa-question-circle"></i>Konu Başlığı</label><span><button title="Makalenizi oluşturmadan önce konu başlığınız ile benzer makale olup olmadığını kontrol edin" class="smallbtn wbtn" onclick="find_relates(); return false;"><i class="fa fa-info"></i>Benzer Konuları Göster</button></span>
+			<label for="title">Konu Başlığı</label><span><button title="Makalenizi oluşturmadan önce konu başlığınız ile benzer makale olup olmadığını kontrol edin" class="smallbtn wbtn" onclick="find_relates(); return false;"><i class="fa fa-info"></i>Benzer Konuları Göster</button></span>
 			<div class="clr"></div>
 			<input type="text" id="title" name="title" value="{title}" maxlength="200" />
 		</div>[urltag]
