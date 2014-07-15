@@ -257,20 +257,22 @@ class SimpleBB {
 	}
 
 	private function GetForumInfos( ) {
-		$where = implode( ",", $this->_forum_ids );
-		$this->db->query("SELECT COUNT(id) as posts, title, autor, id, comm_num, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
-		while( $data = $this->db->get_row() ) {
-			$this->lastpost[ $data['category'] ] = array( 
-				"lastpost" 		=> $data['title'],
-				"lastposter" 	=> $data['autor'],
-				"comments" 		=> $data['comm_num'],
-				"url" 			=> $data['alt_name'],
-				"post_id" 		=> $data['id'],
-				"date" 			=> $data['date'],
-				"posts" 		=> $data['posts']
-			);
+		if ( count( $this->_forum_ids ) > 0 ) {
+			$where = implode( ",", $this->_forum_ids );
+			$this->db->query("SELECT COUNT(id) as posts, title, autor, id, comm_num, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
+			while( $data = $this->db->get_row() ) {
+				$this->lastpost[ $data['category'] ] = array( 
+					"lastpost" 		=> $data['title'],
+					"lastposter" 	=> $data['autor'],
+					"comments" 		=> $data['comm_num'],
+					"url" 			=> $data['alt_name'],
+					"post_id" 		=> $data['id'],
+					"date" 			=> $data['date'],
+					"posts" 		=> $data['posts']
+				);
+			}
+			$this->db->free();
 		}
-		$this->db->free();
 	}
 
 	private function FindComments( ) {
