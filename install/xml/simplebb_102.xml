@@ -207,7 +207,7 @@ if ( ! in_array( $dle_module, array("addnews") ) ) {
 	</file>
 	<file name=".htaccess">
 		<operation>
-			<ignoreif><![CDATA[RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]]></ignoreif>
+			<ignoreif><![CDATA[RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]></ignoreif>
 			<search position="after"><![CDATA[RewriteEngine On]]></search>
 			<add><![CDATA[# SimpleBB
 RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]
