@@ -21,6 +21,7 @@ $tpl->result['main'] = str_replace ( "{category-name}", $cat_info[ $category_id 
 $tpl->result['main'] = str_replace ( "{category-id}", $category_id, $tpl->result['main'] );
 if ( $config['forum_use_subdomain'] AND ! empty( $cat_info[ $config['forum_id'] ]['alt_name'] ) ) {
 	$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
+	$tpl->result['main'] = str_replace ( "http://www." . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $tpl->result['main'] );
 	$tpl->result['main'] = str_replace ( "http://" . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $tpl->result['main'] );
 }
 
