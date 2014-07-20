@@ -162,7 +162,7 @@ class SimpleBB {
 		$template = str_replace( "{lastpost-date}", $forum['date'], $template );
 		$template = str_replace( "{lastposter}", $forum['lastposter'], $template );
 		$template = str_replace( "{metatitle}", $_forum['metatitle'], $template );
-		$template = str_replace( "{icon}", $_forum['icon'], $template );
+		$template = str_replace( "{icon}", ( empty( $_forum['icon'] ) ) ? "envelope" : $_forum['icon'], $template );
 		$template = str_replace( "{desc}", $forum['name'], $template );
 		$template = str_replace( "{posts}", intval( $forum['posts'] ), $template );
 		$template = str_replace( "{comments}", intval( $_forum['comm'] ), $template );
