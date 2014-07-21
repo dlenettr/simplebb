@@ -8,8 +8,6 @@
  Mail: m.hanoglu55@gmail.com
 -----------------------------------------------------
  Lisans : GPL License
------------------------------------------------------
- Tarih : 15.07.2014
 =====================================================
 */
 
@@ -195,7 +193,7 @@ class SimpleBB {
 
 	private function _MainTemplate( $_cat_html, $_stats_html ) {
 		$template = $this->tpls['main'];
-		$template = str_replace( "{categories}", $_cat_html, $template );
+		$template = str_replace( "{content}", $_cat_html, $template );
 		$template = str_replace( "{forum-stats}", $_stats_html, $template );
 
 		if ( $this->config['allow_banner'] && $this->config['forum_show_banners'] && stripos( $template, "{banner" ) !== false ) {
@@ -328,6 +326,5 @@ class SimpleBB {
 	}
 
 }
-
 
 ?>
