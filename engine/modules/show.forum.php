@@ -193,7 +193,11 @@ class SimpleBB {
 
 	private function _MainTemplate( $_cat_html, $_stats_html ) {
 		$template = $this->tpls['main'];
-		$template = str_replace( "{content}", $_cat_html, $template );
+		$template = preg_replace( "#\\[categories\\](.*?)\\[/categories\\]#is", $_cat_html, $template );
+		$template = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "$1", $template );
+		$template = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "", $template );
+		$template = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $template );
+		$template = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $template );
 		$template = str_replace( "{forum-stats}", $_stats_html, $template );
 
 		if ( $this->config['allow_banner'] && $this->config['forum_show_banners'] && stripos( $template, "{banner" ) !== false ) {
@@ -286,12 +290,13 @@ class SimpleBB {
 	private function LoadTemplates( ) {
 		$this->tpl->load_template( "forum/stats.tpl" );
 		$this->tpls['stats'] = $this->tpl->copy_template;
-		$this->tpl->load_template( "forum/category.tpl" );
-		$this->tpls['category'] = $this->tpl->copy_template;
-		$this->tpl->load_template( "forum/forum.tpl" );
-		$this->tpls['forum'] = $this->tpl->copy_template;
 		$this->tpl->load_template( "forum/main.tpl" );
 		$this->tpls['main'] = $this->tpl->copy_template;
+		preg_match_all( "#\\[forums\\](.*?)\\[/forums\\]#is", $this->tpls['main'], $matches );
+		$this->tpls['forum'] = $matches[1][0];
+		preg_match_all( "#\\[categories\\](.*?)\\[/categories\\]#is", $this->tpls['main'], $matches );
+		$matches[1][0] = preg_replace( "#\\[forums\\](.*?)\\[/forums\\]#is", "{forums}", $matches[1][0] );
+		$this->tpls['category'] = $matches[1][0];
 		$this->tpl->clear();
 	}
 
