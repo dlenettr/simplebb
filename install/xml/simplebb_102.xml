@@ -6,7 +6,7 @@
 	<author>MaRZoCHi</author>
 	<file name="engine/classes/google.class.php">
 		<operation>
-			<ignoreif><![CDATA["http://forum.dle.net.tr"]]></ignoreif>
+			<ignoreif><![CDATA[$loc = str_replace ( "http://" . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $loc );]]></ignoreif>
 			<search position="replace"><![CDATA[$loc = htmlspecialchars( $loc, ENT_QUOTES, 'ISO-8859-1' );]]></search>
 			<add><![CDATA[// SimpleBB
 		global $config;
@@ -95,15 +95,26 @@ HTML;
 ]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[include_once (ENGINE_DIR . '/modules/show.forum.php');]]></ignoreif>
+			<ignoreif><![CDATA[$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category]]></ignoreif>
 			<search position="before"><![CDATA[if ($active) {]]></search>
 			<add><![CDATA[
 // SimpleBB
 			include_once (ENGINE_DIR . '/modules/show.forum.php');
-			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id );
+			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
 			if ( $category_id == $config['forum_id'] ) { $forum_where = "main"; }
 			else if ( in_array( $category_id, $forum->get_cats() ) ) { $forum_where = "cat"; } 
 			else if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "forum"; }
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // showfull]]></ignoreif>
+			<search position="after"><![CDATA[include_once (ENGINE_DIR . '/modules/show.full.php');]]></search>
+			<add><![CDATA[
+// SimpleBB
+				include_once (ENGINE_DIR . '/modules/show.forum.php');
+				$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // showfull
+				if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "thread"; }
 // SimpleBB
 ]]></add>
 		</operation>
@@ -171,7 +182,6 @@ else if ( isset( $full_link ) ) {
 // SimpleBB - Redirect1
 ]]></add>
 		</operation>
-
 		<operation>
 			<ignoreif><![CDATA[if ( strpos( $re_cat, $cat_info[ $config['forum_id'] ]['alt_name'] . "/" ) === false ) {]]></ignoreif>
 			<search position="after"><![CDATA[$re_url = reset ( $re_url );]]></search>
@@ -194,13 +204,22 @@ else if ( isset( $full_link ) ) {
 			<add><![CDATA[// if ($replace_url) $tpl->result['main'] = str_replace ( $replace_url[0]."/", $replace_url[1]."/", $tpl->result['main'] );]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[// Simple BB]]></ignoreif>
+			<ignoreif><![CDATA[$forum_compile = "after";]]></ignoreif>
 			<search position="before"><![CDATA[echo $tpl->result['main'];]]></search>
 			<add><![CDATA[
 // SimpleBB
-if ( ! in_array( $dle_module, array("addnews") ) ) {
-	include ROOT_DIR . '/engine/modules/simplebb.php';
-}
+$forum_compile = "after";
+include ROOT_DIR . '/engine/modules/simplebb.php';
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$forum_compile = "before";]]></ignoreif>
+			<search position="before"><![CDATA[$tpl->set ( '{content}', "<div id='dle-content'>" . $tpl->result['content'] . "</div>" );]]></search>
+			<add><![CDATA[
+// SimpleBB
+$forum_compile = "before";
+include ROOT_DIR . '/engine/modules/simplebb.php';
 // SimpleBB
 ]]></add>
 		</operation>
