@@ -278,7 +278,7 @@ include ROOT_DIR . '/engine/modules/simplebb.php';
 			<ignoreif><![CDATA[RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]></ignoreif>
 			<search position="after"><![CDATA[RewriteEngine On]]></search>
 			<add><![CDATA[# SimpleBB
-RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]]
+RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 # SimpleBB]]></add>
 		</operation>
 	</file>
