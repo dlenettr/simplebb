@@ -204,6 +204,19 @@ else if ( isset( $full_link ) ) {
 // SimpleBB - UserGroup
 $tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
 // SimpleBB - UserGroup
+
+// SimpleBB - Avatar
+$user = $db->super_query("SELECT foto FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
+if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
+	$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
+} else {
+	if ( ! empty( $user['foto'] ) && file_exists( ROOT_DIR . "/uploads/fotos/" . $user['foto'] ) ) {
+		$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "uploads/fotos/" . $user['foto'], $tpl->result['content'] );
+	} else {
+		$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
+	}
+}
+// SimpleBB - Avatar
 ]]></add>
 		</operation>
 	</file>
