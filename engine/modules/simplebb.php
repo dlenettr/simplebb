@@ -49,6 +49,12 @@ if ( ! in_array( $dle_module, array("addnews") ) ) {
 
 	} else if ( $forum_compile == "after" ) {
 
+		// Category Echo
+		if (stripos ( $tpl->result['main'], "{category" ) !== false) {
+			$tpl->result['main'] = preg_replace_callback ( "#\\{category(.+?)\\}#i", "custom_cat_print", $tpl->result['main'] );
+		}
+		// Category Echo
+
 		if ( $config['forum_use_subdomain'] AND ! empty( $cat_info[ $config['forum_id'] ]['alt_name'] ) ) {
 			$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
 			$tpl->result['main'] = str_replace ( "http://www." . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $tpl->result['main'] );
