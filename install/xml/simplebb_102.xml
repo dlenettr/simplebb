@@ -167,7 +167,6 @@ else if ( isset( $full_link ) ) {
 // SimpleBB-else
 ]]></add>
 		</operation>
-
 		<operation>
 			<ignoreif><![CDATA[header("Location: {$redirect_url}");]]></ignoreif>
 			<search position="before"><![CDATA[if ($re_cat != $_GET['category'] OR substr ( $_SERVER['REQUEST_URI'], - 1, 1 ) != '/' ) {]]></search>
@@ -195,6 +194,17 @@ else if ( isset( $full_link ) ) {
 			<ignoreif><![CDATA[die("Redirect");}]]></ignoreif>
 			<search position="replace" index="2"><![CDATA[die("Redirect");]]></search>
 			<add><![CDATA[die("Redirect");}]]></add>
+		</operation>
+	</file>
+	<file name="engine/modules/show.full.php">
+		<operation>
+			<ignoreif><![CDATA[{user-group}]]></ignoreif>
+			<search position="before"><![CDATA[$tpl->result['content'] = preg_replace_callback ( "#\\[declination=(\d+)\\](.+?)\\[/declination\\]#is", "declination", $tpl->result['content'] );]]></search>
+			<add><![CDATA[
+// SimpleBB - UserGroup
+$tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
+// SimpleBB - UserGroup
+]]></add>
 		</operation>
 	</file>
 	<file name="index.php">
