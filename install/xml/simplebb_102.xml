@@ -207,6 +207,32 @@ $tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_g
 ]]></add>
 		</operation>
 	</file>
+	<file name="engine/modules/functions.php">
+		<operation>
+			<ignoreif><![CDATA[function custom_cat_print( $matches = array() ) {]]></ignoreif>
+			<search position="before"><![CDATA[function custom_print( $matches=array() ) {]]></search>
+			<add><![CDATA[
+// Category Echo
+function custom_cat_print( $matches = array() ) {
+	global $db, $cat_info, $config, $user_group, $category_id, $_TIME, $lang, $category_id, $PHP_SELF;
+	if ( !count($matches) ) return "";
+	$param_str = trim( $matches[1] );
+	if( preg_match( "#echo=['\"](.+?)['\"]#i", $param_str, $match ) ) {
+		$echo = $db->safesql( trim( $match[1] ) );
+		if ( $echo == "name" ) { $key = "name"; }
+		else if ( $echo == "url" ) { $key = "alt_name"; }
+		else if ( $echo == "description" ) { $key = "descr"; }
+		else if ( $echo == "keywords" ) { $key = "keywords"; }
+		else if ( $echo == "title" ) { $key = "metatitle"; }
+		else if ( $echo == "id" ) { $key = "id"; }
+		else { if ( in_array( $echo, array_keys( $cat_info[ $category_id ] ) ) ) { $key = $echo; } }
+		return $cat_info[ $category_id ][ $key ];
+	} else return "";
+}
+// Category Echo
+]]></add>
+		</operation>
+	</file>
 	<file name="index.php">
 		<operation>
 			<ignoreif><![CDATA[// if ($replace_url) $tpl->result['main']]]></ignoreif>
