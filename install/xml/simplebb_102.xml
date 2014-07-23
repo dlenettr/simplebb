@@ -268,7 +268,9 @@ include ROOT_DIR . '/engine/modules/simplebb.php';
 // SimpleBB - Content Count
 $tpl->set( "{count_all}", $count_all );
 // SimpleBB - Content Count
-]]></add>
+// SimpleBB - Page Name
+if ( $dle_module == "showfull" ) { preg_match("/<meta property=\"og:title\" content=\"(.*?)\" \/>/",  $metatags, $title, PREG_OFFSET_CAPTURE); $tpl->set ( '{page-title}', $title[1][0] ); } else { $tpl->set ( '{page-title}', $nam_e ); }
+// SimpleBB - Page Name]]></add>
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[$forum_compile = "before";]]></ignoreif>
