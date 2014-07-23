@@ -70,6 +70,11 @@ if ( ! in_array( $dle_module, array("addnews") ) ) {
 		}
 
 		if ( stripos( $tpl->result['main'], "[forum" ) !== false ) {
+			if ( in_array( $forum_where, array( "main", "cat", "forum", "thread" ) ) ) {
+				$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "$1", $tpl->result['main'] );
+			} else {
+				$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "", $tpl->result['main'] );
+			}
 			if ( $forum_where == "forum" OR $forum_where == "cat" ) {
 				foreach ( $banners as $name => $value ) {
 					$tpl->result['main'] = str_replace ( "{banner_" . $name . "}", $value, $tpl->result['main'] );
