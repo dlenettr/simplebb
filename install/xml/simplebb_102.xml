@@ -76,7 +76,6 @@ HTML;
 	$save_con['forum_optimized_sql'] = intval($save_con['forum_optimized_sql']);
 // SimpleBB]]></add>
 		</operation>
-
 	</file>
 	<file name="engine/engine.php">
 		<operation>
@@ -260,6 +259,15 @@ function custom_cat_print( $matches = array() ) {
 $forum_compile = "after";
 include ROOT_DIR . '/engine/modules/simplebb.php';
 // SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$tpl->set( "{count_all}", $count_all );]]></ignoreif>
+			<search position="before"><![CDATA[$tpl->compile ( 'main' );]]></search>
+			<add><![CDATA[
+// SimpleBB - Content Count
+$tpl->set( "{count_all}", $count_all );
+// SimpleBB - Content Count
 ]]></add>
 		</operation>
 		<operation>
