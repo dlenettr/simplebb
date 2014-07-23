@@ -265,12 +265,10 @@ include ROOT_DIR . '/engine/modules/simplebb.php';
 			<ignoreif><![CDATA[$tpl->set( "{count_all}", $count_all );]]></ignoreif>
 			<search position="before"><![CDATA[$tpl->compile ( 'main' );]]></search>
 			<add><![CDATA[
-// SimpleBB - Content Count
+// SimpleBB - Content Count & Page Name
 $tpl->set( "{count_all}", $count_all );
-// SimpleBB - Content Count
-// SimpleBB - Page Name
 if ( $dle_module == "showfull" ) { preg_match("/<meta property=\"og:title\" content=\"(.*?)\" \/>/",  $metatags, $title, PREG_OFFSET_CAPTURE); $tpl->set ( '{page-title}', $title[1][0] ); } else { $tpl->set ( '{page-title}', $nam_e ); }
-// SimpleBB - Page Name]]></add>
+// SimpleBB - Content Count & Page Name]]></add>
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[$forum_compile = "before";]]></ignoreif>
