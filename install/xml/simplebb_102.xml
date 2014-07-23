@@ -94,6 +94,25 @@ HTML;
 ]]></add>
 		</operation>
 		<operation>
+			<ignoreif><![CDATA[$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // notaviablemain]]></ignoreif>
+			<search position="replace"><![CDATA[$allow_list = explode ( ',', $user_group[$member_id['user_group']]['allow_cats'] );]]></search>
+			<add><![CDATA[
+// SimpleBB
+		require_once (ENGINE_DIR . '/modules/show.forum.php');
+		$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // notaviablemain
+		$forum_cats = array_merge( $forum->get_cats(), $forum->get_forums() );
+		if ( $user_group[$member_id['user_group']]['allow_cats'] == "all" ) { $all_cats = array_keys( $cat_info ); }
+		else { $all_cats = explode ( ',', $user_group[$member_id['user_group']]['allow_cats'] ); }
+		$allow_list = array_diff( $all_cats, $forum_cats );
+// SimpleBB
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[//if ($user_group[$member_id['user_group']]['allow_short']) $stop_list = "";]]></ignoreif>
+			<search position="replace"><![CDATA[if ($user_group[$member_id['user_group']]['allow_short']) $stop_list = "";]]></search>
+			<add><![CDATA[//if ($user_group[$member_id['user_group']]['allow_short']) $stop_list = "";]]></add>
+		</operation>
+		<operation>
 			<ignoreif><![CDATA[$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category]]></ignoreif>
 			<search position="before"><![CDATA[if ($active) {]]></search>
 			<add><![CDATA[
