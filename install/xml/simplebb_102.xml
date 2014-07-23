@@ -219,12 +219,9 @@ else if ( isset( $full_link ) ) {
 			<ignoreif><![CDATA[{user-group}]]></ignoreif>
 			<search position="before"><![CDATA[$tpl->result['content'] = preg_replace_callback ( "#\\[declination=(\d+)\\](.+?)\\[/declination\\]#is", "declination", $tpl->result['content'] );]]></search>
 			<add><![CDATA[
-// SimpleBB - UserGroup
+// SimpleBB - Avatar & User Group
+$user = $db->super_query("SELECT foto, user_group FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
 $tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
-// SimpleBB - UserGroup
-
-// SimpleBB - Avatar
-$user = $db->super_query("SELECT foto FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
 if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
 	$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
 } else {
@@ -234,7 +231,7 @@ if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
 		$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
 	}
 }
-// SimpleBB - Avatar
+// SimpleBB - Avatar & User Group
 ]]></add>
 		</operation>
 	</file>
