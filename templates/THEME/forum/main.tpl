@@ -1,8 +1,8 @@
 <div id="simplebb">
-	<h3><i class="fa fa-comments-o"></i>Forumlar</h3>
-
+	[forum:main]<h3><i class="fa fa-comments-o"></i>Forumlar</h3>[/forum:main]
+	[forum:inside]<h3><i class="fa fa-comments-o"></i>{category echo="name"}</h3>[/forum:inside]
 	[depth=1]
-		Kategorilerin üstü
+		<!-- Kategorilerin üstü -->
 		[categories]
 		<div class="simplebb-category">
 			<h3>[link]<i class="fa fa-share-square-o"></i>{title}[/link]</h3>
@@ -23,7 +23,7 @@
 				</div>
 				<div class="clr"></div>
 			</div>
-			Forumların üstü
+			<!-- Forumların üstü -->
 			[forums]
 				<div class="simplebb-forum">
 					<div class="simplebb-ficon">
@@ -52,32 +52,78 @@
 					<div class="clr"></div>
 				</div>
 			[/forums]
-			Forumların altı
+			<!-- Forumların altı -->
 		</div>
 		[/categories]
-		Kategorilerin altı
+		<!-- Kategorilerin altı -->
 	[/depth=1]
 
 	[depth=2]
-		Kategori Konu listesi
-		{threads.tpl}
-		Kategori Konu listesi
+		<!-- Kategori Konu listesi -->
+		<div class="simplebb-category">
+			<h3><i class="fa fa-share-square-o"></i>{category echo="name"}</h3>
+			<div class="simplebb-csep"></div>
+			<div class="simplebb-ttitlebar">
+				<div class="simplebb-tticon"></div>
+				<div class="simplebb-ttname">
+					<span>Konu</span>
+				</div>
+				<div class="simplebb-ttarticle">
+					<span>Gösterim</span>
+				</div>
+				<div class="simplebb-ttcomments">
+					<span>Yorum</span>
+				</div>
+				<div class="simplebb-ttlastmessage">
+					<span>Son Mesaj</span>
+				</div>
+				<div class="clr"></div>
+			</div>
+			{threads.tpl}
+		</div>
+		<!-- Kategori Konu listesi -->
 	[/depth=2]
 
 	[depth=3]
-		Forum Konu listesi
-		{threads.tpl}
-		Forum Konu listesi
+		<!-- Forum Konu listesi -->
+		<div class="clr"></div>
+		<div class="simplebb-naddbtn">
+			<a href="/addpost/{category echo="id"}/"><i class="fa fa-pencil-square-o"></i>Yeni Konu</a>
+		</div>
+		<div class="clr"></div>
+		<div class="simplebb-category">
+			<h3><i class="fa fa-share-square-o"></i>{category echo="name"}</h3>
+			<div class="simplebb-csep"></div>
+			<div class="simplebb-ttitlebar">
+				<div class="simplebb-tticon"></div>
+				<div class="simplebb-ttname">
+					<span>Konu</span>
+				</div>
+				<div class="simplebb-ttarticle">
+					<span>Gösterim</span>
+				</div>
+				<div class="simplebb-ttcomments">
+					<span>Yorum</span>
+				</div>
+				<div class="simplebb-ttlastmessage">
+					<span>Son Mesaj</span>
+				</div>
+				<div class="clr"></div>
+			</div>
+			{threads.tpl}
+		</div>
+		<!-- Forum Konu listesi -->
 	[/depth=3]
 
 	[depth=4]
-		Konu gösterimi
+		<!-- Konu gösterimi -->
 		{post.tpl}
-		Konu gösterimi
+		<!-- Konu gösterimi -->
 	[/depth=4]
 
 </div>
-<div id="simplebb-sidebar">
-	sidebar
+<div id="sidebar">
+
 </div>
 <div class="clr"></div>
+{forum-stats}
