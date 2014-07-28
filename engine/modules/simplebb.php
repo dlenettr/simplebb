@@ -16,7 +16,7 @@ if( ! defined( 'DATALIFEENGINE' ) ) {
 }
 
 
-if ( ! in_array( $dle_module, array("addnews") ) ) {
+if ( ! in_array( $dle_module, array() ) ) {
 
 	if ( $dle_module == "main" ) $forum_where = "";
 
