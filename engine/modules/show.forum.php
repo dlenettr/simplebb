@@ -48,6 +48,7 @@ class SimpleBB {
 		$this->OFF = ( $this->config['version_id'] > "10.1" ) ? "0" : "no";
 		$this->bbname = $this->cats[ $this->config['forum_id'] ]['alt_name'];
 		$this->optimize = $this->config['forum_optimized_sql'];
+		$this->config['forum_avatarsize'] = "100";
 	}
 
 	private function FindMainCats( ) {
@@ -165,6 +166,7 @@ class SimpleBB {
 		$template = str_replace( "{posts}", intval( $forum['posts'] ), $template );
 		$template = str_replace( "{comments}", intval( $_forum['comm'] ), $template );
 		$template = str_replace( "{lastposter-url}", $_forum['upage'], $template );
+		$template = str_replace( "{lastposter-foto}", $_forum['foto'], $template );
 		$template = str_replace( "{lastposter-link}", "<a onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $_forum['upage'] . "\">" . $forum['lastposter'] . "</a>", $template );
 		$template = str_replace( "{lastposter-box}", "onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\"", $template );
 		if ( empty( $forum['lastposter'] ) ) {
@@ -242,14 +244,16 @@ class SimpleBB {
 		if ( $this->optimize == $this->ON ) {
 			$result = $this->lastpost[ $cat_id ];
 		} else {
-			$data = $this->db->super_query("SELECT title, autor, id, comm_num, alt_name, date FROM " . PREFIX . "_post WHERE category = '{$cat_id}' AND approve = '1' ORDER BY date DESC" );
+			$data = $this->db->super_query("SELECT p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, u.foto FROM " . PREFIX . "_post p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category = '{$cat_id}' AND p.approve = '1' ORDER BY p.date DESC" );
+			if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->config['forum_avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
 			$result = array( 
 				"lastpost" 		=> $data['title'],
 				"lastposter" 	=> $data['autor'],
 				"comments" 		=> $data['comm_num'],
 				"url" 			=> $data['alt_name'],
 				"post_id" 		=> $data['id'],
-				"date" 			=> $data['date']
+				"date" 			=> $data['date'],
+				"avatar"		=> $data['foto']
 			);
 			$data = $this->db->super_query("SELECT COUNT(id) as posts FROM " . PREFIX . "_post WHERE category = '{$cat_id}' AND approve = '1'");
 			$result['posts'] = $data['posts'];
@@ -261,8 +265,9 @@ class SimpleBB {
 	private function GetForumInfos( ) {
 		if ( count( $this->_forum_ids ) > 0 ) {
 			$where = implode( ",", $this->_forum_ids );
-			$this->db->query("SELECT COUNT(id) as posts, title, autor, id, comm_num, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
+			$this->db->query("SELECT COUNT(p.id) as posts, p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, p.category, u.foto FROM " . PREFIX . "_post p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category IN ({$where}) AND p.approve = '1' GROUP BY p.category" );
 			while( $data = $this->db->get_row() ) {
+				if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->config['forum_avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
 				$this->lastpost[ $data['category'] ] = array( 
 					"lastpost" 		=> $data['title'],
 					"lastposter" 	=> $data['autor'],
@@ -270,7 +275,8 @@ class SimpleBB {
 					"url" 			=> $data['alt_name'],
 					"post_id" 		=> $data['id'],
 					"date" 			=> $data['date'],
-					"posts" 		=> $data['posts']
+					"posts" 		=> $data['posts'],
+					"avatar"		=> $data['foto']
 				);
 			}
 			$this->db->free();
