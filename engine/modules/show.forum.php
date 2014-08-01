@@ -11,7 +11,7 @@
 =====================================================
 */
 
-if( ! defined( 'DATALIFEENGINE' ) ) {
+if ( ! defined( 'DATALIFEENGINE' ) ) {
 	die( "Hacking attempt!" );
 }
 
@@ -153,26 +153,26 @@ class SimpleBB {
 		$template = str_replace( "{title}", dle_substr( $this->_NormalName( $_forum['name'] ), 0, $this->config['forum_title_limit'], $this->config['charset'] ), $template );
 		$template = str_replace( "{url}", $_forum['url'], $template );
 		$template = str_replace( "{rss-link}", $_forum['rlink'], $template );
-		$template = str_replace( "{lastpost}", $_forum['lpost'], $template );
 		$template = str_replace( "[link]", "<a href=\"" . $_forum['url'] . "\">", $template );
 		$template = str_replace( "[/link]", "</a>", $template );
-		$template = str_replace( "{lastpost-url}", $_forum['lurl'], $template );
-		$template = str_replace( "{lastpost-link}", "<a href=\"" . $_forum['lurl'] . "\">" . $_forum['lpost'] . "</a>", $template );
-		$template = str_replace( "{lastpost-date}", $forum['date'], $template );
-		$template = str_replace( "{lastposter}", $forum['lastposter'], $template );
 		$template = str_replace( "{metatitle}", $_forum['metatitle'], $template );
 		$template = str_replace( "{icon}", ( empty( $_forum['icon'] ) ) ? "envelope" : $_forum['icon'], $template );
 		$template = str_replace( "{desc}", $forum['name'], $template );
 		$template = str_replace( "{posts}", intval( $forum['posts'] ), $template );
 		$template = str_replace( "{comments}", intval( $_forum['comm'] ), $template );
-		$template = str_replace( "{lastposter-url}", $_forum['upage'], $template );
-		$template = str_replace( "{lastposter-foto}", $_forum['foto'], $template );
-		$template = str_replace( "{lastposter-link}", "<a onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $_forum['upage'] . "\">" . $forum['lastposter'] . "</a>", $template );
-		$template = str_replace( "{lastposter-box}", "onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\"", $template );
 		if ( empty( $forum['lastposter'] ) ) {
 			$template = preg_replace( "'\\[not-lastpost\\](.*?)\\[/not-lastpost\\]'si", "$1", $template );
 			$template = preg_replace( "'\\[lastpost\\](.*?)\\[/lastpost\\]'si", "", $template );
 		} else {
+			$template = str_replace( "{lastposter}", $forum['lastposter'], $template );
+			$template = str_replace( "{lastposter-url}", $_forum['upage'], $template );
+			$template = str_replace( "{lastposter-foto}", $forum['avatar'], $template );
+			$template = str_replace( "{lastposter-link}", "<a onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $_forum['upage'] . "\">" . $forum['lastposter'] . "</a>", $template );
+			$template = str_replace( "{lastposter-box}", "onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\"", $template );
+			$template = str_replace( "{lastpost}", $_forum['lpost'], $template );
+			$template = str_replace( "{lastpost-url}", $_forum['lurl'], $template );
+			$template = str_replace( "{lastpost-link}", "<a href=\"" . $_forum['lurl'] . "\">" . $_forum['lpost'] . "</a>", $template );
+			$template = str_replace( "{lastpost-date}", $forum['date'], $template );
 			$template = preg_replace( "'\\[not-lastpost\\](.*?)\\[/not-lastpost\\]'si", "", $template );
 			$template = preg_replace( "'\\[lastpost\\](.*?)\\[/lastpost\\]'si", "$1", $template );
 		}
