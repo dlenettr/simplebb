@@ -4,6 +4,20 @@
 	<version>1.0</version>
 	<vqmver>2.4.1</vqmver>
 	<author>MaRZoCHi</author>
+	<file name="engine/data/config.php">
+		<operation>
+			<ignoreif><![CDATA['forum_id']]></ignoreif>
+			<search position="after"><![CDATA['version_id' => '10.2',]]></search>
+			<add><![CDATA[
+'forum_id' => '',
+'forum_title_limit' => '90',
+'forum_post_limit' => '34',
+'forum_stat_title_limit' => '34',
+'forum_use_subdomain' => '1',
+'forum_show_banners' => '1',
+'forum_optimized_sql' => '1',]]></add>
+		</operation>
+	</file>
 	<file name="engine/classes/google.class.php">
 		<operation>
 			<ignoreif><![CDATA[$loc = str_replace ( "http://" . $main_host . "/" . $cat_info[ $config['forum_id'] ]['alt_name'], "http://" . $cat_info[ $config['forum_id'] ]['alt_name'] . "." . $main_host, $loc );]]></ignoreif>
