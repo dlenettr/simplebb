@@ -249,28 +249,30 @@ if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
 ]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[$bb_name = $cat_info[ $config['forum_id'] ]['alt_name'];]]></ignoreif>
+			<ignoreif><![CDATA[strpos( $_SERVER['REQUEST_URI'], "/" . $sub_domain )]]></ignoreif>
 			<search position="after" index="1"><![CDATA[if ($config['seo_control'] AND ( isset($_GET['seourl']) OR strpos ( $_SERVER['REQUEST_URI'], "?" ) !== false ) ) {]]></search>
 			<add><![CDATA[
 // Simple BB - Redirect2
-						$bb_name = $cat_info[ $config['forum_id'] ]['alt_name'];
-						if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false AND strpos( $_SERVER['REQUEST_URI'], "/" . $bb_name ) !== false ) {
-							header("HTTP/1.0 301 Moved Permanently");
-							header("Location: http://" . $bb_name . "." . str_replace( "www.", "", $_SERVER['HTTP_HOST'] ) . str_replace( $bb_name . "/", "/", "{$re_url}{$c_url}/{$row['id']}-{$row['alt_name']}.html") );
-							die("Redirect");
+						if ( $cat_info[ $category_id ]['parentid'] == 0 ) { $sub_domain = $cat_info[ $category_id ]['alt_name']; } else { $parent_id = $cat_info[ $category_id ]['parentid']; if ( $cat_info[ $parent_id ]['parentid'] == 0 ) { $sub_domain = $cat_info[ $parent_id ]['alt_name']; } else { $mparent_id = $cat_info[ $parent_id ]['parentid']; $sub_domain = $cat_info[ $mparent_id ]['alt_name']; } }
+						if ( in_array( $sub_domain, array( $cat_info[ $config['forum_id'] ]['alt_name'] ) ) ) {
+							if ( strpos( $_SERVER['HTTP_HOST'], $sub_domain . "." ) === false AND strpos( $_SERVER['REQUEST_URI'], "/" . $sub_domain ) !== false ) {
+								header("HTTP/1.0 301 Moved Permanently");
+								header("Location: http://" . $sub_domain . "." . str_replace( "www.", "", $_SERVER['HTTP_HOST'] ) . str_replace( $sub_domain . "/", "/", "{$re_url}{$c_url}/{$row['id']}-{$row['alt_name']}.html") );
+								die("Redirect");
+							}
 						}
 // Simple BB - Redirect2]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {]]></ignoreif>
+			<ignoreif><![CDATA[if ( strpos( $_SERVER['HTTP_HOST'], $sub_domain . "." ) === false ) {]]></ignoreif>
 			<search position="before" index="2"><![CDATA[header("HTTP/1.0 301 Moved Permanently");]]></search>
 			<add><![CDATA[
 // Simple BB - Redirect1
-							if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {
+							if ( strpos( $_SERVER['HTTP_HOST'], $sub_domain . "." ) === false ) {
 // Simple BB - Redirect1]]></add>
 		</operation>
 		<operation>
-			<ignoreif><![CDATA[if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {]]></ignoreif>
+			<ignoreif><![CDATA[// SimpleBB - Redirect3]]></ignoreif>
 			<search position="after" index="2"><![CDATA[die("Redirect");]]></search>
 			<add><![CDATA[
 // SimpleBB - Redirect3
