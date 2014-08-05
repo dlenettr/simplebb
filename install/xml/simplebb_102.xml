@@ -248,6 +248,35 @@ if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
 // SimpleBB - Avatar & User Group
 ]]></add>
 		</operation>
+		<operation>
+			<ignoreif><![CDATA[$bb_name = $cat_info[ $config['forum_id'] ]['alt_name'];]]></ignoreif>
+			<search position="after" index="1"><![CDATA[if ($config['seo_control'] AND ( isset($_GET['seourl']) OR strpos ( $_SERVER['REQUEST_URI'], "?" ) !== false ) ) {]]></search>
+			<add><![CDATA[
+// Simple BB - Redirect2
+						$bb_name = $cat_info[ $config['forum_id'] ]['alt_name'];
+						if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false AND strpos( $_SERVER['REQUEST_URI'], "/" . $bb_name ) !== false ) {
+							header("HTTP/1.0 301 Moved Permanently");
+							header("Location: http://" . $bb_name . "." . str_replace( "www.", "", $_SERVER['HTTP_HOST'] ) . str_replace( $bb_name . "/", "/", "{$re_url}{$c_url}/{$row['id']}-{$row['alt_name']}.html") );
+							die("Redirect");
+						}
+// Simple BB - Redirect2]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {]]></ignoreif>
+			<search position="before" index="2"><![CDATA[header("HTTP/1.0 301 Moved Permanently");]]></search>
+			<add><![CDATA[
+// Simple BB - Redirect1
+							if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {
+// Simple BB - Redirect1]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[if ( strpos( $_SERVER['HTTP_HOST'], $bb_name . "." ) === false ) {]]></ignoreif>
+			<search position="after" index="2"><![CDATA[die("Redirect");]]></search>
+			<add><![CDATA[
+// SimpleBB - Redirect3
+							}
+// SimpleBB - Redirect3]]></add>
+		</operation>
 	</file>
 	<file name="engine/modules/functions.php">
 		<operation>
