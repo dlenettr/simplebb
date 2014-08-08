@@ -135,7 +135,7 @@ class SimpleBB {
 		$template = str_replace( "{posts-no}", intval( $_post['ncount'] ), $template );
 		$template = str_replace( "{comments}", intval( $_post['ccount'] ), $template );
 		$template = str_replace( "{date}", $_post['date'], $template );
-		$template = str_replace( "{title}", dle_substr( $this->_NormalName( $_post['title'] ), 0, $this->config['forum_stat_title_limit'], $this->config['charset'] ), $template );
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_post['title'] ), $this->config['forum_stat_title_limit'] ), $template );
 		$template = str_replace( "{author}", $_post['autor'], $template );
 		$template = str_replace( "{author-link}", $_post['upage'], $template );
 		$template = str_replace( "{author-box}", "<a onclick=\"ShowProfile('" . urlencode( $_post['autor'] ) . "', '" . $_post['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $user_page . "\">", $template );
@@ -147,10 +147,10 @@ class SimpleBB {
 		$template = $this->tpls['forum'];
 		$_forum['url'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" : $this->config['http_home_url'] . "index.php?do=cat&category=" . $_forum['alt_name'];
 		$_forum['rlink'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/rss.xml" : $this->config['http_home_url'] . "engine/rss.php?do=cat&category=" . $_forum['alt_name'];
-		$_forum['lpost'] = dle_substr( $this->_NormalName( $forum['lastpost'] ), 0, $this->config['forum_post_limit'], $this->config['charset'] );
+		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $_forum['lastpost'] ), $this->config['forum_post_limit'] );
 		$_forum['upage'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . "user/" . urlencode( $forum['lastposter'] ) . "/" : $PHP_SELF . "?subaction=userinfo&user=" . urlencode( $forum['lastposter'] );
 		$_forum['lurl'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" . $forum['post_id'] . "-" . $forum['url'] . ".html" : $this->config['http_home_url'] . "index.php?newsid=" . $forum['post_id'];
-		$template = str_replace( "{title}", dle_substr( $this->_NormalName( $_forum['name'] ), 0, $this->config['forum_title_limit'], $this->config['charset'] ), $template );
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_forum['name'] ), $this->config['forum_title_limit'] ), $template );
 		$template = str_replace( "{url}", $_forum['url'], $template );
 		$template = str_replace( "{rss-link}", $_forum['rlink'], $template );
 		$template = str_replace( "[link]", "<a href=\"" . $_forum['url'] . "\">", $template );
@@ -226,6 +226,15 @@ class SimpleBB {
 
 	private function _NormalName( $text ) {
 		return htmlspecialchars( strip_tags( stripslashes( $text ) ), ENT_QUOTES, $this->config['charset'] );
+	}
+
+	private function _SubSTR( $text, $limit ) {
+		if ( empty( $limit ) OR $limit == "0" ) {
+			return $text;
+		} else {
+			return dle_substr( $text, 0, $limit, $this->config['charset'] );
+		}
+
 	}
 
 	private function GetCategoryInfo( $cat_id, $is_forum = False ) {
