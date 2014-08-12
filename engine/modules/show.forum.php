@@ -147,7 +147,7 @@ class SimpleBB {
 		$template = $this->tpls['forum'];
 		$_forum['url'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" : $this->config['http_home_url'] . "index.php?do=cat&category=" . $_forum['alt_name'];
 		$_forum['rlink'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/rss.xml" : $this->config['http_home_url'] . "engine/rss.php?do=cat&category=" . $_forum['alt_name'];
-		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $_forum['lastpost'] ), $this->config['forum_post_limit'] );
+		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $forum['lastpost'] ), $this->config['forum_post_limit'] );
 		$_forum['upage'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . "user/" . urlencode( $forum['lastposter'] ) . "/" : $PHP_SELF . "?subaction=userinfo&user=" . urlencode( $forum['lastposter'] );
 		$_forum['lurl'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" . $forum['post_id'] . "-" . $forum['url'] . ".html" : $this->config['http_home_url'] . "index.php?newsid=" . $forum['post_id'];
 		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_forum['name'] ), $this->config['forum_title_limit'] ), $template );
