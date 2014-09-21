@@ -57,7 +57,8 @@ RewriteCond %{HTTP_HOST} ^forum\.dletr\.com$ [NC]
 
 Bu eklemeden sonra CPanel'den ile dinamik subdomain oluşturmalısınız.
 
-Subdomain alanına sadece * ( Yıldız ) yazarak "Kaydet" e basın. Bu şekilde herhangi bir subdomain yazımını .htaccess ile istediğiniz linke yönelendirebilirsiniz.
+Subdomain alanına sadece * ( Yıldız ) yazarak "Kaydet" e basın. Bu şekilde herhangi bir subdomain yazımını .htaccess ile istediğiniz linke yönlendirebilirsiniz.
+Fakat arama motorlarının indexlerinde problem çıkarması ihtimaline karşı. Sadece kullanacağınız subdomain'i ekleyin. Yani * yerine forum (subdomain adı) yazınız.
 
 SQL Optimizasyonu
 --------------------
