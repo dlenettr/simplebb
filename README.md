@@ -6,7 +6,7 @@ simplebb for DLE ( DataLife Engine )
 * Site   : http://dle.net.tr
 * Tarih  : 23.07.2014
 * Lisans : MIT License
-* DLE    : Yalnızca 10.2
+* DLE    : 10.3, 10.2
 
 Genel Açıklamalar :
 ========
