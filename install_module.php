@@ -82,6 +82,8 @@ if ( $is_logged && $member_id['user_group'] == "1" ) {
 		$mod->bootup( $path = ROOT_DIR, $logging = True );
 		if ( $config['version_id'] == "10.2" ) {
 			$mod->file( ROOT_DIR. "/install/xml/simplebb_102.xml" );
+		} else if ( $config['version_id'] == "10.3" ) {
+			$mod->file( ROOT_DIR. "/install/xml/simplebb_103.xml" );
 		} else {
 			mainTable_head( $lang['m27'] );
 			echo "<div style=\"padding:10px; background: #990000; color: #fff;\">{$lang['m28']}<br />{$lang['m29']} :<br /><br /><i>http://dle.net.tr</i></div>";
