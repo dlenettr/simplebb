@@ -7,6 +7,8 @@ simplebb for DLE ( DataLife Engine )
 * Tarih  : 23.07.2014
 * Lisans : MIT License
 * DLE    : 10.3, 10.2
+* English Translation : [DLEStarter]
+* Russian Translation : 
 
 Genel Açıklamalar :
 ========
@@ -155,6 +157,7 @@ Tarihçe
 
 [Kadir Hanoğlu]:https://github.com/kadirhanoglu
 [Mehmet Hanoğlu]:https://github.com/marzochi
+[DLEStarter]:https://github.com/dlestarter
 [Ekran Görüntüsü: Ayarlar]:http://dle.net.tr/uploads/posts/1406114470_settings.png
 [Ekran Görüntüsü: Forum Bilgileri]:http://dle.net.tr/uploads/posts/1406113700_forum.png
 [Ekran Görüntüsü: Kategoriler]:http://dle.net.tr/uploads/posts/1406113626_cats.png
