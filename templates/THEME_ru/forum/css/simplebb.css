@@ -18,7 +18,7 @@
   gerekir.
 =====================================================
 */
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,cyrillic);
 @import url(font-awesome.min.css);
 #simplebb { /* float: left; width: 740px; */ width: 100%; font-family: 'Open Sans', sans-serif; }
 	#simplebb > h3 { display: block; padding: 14px 0 14px 6px; border-bottom: 1px dotted #ccc; font-size: 1.3em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
