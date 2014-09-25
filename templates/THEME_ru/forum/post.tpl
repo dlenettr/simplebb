@@ -16,7 +16,7 @@
 			{full-story}
 		</div>[not-group=5]
 		<div class="simplebb-tbtn">
-			[edit]<i class="fa fa-pencil-square-o"></i>Düzenle[/edit]
+			[edit]<i class="fa fa-pencil-square-o"></i>Редактировать[/edit]
 		</div>[/not-group]
 		<div class="clr"></div>
 	</div>
