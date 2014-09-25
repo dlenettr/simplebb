@@ -1,8 +1,8 @@
 <div id="simplebb">
-	[forum:main]<h3><i class="fa fa-comments-o"></i>Forumlar</h3>[/forum:main]
+	[forum:main]<h3><i class="fa fa-comments-o"></i>Форум</h3>[/forum:main]
 	[forum:inside]<h3><i class="fa fa-comments-o"></i>{category echo="name"}</h3>[/forum:inside]
 	[depth=1]
-		<!-- Kategorilerin üstü -->
+		<!-- Категория. Начало -->
 		[categories]
 		<div class="simplebb-category">
 			<h3>[link]<i class="fa fa-share-square-o"></i>{title}[/link]</h3>
@@ -10,20 +10,20 @@
 			<div class="simplebb-ftitlebar">
 				<div class="simplebb-fticon"></div>
 				<div class="simplebb-ftname">
-					<span>Forum</span>
+					<span>Форум</span>
 				</div>
 				<div class="simplebb-ftarticle">
-					<span>Konu</span>
+					<span>Тема</span>
 				</div>
 				<div class="simplebb-ftcomments">
-					<span>Yorum</span>
+					<span>Комментариев</span>
 				</div>
 				<div class="simplebb-ftlastmessage">
-					<span>Son Mesaj</span>
+					<span>Последнее сообщение</span>
 				</div>
 				<div class="clr"></div>
 			</div>
-			<!-- Forumların üstü -->
+			<!-- Форум. Начало -->
 			[forums]
 				<div class="simplebb-forum">
 					<div class="simplebb-ficon">
@@ -46,49 +46,49 @@
 						<span><i class="fa fa-calendar"></i>{lastpost-date}</span>
 						[/lastpost]
 						[not-lastpost]
-							<span>Henüz Mesaj Yok</span>
+							<span>Комментариев еще нет</span>
 						[/not-lastpost]
 					</div>
 					<div class="clr"></div>
 				</div>
 			[/forums]
-			<!-- Forumların altı -->
+			<!-- Форум. Конец -->
 		</div>
 		[/categories]
-		<!-- Kategorilerin altı -->
+		<!-- Категория. Конец -->
 	[/depth=1]
 
 	[depth=2]
-		<!-- Kategori Konu listesi -->
+		<!-- Список категорий. Начало -->
 		<div class="simplebb-category">
 			<h3><i class="fa fa-share-square-o"></i>{category echo="name"}</h3>
 			<div class="simplebb-csep"></div>
 			<div class="simplebb-ttitlebar">
 				<div class="simplebb-tticon"></div>
 				<div class="simplebb-ttname">
-					<span>Konu</span>
+					<span>Тема</span>
 				</div>
 				<div class="simplebb-ttarticle">
-					<span>Gösterim</span>
+					<span>Просмотров</span>
 				</div>
 				<div class="simplebb-ttcomments">
-					<span>Yorum</span>
+					<span>Комментариев</span>
 				</div>
 				<div class="simplebb-ttlastmessage">
-					<span>Son Mesaj</span>
+					<span>Последнее сообщение</span>
 				</div>
 				<div class="clr"></div>
 			</div>
 			{threads.tpl}
 		</div>
-		<!-- Kategori Konu listesi -->
+		<!-- Список категорий. Конец -->
 	[/depth=2]
 
 	[depth=3]
-		<!-- Forum Konu listesi -->
+		<!-- Список тем. Начало -->
 		<div class="clr"></div>
 		<div class="simplebb-naddbtn">
-			<a href="/addpost/{category echo="id"}/"><i class="fa fa-pencil-square-o"></i>Yeni Konu</a>
+			<a href="/addpost/{category echo="id"}/"><i class="fa fa-pencil-square-o"></i>Новая тема</a>
 		</div>
 		<div class="clr"></div>
 		<div class="simplebb-category">
@@ -97,28 +97,28 @@
 			<div class="simplebb-ttitlebar">
 				<div class="simplebb-tticon"></div>
 				<div class="simplebb-ttname">
-					<span>Konu</span>
+					<span>Тема</span>
 				</div>
 				<div class="simplebb-ttarticle">
-					<span>Gösterim</span>
+					<span>Просмотров</span>
 				</div>
 				<div class="simplebb-ttcomments">
-					<span>Yorum</span>
+					<span>Комментариев</span>
 				</div>
 				<div class="simplebb-ttlastmessage">
-					<span>Son Mesaj</span>
+					<span>Последнее сообщение</span>
 				</div>
 				<div class="clr"></div>
 			</div>
 			{threads.tpl}
 		</div>
-		<!-- Forum Konu listesi -->
+		<!-- Список тем. Конец -->
 	[/depth=3]
 
 	[depth=4]
-		<!-- Konu gösterimi -->
+		<!-- Комментарии -->
 		{post.tpl}
-		<!-- Konu gösterimi -->
+		<!-- Комментарии -->
 	[/depth=4]
 
 </div>
