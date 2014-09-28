@@ -7,8 +7,8 @@ simplebb for DLE ( DataLife Engine )
 * Tarih  : 23.07.2014
 * Lisans : MIT License
 * DLE    : 10.3, 10.2
-* English Translation : [DLEStarter]
-* Russian Translation : 
+* Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] )
+
 
 Genel Açıklamalar :
 ========
@@ -148,6 +148,8 @@ Detaylı bilgi : http://forum.dle.net.tr/gelistiriciler/fikirler-ve-projeler/39-
 
 Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simplebb.html
 
+English information : http://www.dlestarter.com/downloads/modules/432-simple-bb-forum-for-dle.html
+
 
 Tarihçe
 -----------------------
@@ -157,7 +159,9 @@ Tarihçe
 
 [Kadir Hanoğlu]:https://github.com/kadirhanoglu
 [Mehmet Hanoğlu]:https://github.com/marzochi
-[DLEStarter]:https://github.com/dlestarter
+[DLEStarter]:http://dlestarter.com
+[mrB4el]:http://www.minezone.pro/
+[Corsair]:http://webexpert.in.ua/
 [Ekran Görüntüsü: Ayarlar]:http://dle.net.tr/uploads/posts/1406114470_settings.png
 [Ekran Görüntüsü: Forum Bilgileri]:http://dle.net.tr/uploads/posts/1406113700_forum.png
 [Ekran Görüntüsü: Kategoriler]:http://dle.net.tr/uploads/posts/1406113626_cats.png
@@ -167,3 +171,4 @@ Tarihçe
 [Eklenti #41]:http://dle.net.tr/dle-eklenti/41-makaleyi-ekleyenin-avatarini-gosterme.html
 [Ekran Görüntüsü: Default Tema]:http://blog.dle.net.tr/blog/181-simplebb-default-theme-yayinda.html
 [logo]:http://dle.net.tr/uploads/posts/1406126090_simplebb-default-theme-logo.png
+
