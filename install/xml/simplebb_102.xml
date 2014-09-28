@@ -440,7 +440,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_6'				=>	"Ограничение размера заголовка",
 'forum_7'				=>	"Укажите максимальное количество символов",
 'forum_8'				=>	"Ограничение размера особщения",
-'forum_9'				=>	"Istatistikler icin karakter limiti",
+'forum_9'				=>	"Укажите максимальное количество символов",
 'forum_10'				=>	"Поддержка рекламы",
 'forum_11'				=>	"Форум поддерживает рекламыне коды, для их использования включите эту настройку.",
 'forum_12'				=>	"SQL оптимизация",
@@ -458,8 +458,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 			<search position="after"><![CDATA[wysiwyg_language'		=>  "ru",]]></search>
 			<add><![CDATA[
 // SimpleBB
-'forum_0'				=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
-'forum_1'				=>	"Konunun açılacağı Forum belirtilmedi",
+'forum_0'				=>	"Вы не имеете доступа для просмотра этого раздела.",
+'forum_1'				=>	"Тема создана в соответствующем разделе форума.",
 'forum_2'				=>	"Произошла ошибка",
 // SimpleBB
 ]]></add>
