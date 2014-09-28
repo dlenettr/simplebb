@@ -460,4 +460,42 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 ]]></add>
 		</operation>
 	</file>
+	<file name="language/Ukrainian/adminpanel.lng">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
+			<search position="after"><![CDATA['wysiwyg_language'		=>  "ua",]]></search>
+			<add><![CDATA[
+// SimpleBB
+'forum_0'				=>	"Форум",
+'forum_1'				=>	"Налаштування форуму",
+'forum_2'				=>	"Форум на піддомені",
+'forum_3'				=>	"Якщо ви хочете запустити свій форум на субдомені, увімкніть цей параметр. Натисніть тут для необхідних коригувань.",
+'forum_6'				=>	"Обмеження розміру заголовку",
+'forum_7'				=>	"Вкажіть максимальну кількість символів",
+'forum_8'				=>	"Обмеження розміру повідомлення",
+'forum_9'				=>	"Вкажіть максимальну кількість символів",
+'forum_10'				=>	"Підтримка реклами",
+'forum_11'				=>	"Активізує рекламний код у форумі. Ваші оголошення можуть також відображатись на головній сторінці форуму.",
+'forum_12'				=>	"SQL оптимізація",
+'forum_13'				=>	"Увімкнення цього налаштування дозволить знизити навантаження на БД.",
+'forum_14'				=>	"-- Оберіть категорію --",
+'forum_15'				=>	"Категорія вашого форуму",
+'forum_16'				=>	"Тільки основні категорії показані. Виберіть категорію ви хочете використовувати в якості форуму.",
+// SimpleBB
+]]></add>
+		</operation>
+	</file>
+	<file name="language/Ukrainian/website.lng">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
+			<search position="after"><![CDATA[wysiwyg_language'		=>  "ua",]]></search>
+			<add><![CDATA[
+// SimpleBB
+'forum_0'				=>	"Ви не маєте доступу для перегляду цього розділу.",
+'forum_1'				=>	"Тему створено у відповідному розділі форуму.",
+'forum_2'				=>	"Виникла помилка",
+// SimpleBB
+]]></add>
+		</operation>
+	</file>	
 </modification>
