@@ -1,24 +1,24 @@
 <div id="simplebb-stats">
-	<h3><i class="fa fa-bar-chart-o"></i>Forum İstatistikleri</h3>
+	<h3><i class="fa fa-bar-chart-o"></i>Статистика форума</h3>
 	<div class="simplebb-csep"></div>
 	<div class="simplebb-statsbox">
-		<div>Üyelerimiz <strong>{posts-ok}</strong> onaylı konuda toplam <strong>{comments}</strong> yorum yaptılar. Foruma en son <strong>{date}</strong> tarihinde <a href="{url}" title="{title}"><strong>{title}</strong></a> başlıklı konu eklendi.</div>
+		<div>Пользователи нашего сайта написали <strong>{comments}</strong> ответов к <strong>{posts-ok}</strong> созданным темам. Последняя тема: <a href="{url}" title="{title}"><strong>{title}</strong></a>, создана <strong>{date}</strong>.</div>
 		<div>
 			<div>
 				<i class="fa fa-file-text"></i>
-				<span>Forumda toplam <strong>{posts}</strong> konu bulunmaktadır.</span>
+				<span>На форуме создано <strong>{posts}</strong> тем.</span>
 			</div>
 			<div>
 				<i class="fa fa-file-text-o"></i>
-				<span>Foruma eklenen <strong>{posts}</strong> konudan <strong>{posts-ok}</strong> tanesi onaylandı.</span>
+				<span>Прошли модерацию <strong>{posts-ok}</strong> из созданных тем.</span>
 			</div>
 			<div>
 				<i class="fa fa-files-o"></i>
-				<span>Forumda <strong>{posts-no}</strong> adet konu onay beklemektedir.</span>
+				<span>Всего <strong>{posts-no}</strong> тем ожидает одобрения.</span>
 			</div>
 			<div>
 				<i class="fa fa-comments-o"></i>
-				<span>Forumdaki <strong>{posts-ok}</strong> adet onaylı konuya toplam <strong>{comments}</strong> yorum yapıldı.</span>
+				<span>К одобренным темам написано <strong>{comments}</strong> ответов.</span>
 			</div>
 		</div>
 	</div>
