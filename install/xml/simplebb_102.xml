@@ -7,7 +7,7 @@
 	<file name="engine/data/config.php">
 		<operation>
 			<ignoreif><![CDATA['forum_id']]></ignoreif>
-			<search position="after"><![CDATA['allow_rss' => '1',]]></search>
+			<search position="after"><![CDATA[$config = array (]]></search>
 			<add><![CDATA[
 'forum_id' => '',
 'forum_title_limit' => '90',
