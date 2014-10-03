@@ -354,7 +354,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Turkish/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['wysiwyg_language'		=>  "tr",]]></search>
+			<search position="after"><![CDATA['$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Forum",
@@ -379,7 +379,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Turkish/website.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA[wysiwyg_language'		=>  "tr",]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
@@ -392,7 +392,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/English/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['wysiwyg_language'		=>  "en",]]></search>
+			<search position="after"><![CDATA['$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Forum",
@@ -417,7 +417,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/English/website.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA[wysiwyg_language'		=>  "en",]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"You do not have access to view this section.",
@@ -430,7 +430,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Russian/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['wysiwyg_language'		=>  "ru",]]></search>
+			<search position="after"><![CDATA['$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Форум",
@@ -455,7 +455,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Russian/website.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA[wysiwyg_language'		=>  "ru",]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Вы не имеете доступа для просмотра этого раздела.",
@@ -468,7 +468,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Ukrainian/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['wysiwyg_language'		=>  "ua",]]></search>
+			<search position="after"><![CDATA['$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Форум",
@@ -493,7 +493,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Ukrainian/website.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA[wysiwyg_language'		=>  "ua",]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Ви не маєте доступу для перегляду цього розділу.",
