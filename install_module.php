@@ -95,7 +95,7 @@ if ( $is_logged && $member_id['user_group'] == "1" ) {
 		}
 		$mod->close();
 		mainTable_head($lang['mws_fd_install']);
-		$stat_info = str_replace("install.php", "install_module.php", $lang['stat_install']);
+		$stat_info = str_replace("install.php", $module['ifile'], $lang['stat_install']);
 		echo <<< HTML
 	<table width="100%">
 		<tr>
