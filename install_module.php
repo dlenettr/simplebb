@@ -62,8 +62,8 @@ HTML;
 
 
 $module = array(
-	'name'		=> "MWS SimpleBB Forum v1.0",
-	'date'		=> "15.07.2014",
+	'name'		=> "MWS SimpleBB Forum v1.1",
+	'date'		=> "03.10.2014",
 	'ifile'		=> "install_module.php",
 	'link'		=> "http://dle.net.tr",
 	'image'		=> "http://img.dle.net.tr/mws/simple_bb.png",
