@@ -34,8 +34,8 @@
 	</file>
 	<file name="engine/inc/options.php">
 		<operation>
-			<ignoreif><![CDATA[<span>{$lang['forum_0']}</span>]]></ignoreif>
-			<search position="after" offset="3"><![CDATA[<li style="min-width:90px;"><a href="javascript:ChangeOption('rss');" class="tip" title="{$lang['opt_rsssys']}"><i class="icon-rss"></i><span>RSS</span></a></li>]]></search>
+			<ignoreif><![CDATA[title="{$lang['forum_1']}"]]></ignoreif>
+			<search position="after"><![CDATA[<li style="min-width:90px;"><a href="javascript:ChangeOption('rss');" class="tip" title="{$lang['opt_rsssys']}"><i class="icon-rss"></i><span>RSS</span></a></li>]]></search>
 			<add><![CDATA[<!-- SimpleBB -->
 		 <li style="min-width:90px;"><a href="javascript:ChangeOption('forum');" class="tip" title="{$lang['forum_1']}"><i class="icon-comments"></i><span>{$lang['forum_0']}</span></a></li>
 <!-- SimpleBB -->]]></add>
