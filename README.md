@@ -1,10 +1,11 @@
-simplebb for DLE ( DataLife Engine )
-![simplebb logo][logo]
+simplebb v1.1 for DLE ( DataLife Engine )
 ========
+![simplebb logo][logo]
+
 * Yapımcı: [Mehmet Hanoğlu]
 * Dizayn : [Kadir Hanoğlu]
 * Site   : http://dle.net.tr
-* Tarih  : 23.07.2014
+* Tarih  : 03.10.2014
 * Lisans : MIT License
 * DLE    : 10.3, 10.2
 * Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] )
@@ -94,6 +95,13 @@ Kurulum
 [forum]<link media="screen" href="{THEME}/forum/css/simplebb.css" type="text/css" rel="stylesheet" />[/forum]
 ~~~
 
+
+Güncelleme ( v1.0 => v1.1 )
+--------------
+* Modülü tamamen kaldırarak yükleme yapmanız en problemsiz seçim olacaktır. Fakat eğer uygun değilse aşağıdaki adımı uygulayabilirsiniz.
+* Tüm dosyaları kopyalayarak, sıradan bir kurulum gerçekleştiriniz.
+
+
 Kaldırma
 --------------
 * Sistemi kaldırmak istediğinizde install/backup dizindeki yedek dosyasını açarak sitenize upload etmeniz yeterli.
@@ -150,9 +158,20 @@ Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simpleb
 
 English information : http://www.dlestarter.com/downloads/modules/432-simple-bb-forum-for-dle.html
 
+Yenilikler
+-----------------------
+* 10.2 ve 10.3 için uyumlu hale getirildi.
+* Rusça, Ukraynaca ve İngilizce çevirileri dahil edildi.
+* Forumdaki son mesaj bilgileri için kullanılan hatalı SQL düzeltildi.
+* Subdomain kullanımı açıksa, makaleyi subdomainli adresine yönlendirme eklendi.
+* Forum açıklaması için kullanılan değişken 'descr' olarak ayarlandı. Yani {desc} tagı ile artık açıklamalar çekilecek.
+* Kurulumdan sonraki ayarlar için onarmalar ve ayarlamalar yapıldı.
+* Temada kullanılan font-awesome ikon kütüphanes 4.2.0 versiyonuna güncellendi.
+
 
 Tarihçe
 -----------------------
+* 03.10.2014 (v1.1)
 * 23.07.2014 (v1.0)
 * 15.07.2014 (v1.0-beta)
 
