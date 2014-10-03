@@ -75,6 +75,7 @@ $module = array(
 if ( $is_logged && $member_id['user_group'] == "1" ) {
 
 	echoheader("<i class=\"icon-comments\"></i>" . $module['name'], $lang['m01'] );
+	echo '<style type="text/css">.primary-sidebar,.newsbutton,.navbar-right,.sidebar-background,.pull-right,.navbar-toggle,.navbar-collapse-top{display:none;} .main-content{margin:0!important;} .box{ width: 75%; margin: auto !important;}</style>';
 
 	if ($_REQUEST['action'] == "install") {
 		require_once ENGINE_DIR . "/classes/install.class.php";
