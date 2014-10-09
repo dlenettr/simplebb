@@ -13,7 +13,7 @@
 'forum_title_limit' => '90',
 'forum_post_limit' => '34',
 'forum_stat_title_limit' => '34',
-'forum_use_subdomain' => '1',
+'forum_use_subdomain' => '0',
 'forum_show_banners' => '1',
 'forum_optimized_sql' => '1',]]></add>
 		</operation>
