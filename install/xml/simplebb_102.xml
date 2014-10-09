@@ -354,7 +354,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Turkish/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['$lang = array (]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Forum",
@@ -392,7 +392,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/English/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['$lang = array (]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Forum",
@@ -430,7 +430,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Russian/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['$lang = array (]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Форум",
@@ -468,7 +468,7 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 	<file name="language/Ukrainian/adminpanel.lng">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB]]></ignoreif>
-			<search position="after"><![CDATA['$lang = array (]]></search>
+			<search position="after"><![CDATA[$lang = array (]]></search>
 			<add><![CDATA[
 // SimpleBB
 'forum_0'				=>	"Форум",
