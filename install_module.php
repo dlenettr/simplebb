@@ -24,16 +24,15 @@ define ( 'ROOT_DIR', dirname ( __FILE__ ) );
 define ( 'ENGINE_DIR', ROOT_DIR . '/engine' );
 define ( 'LANG_DIR', ROOT_DIR . '/language/' );
 
-require_once(ENGINE_DIR."/inc/include/functions.inc.php");
-require_once(ENGINE_DIR."/data/config.php");
-require_once(ENGINE_DIR."/classes/mysql.php");
-require_once(ENGINE_DIR."/data/dbconfig.php");
-require_once(ENGINE_DIR."/modules/sitelogin.php");
+require_once ENGINE_DIR . "/inc/include/functions.inc.php";
+require_once ENGINE_DIR . "/data/config.php";
+require_once ENGINE_DIR . "/classes/mysql.php";
+require_once ENGINE_DIR . "/data/dbconfig.php";
+require_once ENGINE_DIR . "/modules/sitelogin.php";
 require_once ENGINE_DIR . "/classes/install.class.php";
 
 @header( "Content-type: text/html; charset=" . $config['charset'] );
 require_once(ROOT_DIR."/language/".$config['langs']."/adminpanel.lng");
-
 
 $Turkish = array ( 'm01' => "Kuruluma Başla", 'm02' => "Yükle", 'm03' => "Kaldır", 'm04' => "Yapımcı", 'm05' => "Çıkış Tarihi", 'm08' => "Kurulum Tamamlandı", 'm10' => "dosyasını silerek kurulumu bitirebilirsiniz", 'm11' => "Modül Kaldırıldı", 'm21' => "Kuruluma başlamadan önce olası hatalara karşı veritabanınızı yedekleyin", 'm22' => "Eğer herşeyin tamam olduğuna eminseniz", 'm23' => "butonuna basabilirsiniz.", 'm24' => "Güncelle", 'm25' => "Site", 'm26' => "Çeviri", 'm27' => "Hata", 'm28' => "Bu modül DLE sürümünüz ile uyumlu değil.", 'm29' => "Buradan sürümünüze uygun modülü isteyebilirsiniz" );
 $English = array ( 'm01' => "Start Installation", 'm02' => "Install", 'm03' => "Uninstall", 'm04' => "Author", 'm05' => "Release Date", 'm06' => "Module Page", 'm07' => "Support Forum", 'm08' => "Installation Finished", 'm10' => "delete this file to finish installation", 'm11' => "Module Uninstalled", 'm21' => "Back up your database before starting the installation for possible errors", 'm22' => "If you are sure that everything is okay, ", 'm23' => "click button.", 'm24' => "Upgrade", 'm25' => "Site", 'm26' => "Translation", 'm27' => "Error", 'm28' => "This module not compatible with your DLE.", 'm29' => "You can ask for compatible version from here" );
@@ -43,23 +42,15 @@ $lang = array_merge( $lang, $$config['langs'] );
 
 function mainTable_head( $title ) {
 	echo <<< HTML
-	<div class="box">
-		<div class="box-header">
-			<div class="title"><div class="box-nav"><font size="2">{$title}</font></div></div>
-		</div>
-		<div class="box-content">
-			<table class="table table-normal">
+<div class="box"><div class="box-header"><div class="title"><div class="box-nav"><font size="2">{$title}</font></div></div></div><div class="box-content"><table class="table table-normal">
 HTML;
 }
 
 function mainTable_foot() {
 	echo <<< HTML
-			</table>
-		</div>
-	</div>
+</table></div></div>
 HTML;
 }
-
 
 $module = array(
 	'name'		=> "MWS SimpleBB Forum v1.1",
@@ -70,7 +61,6 @@ $module = array(
 	'author_n'	=> "Mehmet Hanoğlu (MaRZoCHi)",
 	'author_s'	=> "http://mehmethanoglu.com.tr",
 );
-
 
 if ( $is_logged && $member_id['user_group'] == "1" ) {
 
