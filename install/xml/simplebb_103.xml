@@ -15,7 +15,8 @@
 'forum_stat_title_limit' => '34',
 'forum_use_subdomain' => '0',
 'forum_show_banners' => '1',
-'forum_optimized_sql' => '1',]]></add>
+'forum_optimized_sql' => '1',
+'forum_use_app' => '1',]]></add>
 		</operation>
 	</file>
 	<file name="engine/classes/google.class.php">
