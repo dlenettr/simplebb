@@ -488,6 +488,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Оберіть категорію --",
 'forum_15'				=>	"Категорія вашого форуму",
 'forum_16'				=>	"Тільки основні категорії показані. Виберіть категорію, яку ви хочете використовувати в якості форуму.",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
