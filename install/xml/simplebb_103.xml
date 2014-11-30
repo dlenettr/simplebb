@@ -189,7 +189,7 @@ else if ( isset( $full_link ) ) {
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB-else]]></ignoreif>
-			<search position="after"><![CDATA[} elseif ($news_found AND $cache_id < 6)]]></search>
+			<search position="after"><![CDATA[create_cache ( "news", $tpl->result['content'], $cache_id . $cache_prefix, true );]]></search>
 			<add><![CDATA[
 // SimpleBB-else
 				}
