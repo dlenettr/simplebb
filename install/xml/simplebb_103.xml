@@ -68,6 +68,7 @@ HTML;
 	showRow( $lang['forum_2'], $lang['forum_3'], makeCheckBox( "save_con[forum_use_subdomain]", "{$config['forum_use_subdomain']}" ) );
 	showRow( $lang['forum_10'], $lang['forum_11'], makeCheckBox( "save_con[forum_show_banners]", "{$config['forum_show_banners']}" ) );
 	showRow( $lang['forum_12'], $lang['forum_13'], makeCheckBox( "save_con[forum_optimized_sql]", "{$config['forum_optimized_sql']}" ) );
+	showRow( $lang['forum_17'], $lang['forum_18'], makeCheckBox( "save_con[forum_use_app]", "{$config['forum_use_app']}" ) );
 	echo "</table></div></div>";
 // SimpleBB]]></add>
 		</operation>
@@ -83,6 +84,7 @@ HTML;
 	$save_con['forum_use_subdomain'] = intval($save_con['forum_use_subdomain']);
 	$save_con['forum_show_banners'] = intval($save_con['forum_show_banners']);
 	$save_con['forum_optimized_sql'] = intval($save_con['forum_optimized_sql']);
+	$save_con['forum_use_app'] = intval($save_con['forum_use_app']);
 // SimpleBB]]></add>
 		</operation>
 	</file>
@@ -366,6 +368,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Kategori Seçiniz --",
 'forum_15'				=>	"Forum olarak kullanılacak kategori",
 'forum_16'				=>	"Sadece ana kategoriler gösterilmektedir. Forum olarak kullanmak istediğiniz kategoriyi seçin",
+'forum_17'				=>	"Konular için onay bekle",
+'forum_18'				=>	"Foruma eklenen konular için moderatör onayı verilmesini isterseniz bu ayarı aktifleştirin",
 // SimpleBB
 ]]></add>
 		</operation>
@@ -404,6 +408,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Select a Category --",
 'forum_15'				=>	"To be used as a forum category",
 'forum_16'				=>	"Only the main categories are shown. Select the category you want to use as a forum",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
@@ -442,6 +448,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Выберите категорию --",
 'forum_15'				=>	"Категория вашего форума",
 'forum_16'				=>	"Выбранная вами категория сайта будет использована в качестве корневой для форума.",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
