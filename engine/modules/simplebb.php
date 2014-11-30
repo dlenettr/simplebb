@@ -72,8 +72,10 @@ if ( ! in_array( $dle_module, array() ) ) {
 		if ( stripos( $tpl->result['main'], "[forum" ) !== false ) {
 			if ( in_array( $forum_where, array( "main", "cat", "forum", "thread" ) ) ) {
 				$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "$1", $tpl->result['main'] );
+				$tpl->result['main'] = preg_replace( "#\\[not-forum\\](.*?)\\[/not-forum\\]#is", "", $tpl->result['main'] );
 			} else {
 				$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "", $tpl->result['main'] );
+				$tpl->result['main'] = preg_replace( "#\\[not-forum\\](.*?)\\[/not-forum\\]#is", "$1", $tpl->result['main'] );
 			}
 			if ( $forum_where == "forum" OR $forum_where == "cat" ) {
 				foreach ( $banners as $name => $value ) {
