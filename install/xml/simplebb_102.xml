@@ -15,7 +15,8 @@
 'forum_stat_title_limit' => '34',
 'forum_use_subdomain' => '0',
 'forum_show_banners' => '1',
-'forum_optimized_sql' => '1',]]></add>
+'forum_optimized_sql' => '1',
+'forum_use_app' => '1',]]></add>
 		</operation>
 	</file>
 	<file name="engine/classes/google.class.php">
@@ -34,15 +35,10 @@
 	</file>
 	<file name="engine/inc/options.php">
 		<operation>
-			<ignoreif><![CDATA[<span>{$lang['forum_0']}</span>]]></ignoreif>
-			<search position="after" offset="3"><![CDATA[<i class="icon-rss"></i>]]></search>
+			<ignoreif><![CDATA[title="{$lang['forum_1']}"]]></ignoreif>
+			<search position="after"><![CDATA[<li style="min-width:90px;"><a href="javascript:ChangeOption('rss');" class="tip" title="{$lang['opt_rsssys']}"><i class="icon-rss"></i><span>RSS</span></a></li>]]></search>
 			<add><![CDATA[<!-- SimpleBB -->
-    <div class="col-sm-1 action-nav-button">
-      <a href="javascript:ChangeOption('forum');" class="tip" title="{$lang['forum_1']}">
-        <i class="icon-comments"></i>
-        <span>{$lang['forum_0']}</span>
-      </a>
-    </div>
+		 <li style="min-width:90px;"><a href="javascript:ChangeOption('forum');" class="tip" title="{$lang['forum_1']}"><i class="icon-comments"></i><span>{$lang['forum_0']}</span></a></li>
 <!-- SimpleBB -->]]></add>
 		</operation>
 		<operation>
@@ -73,6 +69,7 @@ HTML;
 	showRow( $lang['forum_2'], $lang['forum_3'], makeCheckBox( "save_con[forum_use_subdomain]", "{$config['forum_use_subdomain']}" ) );
 	showRow( $lang['forum_10'], $lang['forum_11'], makeCheckBox( "save_con[forum_show_banners]", "{$config['forum_show_banners']}" ) );
 	showRow( $lang['forum_12'], $lang['forum_13'], makeCheckBox( "save_con[forum_optimized_sql]", "{$config['forum_optimized_sql']}" ) );
+	showRow( $lang['forum_17'], $lang['forum_18'], makeCheckBox( "save_con[forum_use_app]", "{$config['forum_use_app']}" ) );
 	echo "</table></div></div>";
 // SimpleBB]]></add>
 		</operation>
@@ -88,6 +85,7 @@ HTML;
 	$save_con['forum_use_subdomain'] = intval($save_con['forum_use_subdomain']);
 	$save_con['forum_show_banners'] = intval($save_con['forum_show_banners']);
 	$save_con['forum_optimized_sql'] = intval($save_con['forum_optimized_sql']);
+	$save_con['forum_use_app'] = intval($save_con['forum_use_app']);
 // SimpleBB]]></add>
 		</operation>
 	</file>
@@ -191,9 +189,8 @@ else if ( isset( $full_link ) ) {
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB-else]]></ignoreif>
-			<search position="replace"><![CDATA[} elseif ($news_found and $cache_id < 6) create_cache ( "news", $tpl->result['content'], $cache_id . $cache_prefix, true );]]></search>
+			<search position="after"><![CDATA[} elseif ($news_found AND $cache_id < 6)]]></search>
 			<add><![CDATA[
-				} elseif ($news_found and $cache_id < 6) create_cache ( "news", $tpl->result['content'], $cache_id . $cache_prefix, true );
 // SimpleBB-else
 				}
 // SimpleBB-else
@@ -372,6 +369,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Kategori Seçiniz --",
 'forum_15'				=>	"Forum olarak kullanılacak kategori",
 'forum_16'				=>	"Sadece ana kategoriler gösterilmektedir. Forum olarak kullanmak istediğiniz kategoriyi seçin",
+'forum_17'				=>	"Konular için onay bekle",
+'forum_18'				=>	"Foruma eklenen konular için moderatör onayı verilmesini isterseniz bu ayarı aktifleştirin",
 // SimpleBB
 ]]></add>
 		</operation>
@@ -410,6 +409,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Select a Category --",
 'forum_15'				=>	"To be used as a forum category",
 'forum_16'				=>	"Only the main categories are shown. Select the category you want to use as a forum",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
@@ -448,6 +449,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Выберите категорию --",
 'forum_15'				=>	"Категория вашего форума",
 'forum_16'				=>	"Выбранная вами категория сайта будет использована в качестве корневой для форума.",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
@@ -486,6 +489,8 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 'forum_14'				=>	"-- Оберіть категорію --",
 'forum_15'				=>	"Категорія вашого форуму",
 'forum_16'				=>	"Тільки основні категорії показані. Виберіть категорію, яку ви хочете використовувати в якості форуму.",
+'forum_17'				=>	"Use confirmation for new threads",
+'forum_18'				=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option,
 // SimpleBB
 ]]></add>
 		</operation>
