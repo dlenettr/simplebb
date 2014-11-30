@@ -123,6 +123,7 @@ Herhangi bir .tpl dosyasında kullanılabilir taglar
 [forum:inside]Kategori ya da forum sayfası[/forum:inside]
 [forum:thread]Forumdaki bir konu sayfası[/forum:thread]
 [forum]Forum ile ilgili her hangi bir sayfa[/forum]
+[not-forum]Forum dışındaki bir her hangi bir sayfa[/not-forum]
 ~~~
 
 ~~~
