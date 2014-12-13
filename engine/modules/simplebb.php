@@ -5,13 +5,13 @@
 -----------------------------------------------------
  http://dle.net.tr/ -  Copyright (c) 2014
 -----------------------------------------------------
- Mail: m.hanoglu55@gmail.com
+ Mail: mehmethanoglu@dle.net.tr
 -----------------------------------------------------
  Lisans : MIT License
 =====================================================
 */
 
-if( ! defined( 'DATALIFEENGINE' ) ) {
+if ( ! defined( 'DATALIFEENGINE' ) ) {
 	die( "Hacking attempt!" );
 }
 
@@ -29,6 +29,33 @@ if ( ! in_array( $dle_module, array() ) ) {
 			$forum_main_tpl = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "$1", $forum_main_tpl );
 			$forum_main_tpl = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $forum_main_tpl );
 			$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $forum_main_tpl );
+
+			$config['forum_show_subforums'] = "1";
+			$config['forum_show_subcount'] = "1";
+			if ( isset( $category_id ) && $config['forum_show_subforums'] ) {
+				$subforums = "";
+				foreach ( $cat_info as $cid => $cat ) { if ( $cat['parentid'] == $category_id ) { $subcats[] = $cat['id']; } }
+				if ( count( $subcats ) > 0 && $config['forum_show_subcount'] ) {
+					$subcounts = array();
+					$db->query( "SELECT COUNT(id) as count, category FROM " . PREFIX . "_post WHERE category IN(" . implode( ",", $subcats ) . ") GROUP BY category" );
+					while( $d = $db->get_row() ) { $subcounts[ $d['category'] ] = $d['count']; }
+					$db->free();
+				}
+				$main_host = str_replace( $cat_info[ $config['forum_id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
+				foreach ( $subcats as $cid ) {
+					$parent = $cat_info[ $cat_info[ $cid ]['parentid'] ];
+					$_furl = ( $config['allow_alt_url'] == "1" ) ? $cat_info[ $config['forum_id'] ]['alt_name'] . "/" . $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
+					$subforums .= "<p><a href=\"http://{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
+					if ( $config['forum_show_subcount'] ) {
+						$subforums .= " ( " . $subcounts[$cid] . " )</p>";
+					} else { $subforums .= "</p>"; }
+				}
+				$forum_main_tpl = str_replace( "{subforums}", $subforums, $forum_main_tpl );
+				$forum_main_tpl = preg_replace( "#\\[sub-forums\\](.*?)\\[/sub-forums\\]#is", "$1", $forum_main_tpl );
+			} else {
+				$forum_main_tpl = preg_replace( "#\\[sub-forums\\](.*?)\\[/sub-forums\\]#is", "", $forum_main_tpl );
+			}
+
 			$forum_main_tpl = str_replace( "{threads.tpl}", $tpl->result['content'], $forum_main_tpl );
 		} else if ( $forum_where == "forum" ) {
 			$forum_main_tpl = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "", $forum_main_tpl );
@@ -50,7 +77,7 @@ if ( ! in_array( $dle_module, array() ) ) {
 	} else if ( $forum_compile == "after" ) {
 
 		// Category Echo
-		if (stripos ( $tpl->result['main'], "{category" ) !== false) {
+		if ( stripos( $tpl->result['main'], "{category" ) !== false ) {
 			$tpl->result['main'] = preg_replace_callback ( "#\\{category(.+?)\\}#i", "custom_cat_print", $tpl->result['main'] );
 		}
 		// Category Echo
