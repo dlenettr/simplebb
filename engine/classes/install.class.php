@@ -4,9 +4,19 @@
  * @description Main Object used
  * @modified by Mehmet Hanoğlu
  */
- 
-if( !defined( 'DATALIFEENGINE' ) ) die("Required a DLE");
- 
+
+if ( ! defined( 'DATALIFEENGINE' ) ) die("Required a DLE");
+if ( ! defined( 'E_DEPRECATED' ) ) {
+	@error_reporting ( E_ALL ^ E_WARNING ^ E_NOTICE ^ E_STRICT );
+	@ini_set ( 'error_reporting', E_ALL ^ E_WARNING ^ E_NOTICE ^ E_STRICT );
+} else {
+	@error_reporting ( E_ALL ^ E_WARNING ^ E_DEPRECATED ^ E_NOTICE ^ E_STRICT );
+	@ini_set ( 'error_reporting', E_ALL ^ E_WARNING ^ E_DEPRECATED ^ E_NOTICE ^ E_STRICT );
+}
+
+@ini_set ( 'display_errors', false );
+@ini_set ( 'html_errors', false );
+
 abstract class VQMod {
 	public static $_vqversion = '2.4.1';
 	
