@@ -4,43 +4,43 @@
 -----------------------------------------------------
  Mail: kadirhanoglu@dle.net.tr
 =====================================================
- DLE.NET.TR  |  Copyright (c) 2014
+ DLE.NET.TR  |  Copyright (c) 2015
 -----------------------------------------------------
  http://dle.net.tr  -  info@dle.net.tr
 -----------------------------------------------------
  Lisans : MIT License
 -----------------------------------------------------
  Ayarlar
- 
   #simplebb en düşük 740px olarak ayarlanabilir. Bu genişliğe kadar 
   herşey normal ayarlanır. 740px altında bir genişlik için diğer 
   kısımlardaki yüzde cinsinden tanımlanan genişliklerin ayarlanması 
   gerekir.
 =====================================================
 */
+
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,latin-ext);
 @import url(font-awesome.min.css);
-#simplebb { /* float: left; width: 740px; */ width: 100%; font-family: 'Open Sans', sans-serif; }
+#simplebb { /* float: left; width: 740px; */ width: 99%; margin: 0.5%; font-family: 'Open Sans', sans-serif; }
 	#simplebb > h3 { display: block; padding: 14px 0 14px 6px; border-bottom: 1px dotted #ccc; font-size: 1.3em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
 	#simplebb > h3 .fa { margin-right: 10px; }
 	#simplebb .fa { margin-right: 6px; }
-	.simplebb-category, .simplebb-thread { background: #f1f1f1; padding: 10px 10px; margin: 10px 0; border-radius: 5px; }
+	.simplebb-category, .simplebb-thread { background: #f5f5f5; padding: 10px 10px; margin: 10px 0; border-radius: 5px; }
 		.simplebb-category > h3 { font-weight: normal; display: block; padding: 4px 0 10px 10px; color: #777; }
 		.simplebb-category > h3 > a { color: #777; }
 		.simplebb-category > h3 > a:hover { color: #1b8cb8; }
 		.simplebb-category > h3 > a > .fa { margin-right: 8px; }
-	.simplebb-csep { border-top: 1px solid #dcdcdc; border-bottom: 1px solid #fff; }
-	.simplebb-ftitlebar { background: #1b8cb8; padding: 5px; margin: 4px 0 2px 0; }
-		.simplebb-ftname, .simplebb-ftarticle, .simplebb-ftcomments { float: left; color: #fff; font-size: 0.8em; }
-		.simplebb-ftlastmessage { float: right; color: #fff; font-size: 0.8em; width: 30%; text-align: right; }
+	.simplebb-csep { border-top: 1px solid #E5E9EB; border-bottom: 1px solid #fff; }
+	.simplebb-ftitlebar { background: #127AD0; padding: 5px 10px; margin: 4px 0 2px 0; border-top-left-radius: 4px; border-top-right-radius: 4px; }
+		.simplebb-ftname, .simplebb-ftarticle, .simplebb-ftcomments { float: left; color: #fff; font-size: 1.0em; }
+		.simplebb-ftlastmessage { float: right; color: #fff; font-size: 1.0em; width: 30%; text-align: right; }
 		.simplebb-ftname { width: 35%; padding: 0 4px; }
 		.simplebb-fticon { float: left; width: 58px; padding: 6px 0; }
 		.simplebb-ftarticle, .simplebb-ftcomments, .simplebb-farticle, .simplebb-fcomment { width: 80px; text-align: center; }
 	.simplebb-forum, .simplebb-threads, .simplebb-postbit, .simplebb-tcontent { background: #fff; box-shadow: 0 1px 2px #ccc; margin-top: 1px; }
-	.simplebb-ficon { float: left; width: 60px; padding: 26px 0; text-align: center; }
+	.simplebb-ficon { float: left; padding: 25px 15px; text-align: center; }
 		.simplebb-ficon .fa { font-size: 2.2em; color: #e4e4e4; }
 	.simplebb-fname { width: 35%; float: left; padding: 20px 0 20px 10px; }
-		.simplebb-fname > h3 { font-weight: normal; font-size: 1em; }
+		.simplebb-fname > h3 { font-weight: normal; font-size: 1.1em; }
 		.simplebb-fname > h3 > a { color: #1b8cb8; }
 		.simplebb-fname > h3 > a:hover { color: #222; text-decoration: underline; }
 		.simplebb-fname .fa-rss { display: none; }
@@ -50,18 +50,18 @@
 		.simplebb-fname:hover > span { color: #777; }
 	.simplebb-farticle, .simplebb-fcomment { float: left; text-align: center; padding: 20px 0; color: #777; }
 	.simplebb-farticle .fa, .simplebb-fcomment .fa { margin-right: 8px; }
-	.simplebb-flastmessage { float: right; width: 30%; text-align: right; color: #777; font-size: 0.85em; padding: 10px 10px; }
+	.simplebb-flastmessage { float: right; width: 30%; text-align: right; color: #777; font-size: 0.95em; padding: 10px 10px; }
 		.simplebb-flastmessage > a { }
 		.simplebb-flastmessage > span { display: block; margin: 6px 0; }
 		.simplebb-flastmessage > a:hover { color: #222; text-decoration: underline; }
 	.simplebb-threads, .simplebb-postbit, .simplebb-tcontent { padding: 10px; }
 	.simplebb-threads {  }
 		.simplebb-naddbtn { float: right; }
-			.simplebb-naddbtn > a { display: block; padding: 10px 16px; background: #222; color: #fff; font-size: 0.85em; border-radius: 5px; }
-			.simplebb-naddbtn > a:hover { background: #1b8cb8; }
-		.simplebb-ttitlebar { background: #e1e1e1; padding: 5px; margin: 4px 0 2px 0; }
-			.simplebb-ttname, .simplebb-ttarticle, .simplebb-ttcomments { float: left; color: #999; font-size: 0.8em; text-shadow: 0 1px 2px #fff; }
-			.simplebb-ttlastmessage { float: right; color: #999; font-size: 0.8em; width: 30%; text-align: right; text-shadow: 0 1px 2px #fff; }
+			.simplebb-naddbtn > a { display: block; padding: 10px 16px; background: #222; color: #fff; font-size: 0.90em; border-radius: 5px; }
+			.simplebb-naddbtn > a:hover { background: #1b8cb8; text-decoration: none; }
+		.simplebb-ttitlebar { background: #ddd; padding: 5px 10px; margin: 4px 0 2px 0; border-top-left-radius: 4px; border-top-right-radius: 4px; }
+			.simplebb-ttname, .simplebb-ttarticle, .simplebb-ttcomments { float: left; color: #555; font-size: 0.85em;  }
+			.simplebb-ttlastmessage { float: right; color: #555; font-size: 0.85em; width: 30%; text-align: right; }
 			.simplebb-ttname { width: 35%; padding: 0 4px; }
 			.simplebb-tticon { float: left; width: 58px; padding: 6px 0; }
 			.simplebb-ttarticle, .simplebb-ttcomments { width: 80px; text-align: center; }
@@ -82,14 +82,14 @@
 			.simplebb-tlastcom > a:hover { color: #222; text-decoration: underline; }
 			.simplebb-tlastcom > span { display: block; color: #555; margin: 8px 0 0 0; }
 	.simplebb-thread {}
-		.simplebb-tcontent { color: #555; font-size: 0.85em; line-height: 24px; text-align: justify; }
+		.simplebb-tcontent { color: #555; font-size: 0.95em; line-height: 24px; text-align: justify; }
 		.simplebb-tbtn { float: right; padding: 6px 4px 0 0; }
-		.simplebb-tbtn > a { color: #222; font-size: 0.85em; }
+		.simplebb-tbtn > a { color: #222; font-size: 0.95em; }
 		.simplebb-tbtn > a:hover { color: #1b8cb8; }
 		.simplebb-tavatar { float: left; }
 			.simplebb-tavatar img { height: 70px; border-radius: 5px; }	
-		.simplebb-tuser { float: right; }
-			.simplebb-tuser > a, .simplebb-tuser > span { display: block; color: #222; font-size: 0.8em; margin: 6px 0; text-align: right; }
+		.simplebb-tuser { float: left; margin-left: 15px; }
+			.simplebb-tuser > a, .simplebb-tuser > span { display: block; color: #222; font-size: 0.9em; margin: 6px 0; text-align: left; }
 	#simplebb-addnews {  }
 		#simplebb-addnews > h3 { display: block; padding: 14px 0 14px 6px; border-bottom: 1px dotted #ccc; font-size: 1.3em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
 		#simplebb-addnews > h3 .fa { margin-right: 10px; }
@@ -110,8 +110,8 @@
 			.simplebb-btn:hover { background: #1b8cb8; color: #fff; }
 				.simplebb-btnsml { padding: 3px 5px;  }
 				.simplebb-btnbig { padding: 10px 16px;  }
-	#simplebb-stats { background: #f1f1f1; padding: 10px; border-radius: 5px; }
+	#simplebb-stats { background: #f1f1f1; padding: 10px; margin: 0.5%; border-radius: 5px; }
 		#simplebb-stats > h3 { font-weight: normal; display: block; padding: 4px 0 10px 10px; color: #777; }
 		#simplebb-stats > h3 .fa { margin-right: 10px; }
-		.simplebb-statsbox { background: #fff; padding: 10px; box-shadow: 0 1px 2px #ccc; margin: 5px 0 0 0; font-size: 0.85em; line-height: 28px; }
+		.simplebb-statsbox { background: #fff; padding: 10px; box-shadow: 0 1px 2px #ccc; margin: 5px 0 0 0; font-size: 0.95em; line-height: 25px; }
 			.simplebb-statsbox > div {  }

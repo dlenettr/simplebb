@@ -1,14 +1,11 @@
 <?php
 /*
-=====================================================
- MWS SimpleBB Forum v1.1 - Mehmet Hanoğlu
------------------------------------------------------
- http://dle.net.tr/ -  Copyright (c) 2014
------------------------------------------------------
- Mail: m.hanoglu55@gmail.com
------------------------------------------------------
- Lisans : MIT License
-=====================================================
+=============================================
+ Name      : MWS SimpleBB v2.0
+ Author    : Mehmet Hanoğlu ( MaRZoCHi )
+ Site      : http://dle.net.tr/   (c) 2015
+ License   : MIT License
+=============================================
 */
 
 if ( ! defined( 'DATALIFEENGINE' ) ) {
@@ -26,6 +23,7 @@ class SimpleBB {
 	private $ON = Null;
 	private $OFF = Null;
 	private $html = "";
+	private $sett = array();
 	private $tpls = array();
 	private $_main_cats = array();
 	private $_main_cat_ids = array();
@@ -35,10 +33,11 @@ class SimpleBB {
 	private $lastpost = array();
 	private $comments = array();
 	public $bbname = "";
-	public $optimize = "";
 
 	public function SimpleBB( &$config, &$db, &$tpl, &$cat_info, &$user_groups, &$member_id ) {
+		include ENGINE_DIR . "/data/simplebb.conf.php";
 		$this->config = $config;
+		$this->sett = $sbbsett;
 		$this->db = $db;
 		$this->tpl = $tpl;
 		$this->cats = $cat_info;
@@ -46,14 +45,13 @@ class SimpleBB {
 		$this->member = $member_id;
 		$this->ON = ( $this->config['version_id'] > "10.1" ) ? "1" : "yes";
 		$this->OFF = ( $this->config['version_id'] > "10.1" ) ? "0" : "no";
-		$this->bbname = $this->cats[ $this->config['forum_id'] ]['alt_name'];
-		$this->optimize = $this->config['forum_optimized_sql'];
-		$this->config['forum_avatarsize'] = "100";
+		$this->bbname = $this->cats[ $this->sett['id'] ]['alt_name'];
+		$this->sett['avatarsize'] = "100";
 	}
 
 	private function FindMainCats( ) {
 		foreach( $this->cats as $cat ) {
-			if ( $cat['parentid'] == $this->config['forum_id'] ) {
+			if ( $cat['parentid'] == $this->sett['id'] ) {
 				$this->_main_cats[ $cat['id'] ] = $cat;
 			}
 		}
@@ -69,7 +67,7 @@ class SimpleBB {
 	}
 
 	private function FindMainForums( ) {
-		if ( $this->optimize == $this->ON ) { $this->GetForumInfos( ); }
+		$this->GetForumInfos( );
 		foreach( $this->_main_cat_ids as $main_cat_id ) {
 			$this->_forum_cat_ids[] = $main_cat_id;
 			$this->_main_forums[ $main_cat_id ] = array();
@@ -87,24 +85,14 @@ class SimpleBB {
 		if ( count( $this->_forum_cat_ids ) > 0 ) {
 			$row = $this->db->super_query( "SELECT title, autor, id, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) ORDER BY date DESC LIMIT 0,1" );
 			$_p = $row; unset( $row );
-			if ( $this->optimize == $this->ON ) {
-				$this->db->query( "SELECT COUNT(id) as count, approve FROM " . PREFIX . "_post WHERE category IN ({$where}) GROUP BY approve" );
-				while( $row = $this->db->get_row() ) {
-					if ( $row['approve'] == "1" ) $_p['ocount'] = $row['count'];
-					else $_p['ncount'] = $row['count'];
-				}
-				$_p['tcount'] = $_p['ncount'] + $_p['ocount'];
-				$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
-				$_p['ccount'] = $row['count'];
-			} else {
-				$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE category IN ({$where})" );
-				$_p['tcount'] = $row['count'];
-				$row = $this->db->super_query( "SELECT COUNT(id) as count FROM " . PREFIX . "_post WHERE approve ='1' AND category IN ({$where})" );
-				$_p['ocount'] = $row['count'];
-				$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
-				$_p['ccount'] = $row['count'];
-				$_p['ncount'] = $_p['tcount'] - $_p['ocount'];
+			$this->db->query( "SELECT COUNT(id) as count, approve FROM " . PREFIX . "_post WHERE category IN ({$where}) GROUP BY approve" );
+			while( $row = $this->db->get_row() ) {
+				if ( $row['approve'] == "1" ) $_p['ocount'] = $row['count'];
+				else $_p['ncount'] = $row['count'];
 			}
+			$_p['tcount'] = $_p['ncount'] + $_p['ocount'];
+			$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
+			$_p['ccount'] = $row['count'];
 			unset( $row, $where );
 		} else $_p = array();
 		return $_p;
@@ -135,7 +123,7 @@ class SimpleBB {
 		$template = str_replace( "{posts-no}", intval( $_post['ncount'] ), $template );
 		$template = str_replace( "{comments}", intval( $_post['ccount'] ), $template );
 		$template = str_replace( "{date}", $_post['date'], $template );
-		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_post['title'] ), $this->config['forum_stat_title_limit'] ), $template );
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_post['title'] ), $this->sett['stat_title_limit'] ), $template );
 		$template = str_replace( "{author}", $_post['autor'], $template );
 		$template = str_replace( "{author-link}", $_post['upage'], $template );
 		$template = str_replace( "{author-box}", "<a onclick=\"ShowProfile('" . urlencode( $_post['autor'] ) . "', '" . $_post['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $user_page . "\">", $template );
@@ -147,10 +135,10 @@ class SimpleBB {
 		$template = $this->tpls['forum'];
 		$_forum['url'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" : $this->config['http_home_url'] . "index.php?do=cat&category=" . $_forum['alt_name'];
 		$_forum['rlink'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/rss.xml" : $this->config['http_home_url'] . "engine/rss.php?do=cat&category=" . $_forum['alt_name'];
-		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $forum['lastpost'] ), $this->config['forum_post_limit'] );
+		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $forum['lastpost'] ), $this->sett['post_limit'] );
 		$_forum['upage'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . "user/" . urlencode( $forum['lastposter'] ) . "/" : $PHP_SELF . "?subaction=userinfo&user=" . urlencode( $forum['lastposter'] );
 		$_forum['lurl'] = ( $this->config['allow_alt_url'] == $this->ON ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" . $forum['post_id'] . "-" . $forum['url'] . ".html" : $this->config['http_home_url'] . "index.php?newsid=" . $forum['post_id'];
-		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_forum['name'] ), $this->config['forum_title_limit'] ), $template );
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_forum['name'] ), $this->sett['title_limit'] ), $template );
 		$template = str_replace( "{url}", $_forum['url'], $template );
 		$template = str_replace( "{rss-link}", $_forum['rlink'], $template );
 		$template = str_replace( "[link]", "<a href=\"" . $_forum['url'] . "\">", $template );
@@ -202,7 +190,7 @@ class SimpleBB {
 		$template = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $template );
 		$template = str_replace( "{forum-stats}", $_stats_html, $template );
 
-		if ( $this->config['allow_banner'] && $this->config['forum_show_banners'] && stripos( $template, "{banner" ) !== false ) {
+		if ( $this->config['allow_banner'] && $this->sett['show_banners'] && stripos( $template, "{banner" ) !== false ) {
 			$db = &$this->db;
 			include_once ENGINE_DIR . '/modules/banners.php';
 			if ( count ( $banners ) ) {
@@ -238,11 +226,7 @@ class SimpleBB {
 	}
 
 	private function GetCategoryInfo( $cat_id, $is_forum = False ) {
-		if ( $this->optimize == $this->ON ) {
-			$data = $this->cats[ $cat_id ];
-		} else {
-			$data = $this->db->super_query("SELECT * FROM " . PREFIX . "_category WHERE id = '{$cat_id}'" );
-		}
+		$data = $this->cats[ $cat_id ];
 		if ( $is_forum ) {
 			$data['comm'] = $this->comments[ $cat_id ];
 		}
@@ -250,24 +234,7 @@ class SimpleBB {
 	}
 
 	private function GetForumInfo( $cat_id ) {
-		if ( $this->optimize == $this->ON ) {
-			$result = $this->lastpost[ $cat_id ];
-		} else {
-			$data = $this->db->super_query("SELECT p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, u.foto FROM " . PREFIX . "_post p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category = '{$cat_id}' AND p.approve = '1' ORDER BY p.date DESC" );
-			if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->config['forum_avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
-			$result = array( 
-				"lastpost" 		=> $data['title'],
-				"lastposter" 	=> $data['autor'],
-				"comments" 		=> $data['comm_num'],
-				"url" 			=> $data['alt_name'],
-				"post_id" 		=> $data['id'],
-				"date" 			=> $data['date'],
-				"avatar"		=> $data['foto']
-			);
-			$data = $this->db->super_query("SELECT COUNT(id) as posts FROM " . PREFIX . "_post WHERE category = '{$cat_id}' AND approve = '1'");
-			$result['posts'] = $data['posts'];
-			$this->db->free();
-		}
+		$result = $this->lastpost[ $cat_id ];
 		return $result;
 	}
 
@@ -276,7 +243,7 @@ class SimpleBB {
 			$where = implode( ",", $this->_forum_ids );
 			$this->db->query("SELECT COUNT(p.id) as posts, p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, p.category, u.foto FROM (SELECT title, autor, id, comm_num, alt_name, date, category, approve FROM " . PREFIX . "_post ORDER BY date DESC) p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category IN ({$where}) AND p.approve = '1' GROUP BY p.category");
 			while( $data = $this->db->get_row() ) {
-				if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->config['forum_avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
+				if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->sett['avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
 				$this->lastpost[ $data['category'] ] = array( 
 					"lastpost" 		=> $data['title'],
 					"lastposter" 	=> $data['autor'],

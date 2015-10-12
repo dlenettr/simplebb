@@ -19,8 +19,11 @@ if( ! defined( 'DATALIFEENGINE' ) ) {
 
 $allow_addnews = true;
 
+include ENGINE_DIR . '/data/simplebb.conf.php';
+require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
+
 if ( ! isset( $_REQUEST['cat'] ) ) {
-	msgbox( $lang['forum_2'], $lang['forum_1'] . " <a href=\"$PHP_SELF?do=addnews\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+	msgbox( $lang['sbb_s_2'], $lang['sbb_s_1'] . " <a href=\"$PHP_SELF?do=addpost\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
 	die();
 }
 

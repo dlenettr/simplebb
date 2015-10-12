@@ -1,0 +1,42 @@
+<?php
+/*
+-------------------------------------------
+ Translator  : Mehmet Hanoğlu ( MaRZoCHi )
+ Site        : http://dle.net.tr/
+-------------------------------------------
+*/
+
+$lang = array_merge( $lang, array(
+
+// SimpleBB
+'sbb_a_0'		=>	"DLE için basit bir forum modülü",
+'sbb_a_1'		=>	"Forum Ayarları",
+'sbb_a_2'		=>	"Subdomain kullanımı",
+'sbb_a_3'		=>	"Forumunuz alt domain olarak çalıştırma istiyorsanız bu ayarı aktifleştirin. Gerekli ayarlamalar için buraya tıklayın.",
+'sbb_a_6'		=>	"Başlık için karakter limiti",
+'sbb_a_7'		=>	"Girilen limite göre başlıklar kısaltılacaktır",
+'sbb_a_8'		=>	"Son mesaj için karakter limiti",
+'sbb_a_9'		=>	"İstatistikler için karakter limiti",
+'sbb_a_10'		=>	"Reklamları göster",
+'sbb_a_11'		=>	"Forumda reklam kodlarını aktifleştirir. Böylece reklamlarınızı forum anasayfasında da kullanabilirsiniz.",
+'sbb_a_14'		=>	"-- Kategori Seçiniz --",
+'sbb_a_15'		=>	"Forum olarak kullanılacak kategori",
+'sbb_a_16'		=>	"Sadece ana kategoriler gösterilmektedir. Forum olarak kullanmak istediğiniz kategoriyi seçin",
+'sbb_a_17'		=>	"Konular için onay bekle",
+'sbb_a_18'		=>	"Foruma eklenen konular için moderatör onayı verilmesini isterseniz bu ayarı aktifleştirin",
+'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
+'sbb_a_20'		=>	"Sadece foruma ait kategorilere yapılan yorumları göstermek isteğiniz şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
+'sbb_a_22'		=>	"Sadece foruma ait kategorilerde yapılacak yorum paneli için şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+// SimpleBB
+
+
+// SimpleBB
+'sbb_s_0'		=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
+'sbb_s_1'		=>	"Konunun açılacağı Forum belirtilmedi",
+'sbb_s_2'		=>	"Hata oluştu",
+// SimpleBB
+
+));
+
+?>

@@ -1,0 +1,42 @@
+<?php
+/*
+-------------------------------------------
+ Translator  : Corsair
+ Site        : http://webexpert.in.ua
+-------------------------------------------
+*/
+
+$lang = array_merge( $lang, array(
+
+// SimpleBB
+'sbb_a_0'		=>	"Форум",
+'sbb_a_1'		=>	"Налаштування форуму",
+'sbb_a_2'		=>	"Форум на піддомені",
+'sbb_a_3'		=>	"Якщо ви хочете запустити свій форум на субдомені, увімкніть цей параметр. Натисніть тут для необхідних коригувань.",
+'sbb_a_6'		=>	"Обмеження розміру заголовку",
+'sbb_a_7'		=>	"Вкажіть максимальну кількість символів",
+'sbb_a_8'		=>	"Обмеження розміру повідомлення",
+'sbb_a_9'		=>	"Вкажіть максимальну кількість символів",
+'sbb_a_10'		=>	"Підтримка реклами",
+'sbb_a_11'		=>	"Активує рекламний код для форуму. Ваші оголошення можуть також відображатись на головній сторінці форуму.",
+'sbb_a_14'		=>	"-- Оберіть категорію --",
+'sbb_a_15'		=>	"Категорія вашого форуму",
+'sbb_a_16'		=>	"Тільки основні категорії показані. Виберіть категорію, яку ви хочете використовувати в якості форуму.",
+'sbb_a_17'		=>	"Use confirmation for new threads",
+'sbb_a_18'		=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option",
+'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
+'sbb_a_20'		=>	"Sadece foruma ait kategorilere yapılan yorumları göstermek isteğiniz şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
+'sbb_a_22'		=>	"Sadece foruma ait kategorilerde yapılacak yorum paneli için şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+// SimpleBB
+
+
+// SimpleBB
+'sbb_s_0'		=>	"Ви не маєте доступу для перегляду цього розділу.",
+'sbb_s_1'		=>	"Тему створено у відповідному розділі форуму.",
+'sbb_s_2'		=>	"Виникла помилка",
+// SimpleBB
+
+));
+
+?>

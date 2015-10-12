@@ -1,13 +1,13 @@
-simplebb v1.1 for DLE ( DataLife Engine )
+simplebb v2.0 for DLE ( DataLife Engine )
 ========
 ![simplebb logo][logo]
 
 * Yapımcı: [Mehmet Hanoğlu]
 * Dizayn : [Kadir Hanoğlu]
 * Site   : http://dle.net.tr
-* Tarih  : 03.10.2014
+* Tarih  : 13.10.2015
 * Lisans : MIT License
-* DLE    : 10.3, 10.2
+* DLE    : 10.5
 * Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] )
 
 
@@ -49,23 +49,24 @@ Yönlendirme vs. oluşabilecek hatalar nedeniyle canonical linki tanımlandı. B
 .htaccess dosyasına eklemeniz gereken kod ( DLE.NET.TR için örnek kullanım. "forum" subdomaini için yazılmıştır. )
 ~~~
 # Forum redirect
+Redirect 301 /forum http://forum.dle.net.tr
+
 RewriteCond %{HTTP_HOST} ^forum\.dle\.net\.tr$ [NC]
 RewriteRule ^$ index.php?do=cat&category=forum [L,NC]
 ~~~
 
-DLETR.COM için örnek yazım.
+MARZOCHI.WS için örnek yazım.
 ~~~
-RewriteCond %{HTTP_HOST} ^forum\.dletr\.com$ [NC]
+# Forum redirect
+Redirect 301 /forum http://forum.marzochi.ws
+
+RewriteCond %{HTTP_HOST} ^forum\.marzochi\.ws$ [NC]
+RewriteRule ^$ index.php?do=cat&category=forum [L,NC]
 ~~~
 
 Bu eklemeden sonra CPanel'den ile subdomain oluşturmalısınız.
 
 Arama motorlarının indexlemelerinde problem çıkması ihtimaline karşı. Dinamik subdomain yerine sadece kullanacağınız subdomain'i ekleyin. Kullanacağınız kategorinin adı forum ise subdomain için aynısını kullanın.
-
-
-SQL Optimizasyonu
---------------------
-Daha önce yapılan sisteme göre sorgu sayısı çok düşürüldü. Toplam 2-3 sorgu ile anasayfa hazır hale geliyor. Global değişkenler yardımıyla kategoriler hakkında bilgiler toplanıyor.
 
 
 Kurulum ve Kaldırma :
@@ -102,6 +103,11 @@ Güncelleme ( v1.0 => v1.1 )
 * Tüm dosyaları kopyalayarak, sıradan bir kurulum gerçekleştiriniz.
 
 
+Güncelleme ( v1.1 => v2.0 )
+--------------
+* Modülü tamamen kaldırarak yükleme yapmanız en problemsiz seçim olacaktır.
+
+
 Kaldırma
 --------------
 * Sistemi kaldırmak istediğinizde install/backup dizindeki yedek dosyasını açarak sitenize upload etmeniz yeterli.
@@ -136,7 +142,7 @@ Herhangi bir .tpl dosyasında kullanılabilir taglar
 {avatar}               : show.full içinde kullanıcının avatar urlsini çeker.
 ~~~
 
-Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41] 
+Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41], [Eklenti #776]
 
 
 addpost.tpl de kullanılabilir taglar
@@ -159,7 +165,18 @@ Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simpleb
 
 English information : http://www.dlestarter.com/downloads/modules/432-simple-bb-forum-for-dle.html
 
-Yenilikler
+
+Yenilikler ( 2.0 )
+-----------------------
+* 10.5 uyarlaması yapıldı ve bazı kısımlar yeniden yazıldı.
+* Özgün dil dosyası kullanımına geçildi.
+* Admin paneli sistem ayarları sayfasından ayrıldı.
+* SQL optimizasyon seçeneği varsayılan olarak ayarlandı ve admin panelden kaldırıldı.
+* Forum için yorum gösterme ve ekleme için özel şablon dosyası kullanım desteği eklendi.
+* Düzenleme işlemleri azaltıldı ve kod optimizasyonları yapıldı.
+
+
+Yenilikler ( v1.1 )
 -----------------------
 * 10.2 ve 10.3 için uyumlu hale getirildi.
 * Rusça, Ukraynaca ve İngilizce çevirileri dahil edildi.
@@ -172,6 +189,7 @@ Yenilikler
 
 Tarihçe
 -----------------------
+* 13.10.2015 (v2.0)
 * 03.10.2014 (v1.1)
 * 23.07.2014 (v1.0)
 * 15.07.2014 (v1.0-beta)
@@ -189,6 +207,6 @@ Tarihçe
 [Eklenti #163]:http://dle.net.tr/dle-eklenti/163-kategori-bilgisi-cekme.html
 [Eklenti #45]:http://dle.net.tr/dle-eklenti/45-sayfa-basligini-tag-olarak-kullanma.html
 [Eklenti #41]:http://dle.net.tr/dle-eklenti/41-makaleyi-ekleyenin-avatarini-gosterme.html
+[Eklenti #776]:http://dle.net.tr/dle-eklenti/776-kategoriye-ozel-yorum-sablonu-atama.html
 [Ekran Görüntüsü: Default Tema]:http://blog.dle.net.tr/blog/181-simplebb-default-theme-yayinda.html
 [logo]:http://dle.net.tr/uploads/posts/1406126090_simplebb-default-theme-logo.png
-
