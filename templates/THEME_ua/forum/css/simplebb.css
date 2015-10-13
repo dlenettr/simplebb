@@ -4,7 +4,7 @@
 -----------------------------------------------------
  Mail: kadirhanoglu@dle.net.tr
 =====================================================
- DLE.NET.TR  |  Copyright (c) 2015
+ DLE.NET.TR  |  Copyright (c) 2014
 -----------------------------------------------------
  http://dle.net.tr  -  info@dle.net.tr
 -----------------------------------------------------
@@ -24,6 +24,12 @@
 	#simplebb > h3 { display: block; padding: 14px 0 14px 6px; border-bottom: 1px dotted #ccc; font-size: 1.3em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
 	#simplebb > h3 .fa { margin-right: 10px; }
 	#simplebb .fa { margin-right: 6px; }
+	.simplebb-subforums { background: #f5f5f5; padding: 10px 10px; margin: 10px 0; border-radius: 5px; }
+		.simplebb-subforums > h3 { font-weight: normal; display: block; padding: 4px 0 10px 10px; color: #777; }
+		.simplebb-subforum-list { margin: 0; padding: 0; list-style: none; margin-top: 5px; }
+		.simplebb-subforum-list li { float: left; border: 1px solid #ccc; padding: 5px 10px; background: #fff; margin: 0 3px; }
+		.simplebb-subforum-list li a { }
+		.simplebb-subforum-list li span { font-size: 0.9em; color: #555; margin-left: 5px; }
 	.simplebb-category, .simplebb-thread { background: #f5f5f5; padding: 10px 10px; margin: 10px 0; border-radius: 5px; }
 		.simplebb-category > h3 { font-weight: normal; display: block; padding: 4px 0 10px 10px; color: #777; }
 		.simplebb-category > h3 > a { color: #777; }
@@ -54,11 +60,12 @@
 		.simplebb-flastmessage > a { }
 		.simplebb-flastmessage > span { display: block; margin: 6px 0; }
 		.simplebb-flastmessage > a:hover { color: #222; text-decoration: underline; }
+		.simplebb-flastmessage > img { width: 32px; height: 32px; float: right; display: inline-block; margin-top: 4px; margin-left: 10px; border-radius: 3px; border: 1px solid #ccc; }
 	.simplebb-threads, .simplebb-postbit, .simplebb-tcontent { padding: 10px; }
 	.simplebb-threads {  }
 		.simplebb-naddbtn { float: right; }
-			.simplebb-naddbtn > a { display: block; padding: 10px 16px; background: #222; color: #fff; font-size: 0.90em; border-radius: 5px; }
-			.simplebb-naddbtn > a:hover { background: #1b8cb8; text-decoration: none; }
+			.simplebb-naddbtn > a { display: block; padding: 10px 16px; background: #222; color: #fff; font-size: 0.85em; border-radius: 5px; }
+			.simplebb-naddbtn > a:hover { background: #1b8cb8; }
 		.simplebb-ttitlebar { background: #ddd; padding: 5px 10px; margin: 4px 0 2px 0; border-top-left-radius: 4px; border-top-right-radius: 4px; }
 			.simplebb-ttname, .simplebb-ttarticle, .simplebb-ttcomments { float: left; color: #555; font-size: 0.85em;  }
 			.simplebb-ttlastmessage { float: right; color: #555; font-size: 0.85em; width: 30%; text-align: right; }
@@ -84,7 +91,7 @@
 	.simplebb-thread {}
 		.simplebb-tcontent { color: #555; font-size: 0.95em; line-height: 24px; text-align: justify; }
 		.simplebb-tbtn { float: right; padding: 6px 4px 0 0; }
-		.simplebb-tbtn > a { color: #222; font-size: 0.95em; }
+		.simplebb-tbtn > a { color: #222; font-size: 0.85em; }
 		.simplebb-tbtn > a:hover { color: #1b8cb8; }
 		.simplebb-tavatar { float: left; }
 			.simplebb-tavatar img { height: 70px; border-radius: 5px; }	
