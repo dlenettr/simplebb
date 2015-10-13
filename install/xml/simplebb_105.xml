@@ -154,6 +154,7 @@ else if ( isset( $full_link ) ) {
 		// SimpleBB - 10
 		$user = $db->super_query("SELECT foto, user_group FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
 		$tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
+		$tpl->result['content'] = str_replace( "{user-group-icon}", $user_group[ $user['user_group'] ]['icon'], $tpl->result['content'] );
 		if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
 			$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
 		} else {

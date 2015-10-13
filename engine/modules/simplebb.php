@@ -29,8 +29,6 @@ if ( $forum_compile == "before" ) {
 		$forum_main_tpl = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $forum_main_tpl );
 		$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $forum_main_tpl );
 
-		$sbbsett['show_subforums'] = "1";
-		$sbbsett['show_subcount'] = "1";
 		if ( isset( $category_id ) && $sbbsett['show_subforums'] ) {
 			$subforums = "";
 			foreach ( $cat_info as $cid => $cat ) { if ( $cat['parentid'] == $category_id ) { $subcats[] = $cat['id']; } }
@@ -44,10 +42,10 @@ if ( $forum_compile == "before" ) {
 			foreach ( $subcats as $cid ) {
 				$parent = $cat_info[ $cat_info[ $cid ]['parentid'] ];
 				$_furl = ( $config['allow_alt_url'] == "1" ) ? $cat_info[ $sbbsett['id'] ]['alt_name'] . "/" . $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
-				$subforums .= "<p><a href=\"http://{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
+				$subforums .= "<li><a href=\"http://{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
 				if ( $sbbsett['show_subcount'] ) {
-					$subforums .= " ( " . $subcounts[$cid] . " )</p>";
-				} else { $subforums .= "</p>"; }
+					$subforums .= " <span>( " . $subcounts[$cid] . " )</span></li>";
+				} else { $subforums .= "</li>"; }
 			}
 			$forum_main_tpl = str_replace( "{subforums}", $subforums, $forum_main_tpl );
 			$forum_main_tpl = preg_replace( "#\\[sub-forums\\](.*?)\\[/sub-forums\\]#is", "$1", $forum_main_tpl );

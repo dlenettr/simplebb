@@ -138,8 +138,10 @@ Herhangi bir .tpl dosyasında kullanılabilir taglar
 {category echo="name"} : Mevcut kategori adı ( show.short sayfasında çalışmaz )
 {page-title}           : show.full içinde sayfa başlığı ( {title} ) yerine kullanılabilir.
 {count_all}            : Kategori sayfalarında, o kategoriye ait kaç adet makalenin bulunduğunu gösterir
+{lastposter-foto}      : [lastpost] içinde kullanılabilir, son yorum yazan kullanıcının avatar url'si [/lastpost] 
 {user-group}           : show.full içinde kullanıcı grubunu temsil eder. Panelden belirlenen stil ile gösterir.
 {avatar}               : show.full içinde kullanıcının avatar urlsini çeker.
+{user-group-icon}      : show.full içinde kullanıcı grup ikonu.
 ~~~
 
 Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41], [Eklenti #776]
@@ -163,8 +165,6 @@ Detaylı bilgi : http://forum.dle.net.tr/gelistiriciler/fikirler-ve-projeler/39-
 
 Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simplebb.html
 
-English information : http://www.dlestarter.com/downloads/modules/432-simple-bb-forum-for-dle.html
-
 
 Yenilikler ( 2.0 )
 -----------------------
@@ -174,6 +174,8 @@ Yenilikler ( 2.0 )
 * SQL optimizasyon seçeneği varsayılan olarak ayarlandı ve admin panelden kaldırıldı.
 * Forum için yorum gösterme ve ekleme için özel şablon dosyası kullanım desteği eklendi.
 * Düzenleme işlemleri azaltıldı ve kod optimizasyonları yapıldı.
+* Kategori içindeki alt forumları gösterme özelliği eklendi.
+* Varsayılan temada düzenlemeler yapıldı.
 
 
 Yenilikler ( v1.1 )

@@ -39,6 +39,9 @@ if ( $_REQUEST['action'] == "save" ) {
 	$save_con['show_banners'] = intval($save_con['show_banners']);
 	$save_con['optimized_sql'] = intval($save_con['optimized_sql']);
 	$save_con['use_app'] = intval($save_con['use_app']);
+	$save_con['show_subforums'] = intval($save_con['show_subforums']);
+	$save_con['show_subcount'] = intval($save_con['show_subcount']);
+
 
 	$find = array(); $replace = array();
 	$find[] = "'\r'"; $replace[] = "";
@@ -173,6 +176,11 @@ HTML;
 	showRow( $lang['sbb_a_19'], $lang['sbb_a_20'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[comments_tpl]\" value=\"{$sbbsett['comments_tpl']}\" size=\"30\" />" );
 
 	showRow( $lang['sbb_a_21'], $lang['sbb_a_22'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[addcomm_tpl]\" value=\"{$sbbsett['addcomm_tpl']}\" size=\"30\" />" );
+
+	showRow( $lang['sbb_a_23'], $lang['sbb_a_24'], makeCheckBox( "save_con[show_subforums]", "{$sbbsett['show_subforums']}" ) );
+
+	showRow( $lang['sbb_a_25'], $lang['sbb_a_26'], makeCheckBox( "save_con[show_subcount]", "{$sbbsett['show_subcount']}" ) );
+
 
 	showRow( "", "", "<div style=\"margin-top:10px;\" align=\"right\">
 		<input type=\"hidden\" name=\"user_hash\" value=\"{$dle_login_hash}\" />

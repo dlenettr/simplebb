@@ -57,7 +57,7 @@ $module = array(
 	'date'		=> "xx.10.2015",
 	'ifile'		=> "install_module.php",
 	'link'		=> "http://dle.net.tr",
-	'image'		=> "http://img.dle.net.tr/mws/simple_bb.png",
+	'image'		=> "http://img.dle.net.tr/mws/simple_bb2.png",
 	'author_n'	=> "Mehmet Hanoğlu (MaRZoCHi)",
 	'author_s'	=> "http://mehmethanoglu.com.tr",
 );
@@ -65,7 +65,7 @@ $module = array(
 
 if ( $is_logged && $member_id['user_group'] == "1" ) {
 
-	echoheader("<i class=\"icon-share-alt\"></i>" . $module['name'], $lang['m01'] );
+	echoheader("<i class=\"icon-comments\"></i>" . $module['name'], $lang['m01'] );
 	echo '<style type="text/css">.primary-sidebar,.newsbutton,.navbar-right,.sidebar-background,.pull-right,.navbar-toggle,.navbar-collapse-top{display:none;} .main-content{margin:0!important;} .box{ width: 75%; margin: auto !important;}</style>';
 
 	if ($_REQUEST['action'] == "install") {

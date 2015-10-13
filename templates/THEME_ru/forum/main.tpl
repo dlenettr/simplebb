@@ -42,6 +42,7 @@
 					<div class="simplebb-flastmessage">
 						[lastpost] 
 						<a href="{lastpost-url}"><i class="fa fa-file-text-o"></i>{lastpost}</a>
+						<img src="{lastposter-foto}" alt="{lastposter}" />
 						<span><i class="fa fa-user"></i>{lastposter}</span>
 						<span><i class="fa fa-calendar"></i>{lastpost-date}</span>
 						[/lastpost]
