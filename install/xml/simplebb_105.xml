@@ -159,7 +159,7 @@ else if ( isset( $full_link ) ) {
 			$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
 		} else {
 			if ( ! empty( $user['foto'] ) && file_exists( ROOT_DIR . "/uploads/fotos/" . $user['foto'] ) ) {
-				$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "uploads/fotos/" . $user['foto'], $tpl->result['content'] );
+				$tpl->result['content'] = str_replace( "{avatar}", $user['foto'] );
 			} else {
 				$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
 			}
