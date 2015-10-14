@@ -243,7 +243,7 @@ class SimpleBB {
 			$where = implode( ",", $this->_forum_ids );
 			$this->db->query("SELECT COUNT(p.id) as posts, p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, p.category, u.foto FROM (SELECT title, autor, id, comm_num, alt_name, date, category, approve FROM " . PREFIX . "_post ORDER BY date DESC) p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category IN ({$where}) AND p.approve = '1' GROUP BY p.category");
 			while( $data = $this->db->get_row() ) {
-				if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->sett['avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; } else { $data['foto'] = $this->config['http_home_url'] . "uploads/fotos/" . $data['foto']; }
+				if ( strpos( $data['foto'], "@" ) !== false ) { $data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->sett['avatarsize'] ); } else if ( empty( $data['foto'] ) ) { $data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png"; }
 				$this->lastpost[ $data['category'] ] = array( 
 					"lastpost" 		=> $data['title'],
 					"lastposter" 	=> $data['autor'],
