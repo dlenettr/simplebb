@@ -191,13 +191,8 @@ if( ! $allow_addnews ) {
 		}
 
 
-		$parse->ParseFilter();
 		$title = $db->safesql( $parse->process( trim( strip_tags ($_POST['title']) ) ) );
 		$alt_name = trim( $parse->process( stripslashes( $_POST['alt_name'] ) ) );
-		
-
-
-		$parse = new ParseFilter( Array (), Array (), 1, 1 );
 
 		$add_module = "yes";
 		$xfieldsaction = "init";
@@ -662,8 +657,7 @@ HTML;
 
 				$tpl->set( '[sec_code]', "" );
 				$tpl->set( '[/sec_code]', "" );
-				$path = parse_url( $config['http_home_url'] );
-				$tpl->set( '{sec_code}', "<span id=\"dle-captcha\"><img src=\"" . $path['path'] . "engine/modules/antibot/antibot.php\" alt=\"${lang['sec_image']}\" width=\"160\" height=\"80\" /><br /><a onclick=\"reload(); return false;\" href=\"#\">{$lang['reload_code']}</a></span>" );
+				$tpl->set( '{sec_code}', "<a onclick=\"reload(); return false;\" href=\"#\" title=\"{$lang['reload_code']}\"><span id=\"dle-captcha\"><img src=\"engine/modules/antibot/antibot.php\" alt=\"{$lang['reload_code']}\" width=\"160\" height=\"80\" /></span></a>" );
 				$tpl->set_block( "'\\[recaptcha\\](.*?)\\[/recaptcha\\]'si", "" );
 				$tpl->set( '{recaptcha}', "" );
 			}
@@ -676,8 +670,6 @@ HTML;
 			$tpl->set_block( "'\\[sec_code\\](.*?)\\[/sec_code\\]'si", "" );
 
 		}
-
-		if (!isset($path['path'])) $path['path'] = "/";
 
 		if( $config['allow_site_wysiwyg'] == "2" ) $save = "tinyMCE.triggerSave();"; else $save = "";		
 
@@ -702,14 +694,6 @@ function preview(){";
 }";
 		
 		$script .= <<<HTML
-
-	function reload () {
-	
-		var rndval = new Date().getTime(); 
-	
-		document.getElementById('dle-captcha').innerHTML = '<img src="{$path['path']}engine/modules/antibot/antibot.php?rndval=' + rndval + '" width="160" height="80" alt="" /><br /><a onclick="reload(); return false;" href="#">{$lang['reload_code']}</a>';
-	
-	};
 
 	function find_relates ( )
 	{
@@ -764,46 +748,39 @@ function preview(){";
 HTML;
 
 		if( $config['allow_add_tags'] ) {
-			$js_array[] = "engine/skins/autocomplete.js";
-			$script .= "
-<script language=\"javascript\" type=\"text/javascript\">
-<!--
-	$(function(){
-		function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
-		}
+			$onload_scripts[] = <<<HTML
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+function extractLast( term ) {
+	return split( term ).pop();
+}
  
-		$( '#tags' ).autocomplete({
-			source: function( request, response ) {
-				$.getJSON( 'engine/ajax/find_tags.php', {
-					term: extractLast( request.term )
-				}, response );
-			},
-			search: function() {
-				var term = extractLast( this.value );
-				if ( term.length < 3 ) {
-					return false;
-				}
-			},
-			focus: function() {
-				return false;
-			},
-			select: function( event, ui ) {
-				var terms = split( this.value );
-				terms.pop();
-				terms.push( ui.item.value );
-				terms.push( '' );
-				this.value = terms.join( ', ' );
-				return false;
-			}
-		});
-
-	});
-//-->
-</script>";
+$( '#tags' ).autocomplete({
+	source: function( request, response ) {
+		$.getJSON( 'engine/ajax/find_tags.php', {
+			term: extractLast( request.term )
+		}, response );
+	},
+	search: function() {
+		var term = extractLast( this.value );
+		if ( term.length < 3 ) {
+			return false;
+		}
+	},
+	focus: function() {
+		return false;
+	},
+	select: function( event, ui ) {
+		var terms = split( this.value );
+		terms.pop();
+		terms.push( ui.item.value );
+		terms.push( '' );
+		this.value = terms.join( ', ' );
+		return false;
+	}
+});
+HTML;
 		}
 		
 		$script .= "<form method=\"post\" name=\"entryform\" id=\"entryform\" onsubmit=\"if(checkxf()=='fail') return false;\" action=\"\">";
