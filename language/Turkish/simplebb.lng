@@ -25,13 +25,14 @@ $lang = array_merge( $lang, array(
 'sbb_a_17'		=>	"Konular için onay bekle",
 'sbb_a_18'		=>	"Foruma eklenen konular için moderatör onayı verilmesini isterseniz bu ayarı aktifleştirin",
 'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
-'sbb_a_20'		=>	"Sadece foruma ait kategorilere yapılan yorumları göstermek isteğiniz şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
-'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
-'sbb_a_22'		=>	"Sadece foruma ait kategorilerde yapılacak yorum paneli için şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+'sbb_a_21'		=>	"Yorum ekleme paneli için özel şablon dosyası",
+'sbb_a_22'		=>	"Dosya adını <b>.tpl soneki olmadan yazınız.</b>",
 'sbb_a_23'		=>	"Alt forumları göster",
 'sbb_a_24'		=>	"Kategori sayfasına girildiğinde, o kategoriye ait tüm alt forumları gösterir",
 'sbb_a_25'		=>	"Alt forumlardaki konu sayısını göster",
 'sbb_a_26'		=>	"Eğer üstteki ayar aktif ise, görüntülenen alt forumlarda kaç konu bulunduğu da listeye eklenir.",
+'sbb_a_27'		=>	"Konu listesi için özel şablon dosyası",
+'sbb_a_28'		=>	"Konu içeriği için özel şablon dosyası",
 // SimpleBB
 
 
@@ -39,6 +40,7 @@ $lang = array_merge( $lang, array(
 'sbb_s_0'		=>	"Bu bölümü görüntüleme yetkiniz bulunmuyor.",
 'sbb_s_1'		=>	"Konunun açılacağı Forum belirtilmedi",
 'sbb_s_2'		=>	"Hata oluştu",
+'sbb_s_3'		=>	"Bu kategoriye konu açamazsanız.",
 // SimpleBB
 
 ));

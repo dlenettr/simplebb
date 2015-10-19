@@ -1,13 +1,13 @@
-simplebb v2.0 for DLE ( DataLife Engine )
+simplebb v2.1 for DLE ( DataLife Engine )
 ========
 ![simplebb logo][logo]
 
 * Yapımcı: [Mehmet Hanoğlu]
 * Dizayn : [Kadir Hanoğlu]
 * Site   : http://dle.net.tr
-* Tarih  : 13.10.2015
+* Tarih  : 20.10.2015
 * Lisans : MIT License
-* DLE    : 10.5
+* DLE    : 10.6, 10.5
 * Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] )
 
 
@@ -108,6 +108,11 @@ Güncelleme ( v1.1 => v2.0 )
 * Modülü tamamen kaldırarak yükleme yapmanız en problemsiz seçim olacaktır.
 
 
+Güncelleme ( v2.0 => v2.1 )
+--------------
+* Normal bir şekilde kurulum yapın.
+
+
 Kaldırma
 --------------
 * Sistemi kaldırmak istediğinizde install/backup dizindeki yedek dosyasını açarak sitenize upload etmeniz yeterli.
@@ -142,9 +147,10 @@ Herhangi bir .tpl dosyasında kullanılabilir taglar
 {user-group}           : show.full içinde kullanıcı grubunu temsil eder. Panelden belirlenen stil ile gösterir.
 {avatar}               : show.full içinde kullanıcının avatar urlsini çeker.
 {user-group-icon}      : show.full içinde kullanıcı grup ikonu.
+{forum-cats}           : custom içinde kullanılabilir foruma ait kategori id leri listesi
 ~~~
 
-Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41], [Eklenti #776]
+Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41], [Eklenti #776], [Eklenti #1316]
 
 
 addpost.tpl de kullanılabilir taglar
@@ -164,6 +170,15 @@ Bilgiler
 Detaylı bilgi : http://forum.dle.net.tr/gelistiriciler/fikirler-ve-projeler/39-simplebb-forum.html
 
 Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simplebb.html
+
+
+Yenilikler ( 2.1 )
+-----------------------
+* 10.6 uyarlaması yapıldı ve bazı kısımlar yeniden yazıldı.
+* Kategoriler için seçilen short ve full story şablonları admin panelden ayarlanabilir hale getirildi.
+* Forumdan son sonular eklentisi için gerekli eklemeler yapıldı.
+* Moderasyon onayı için hata gidermesi yapıldı.
+* Stil düzenlemesi yapıldı ve birkaç ufak hata giderildi.
 
 
 Yenilikler ( 2.0 )
@@ -191,6 +206,7 @@ Yenilikler ( v1.1 )
 
 Tarihçe
 -----------------------
+* 20.10.2015 (v2.1)
 * 13.10.2015 (v2.0)
 * 03.10.2014 (v1.1)
 * 23.07.2014 (v1.0)
@@ -210,5 +226,6 @@ Tarihçe
 [Eklenti #45]:http://dle.net.tr/dle-eklenti/45-sayfa-basligini-tag-olarak-kullanma.html
 [Eklenti #41]:http://dle.net.tr/dle-eklenti/41-makaleyi-ekleyenin-avatarini-gosterme.html
 [Eklenti #776]:http://dle.net.tr/dle-eklenti/776-kategoriye-ozel-yorum-sablonu-atama.html
+[Eklenti #1316]:http://dle.net.tr/dle-eklenti/1316-simplebb-icin-forumdan-son-konular-eklentisi.html
 [Ekran Görüntüsü: Default Tema]:http://blog.dle.net.tr/blog/181-simplebb-default-theme-yayinda.html
 [logo]:http://dle.net.tr/uploads/posts/1406126090_simplebb-default-theme-logo.png

@@ -25,9 +25,8 @@ $lang = array_merge( $lang, array(
 'sbb_a_17'		=>	"Включить предмодерацию новых тем",
 'sbb_a_18'		=>	"Если вам требуется ручная предмодерация всех создаваемых тем, включите данную настройку",
 'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
-'sbb_a_20'		=>	"Sadece foruma ait kategorilere yapılan yorumları göstermek isteğiniz şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
 'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
-'sbb_a_22'		=>	"Sadece foruma ait kategorilerde yapılacak yorum paneli için şablon dosyası adı. <b>.tpl soneki olmadan yazınız.</b>",
+'sbb_a_22'		=>	"Dosya adını <b>.tpl soneki olmadan yazınız.</b>",
 'sbb_a_23'		=>	"Alt forumları göster",
 'sbb_a_24'		=>	"Kategori sayfasına girildiğinde, o kategoriye ait tüm alt forumları gösterir",
 'sbb_a_25'		=>	"Alt forumlardaki konu sayısını göster",
@@ -39,6 +38,7 @@ $lang = array_merge( $lang, array(
 'sbb_s_0'		=>	"Вы не имеете доступа для просмотра этого раздела.",
 'sbb_s_1'		=>	"Тема создана в соответствующем разделе форума.",
 'sbb_s_2'		=>	"Произошла ошибка",
+'sbb_s_3'		=>	"Bu kategoriye konu açamazsanız.",
 // SimpleBB
 
 ));

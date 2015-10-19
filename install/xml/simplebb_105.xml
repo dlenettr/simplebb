@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<id>SimpleBB</id>
-	<version>2.0</version>
+	<version>2.1</version>
 	<vqmver>2.4.1</vqmver>
 	<author>MaRZoCHi</author>
 	<file name="engine/classes/google.class.php">
@@ -210,6 +210,22 @@ else if ( isset( $full_link ) ) {
 		// SimpleBB - 14
 ]]></add>
 		</operation>
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB - 18]]></ignoreif>
+			<search position="replace"><![CDATA[else $tpl->load_template( 'fullstory.tpl' );]]></search>
+			<add><![CDATA[
+		// SimpleBB - 18
+		// else $tpl->load_template( 'fullstory.tpl' );
+		else {
+			if ( $dle_module == "showfull" && in_array( $category_id, $forum->get_forums() ) && ! empty( $sbbsett['fullstory_tpl'] ) ) {
+				$tpl->load_template( $sbbsett['fullstory_tpl'] . ".tpl" );
+			} else {
+				$tpl->load_template( 'fullstory.tpl' );
+			}
+		}
+		// SimpleBB - 18
+]]></add>
+		</operation>
 	</file>
 	<file name="engine/modules/functions.php">
 		<operation>
@@ -271,6 +287,37 @@ include ROOT_DIR . '/engine/modules/simplebb.php';
 			<add><![CDATA[# SimpleBB
 RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 # SimpleBB]]></add>
+		</operation>
+	</file>
+	<file name="engine/modules/show.short.php">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB - 19]]></ignoreif>
+			<search position="replace"><![CDATA[else $tpl->load_template( 'shortstory.tpl' );]]></search>
+			<add><![CDATA[
+		// SimpleBB - 19
+		//else $tpl->load_template( 'shortstory.tpl' );
+		else {
+			if ( ( $forum_where == "cat" || $forum_where == "forum" ) && ! empty( $sbbsett['shortstory_tpl'] ) ) {
+				$tpl->load_template( $sbbsett['shortstory_tpl'] . ".tpl" );
+			} else {
+				$tpl->load_template( 'shortstory.tpl' );
+			}
+		}
+		// SimpleBB - 19
+]]></add>
+		</operation>
+	</file>
+	<file name="engine/modules/main.php">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB - 20]]></ignoreif>
+			<search position="after"><![CDATA[$tpl->load_template ( 'main.tpl' );]]></search>
+			<add><![CDATA[
+// SimpleBB - 20
+if ( isset( $forum ) ) {
+	$tpl->copy_template = str_replace( "{forum-cats}", implode( ",", $forum->get_forums() ), $tpl->copy_template );
+}
+// SimpleBB - 20
+]]></add>
 		</operation>
 	</file>
 </modification>

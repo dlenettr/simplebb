@@ -29,6 +29,10 @@ if ( ! isset( $_REQUEST['cat'] ) ) {
 
 $sel_cat = intval( $db->safesql( $_REQUEST['cat'] ) );
 
+include_once ENGINE_DIR . '/modules/show.forum.php';
+$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
+
+
 include_once ENGINE_DIR . '/classes/parse.class.php';
 $parse = new ParseFilter( Array (), Array (), 1, 1 );
 
@@ -70,9 +74,16 @@ if( $member_id['restricted'] == 1 or $member_id['restricted'] == 3 ) {
 
 }
 
-if( ! $allow_addnews ) {
-	
-	msgbox( $lang['all_info'], $lang['add_err_9'] . "<br /><br /><a href=\"javascript:history.go(-1)\">$lang[all_prev]</a>" );
+
+if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
+
+	if ( ! $allow_addnews ) {
+		msgbox( $lang['all_info'], $lang['add_err_9'] . "<br /><br /><a href=\"javascript:history.go(-1)\">$lang[all_prev]</a>" );
+	}
+
+	if ( ! in_array( $sel_cat, $forum->get_forums() ) ) {
+		msgbox( $lang['sbb_s_2'], $lang['sbb_s_3'] . "<br /><br /><a href=\"javascript:history.go(-1)\">$lang[all_prev]</a>" );
+	}
 
 } else {
 	
@@ -85,7 +96,7 @@ if( ! $allow_addnews ) {
 		if( $user_group[$member_id['user_group']]['allow_main'] ) $allow_main = intval( $_POST['allow_main'] );
 		else $allow_main = 0;
 		
-		$approve = intval( $_POST['approve'] );
+		$approve = ! intval( $sbbsett['use_app'] );
 		$allow_rating = intval( $_POST['allow_rating'] );
 		
 		if( $user_group[$member_id['user_group']]['allow_fixed'] ) $news_fixed = intval( $_POST['news_fixed'] );
@@ -190,9 +201,14 @@ if( ! $allow_addnews ) {
 			$stop .= "<li>" . $lang['news_err_39'] . "</li>";
 		}
 
-
+		if ( $config['version_id'] < "10.6" ) {
+			$parse->ParseFilter();
+		}
 		$title = $db->safesql( $parse->process( trim( strip_tags ($_POST['title']) ) ) );
 		$alt_name = trim( $parse->process( stripslashes( $_POST['alt_name'] ) ) );
+		if ( $config['version_id'] < "10.6" ) {
+			$parse = new ParseFilter( Array (), Array (), 1, 1 );
+		}
 
 		$add_module = "yes";
 		$xfieldsaction = "init";
@@ -426,8 +442,13 @@ if( ! $allow_addnews ) {
 			
 			}
 			
-			if( $config['allow_alt_url'] ) msgbox( $lang['add_ok'], "{$msg} <a href=\"{$config['http_home_url']}" . "addnews.html\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
-			else msgbox( $lang['add_ok'], "{$msg} <a href=\"$PHP_SELF?do=addnews\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+			$addn_link = ( $config['allow_alt_url'] ) ? $config['http_home_url'] . "addpost/" . $sel_cat . "/" : $PHP_SELF . "?do=addpost&cat=" . $sel_cat;
+
+			if ( $approve ) {
+				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+			} else {
+				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+			}
 			
 			if( $approve ) {
 
@@ -657,7 +678,14 @@ HTML;
 
 				$tpl->set( '[sec_code]', "" );
 				$tpl->set( '[/sec_code]', "" );
-				$tpl->set( '{sec_code}', "<a onclick=\"reload(); return false;\" href=\"#\" title=\"{$lang['reload_code']}\"><span id=\"dle-captcha\"><img src=\"engine/modules/antibot/antibot.php\" alt=\"{$lang['reload_code']}\" width=\"160\" height=\"80\" /></span></a>" );
+
+				if ( $config['version_id'] < "10.6" ) {
+					$path = parse_url( $config['http_home_url'] );
+					$tpl->set( '{sec_code}', "<a onclick=\"reload(); return false;\" href=\"#\" title=\"{$lang['reload_code']}\"><span id=\"dle-captcha\"><img src=\"" . $path['path'] . "engine/modules/antibot/antibot.php\" alt=\"{$lang['reload_code']}\" width=\"160\" height=\"80\" /></span></a>" );
+				} else {
+					$tpl->set( '{sec_code}', "<a onclick=\"reload(); return false;\" href=\"#\" title=\"{$lang['reload_code']}\"><span id=\"dle-captcha\"><img src=\"engine/modules/antibot/antibot.php\" alt=\"{$lang['reload_code']}\" width=\"160\" height=\"80\" /></span></a>" );
+				}
+
 				$tpl->set_block( "'\\[recaptcha\\](.*?)\\[/recaptcha\\]'si", "" );
 				$tpl->set( '{recaptcha}', "" );
 			}
@@ -671,7 +699,22 @@ HTML;
 
 		}
 
+		if ( $config['version_id'] < "10.6" ) {
+			if (!isset($path['path'])) $path['path'] = "/";
+		}
+
 		if( $config['allow_site_wysiwyg'] == "2" ) $save = "tinyMCE.triggerSave();"; else $save = "";		
+
+		$script_reload = "";
+		if ( $config['version_id'] < "10.6" ) {
+			$script_reload = <<< HTML
+function reload () {
+	var rndval = new Date().getTime(); 
+	document.getElementById('dle-captcha').innerHTML = '<img src="{$path['path']}engine/modules/antibot/antibot.php?rndval=' + rndval + '" width="160" height="80" alt="" />';
+};
+HTML;
+		}
+
 
 		$script = "
 <script language=\"javascript\" type=\"text/javascript\">
@@ -694,6 +737,7 @@ function preview(){";
 }";
 		
 		$script .= <<<HTML
+	{$script_reload}
 
 	function find_relates ( )
 	{
@@ -701,7 +745,7 @@ function preview(){";
 
 		ShowLoading('');
 
-		$.post('engine/ajax/find_relates.php', { title: title, mode: 1 }, function(data){
+		$.post( dle_root + 'engine/ajax/find_relates.php', { title: title, mode: 1 }, function(data){
 	
 			HideLoading('');
 	
@@ -748,7 +792,52 @@ function preview(){";
 HTML;
 
 		if( $config['allow_add_tags'] ) {
-			$onload_scripts[] = <<<HTML
+
+			if ( $config['version_id'] < "10.6" ) {
+
+				$script .= "
+<script language=\"javascript\" type=\"text/javascript\">
+<!--
+	$(function(){
+		function split( val ) {
+			return val.split( /,\s*/ );
+		}
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+ 
+		$( '#tags' ).autocomplete({
+			source: function( request, response ) {
+				$.getJSON( 'engine/ajax/find_tags.php', {
+					term: extractLast( request.term )
+				}, response );
+			},
+			search: function() {
+				var term = extractLast( this.value );
+				if ( term.length < 3 ) {
+					return false;
+				}
+			},
+			focus: function() {
+				return false;
+			},
+			select: function( event, ui ) {
+				var terms = split( this.value );
+				terms.pop();
+				terms.push( ui.item.value );
+				terms.push( '' );
+				this.value = terms.join( ', ' );
+				return false;
+			}
+		});
+
+	});
+//-->
+</script>";
+
+			} else {
+
+				$onload_scripts[] = <<<HTML
 function split( val ) {
 	return val.split( /,\s*/ );
 }
@@ -781,6 +870,7 @@ $( '#tags' ).autocomplete({
 	}
 });
 HTML;
+			}
 		}
 		
 		$script .= "<form method=\"post\" name=\"entryform\" id=\"entryform\" onsubmit=\"if(checkxf()=='fail') return false;\" action=\"\">";

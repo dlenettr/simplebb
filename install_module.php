@@ -1,7 +1,7 @@
 <?php
 /*
 =============================================
- Name      : MWS SimpleBB v2.0
+ Name      : MWS SimpleBB v2.1
  Author    : Mehmet Hanoğlu ( MaRZoCHi )
  Site      : http://dle.net.tr/   (c) 2015
  License   : MIT License
@@ -50,11 +50,11 @@ HTML;
 }
 
 $module = array(
-	'name'		=> "MWS SimpleBB v2.0",
+	'name'		=> "MWS SimpleBB v2.1",
 	'desc'		=> $lang['sbb_a_0'],
 	'id'		=> "simplebb",
 	'icon'		=> "simplebb.png",
-	'date'		=> "xx.10.2015",
+	'date'		=> "20.10.2015",
 	'ifile'		=> "install_module.php",
 	'link'		=> "http://dle.net.tr",
 	'image'		=> "http://img.dle.net.tr/mws/simple_bb2.png",

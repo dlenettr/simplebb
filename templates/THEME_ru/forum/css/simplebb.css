@@ -64,8 +64,8 @@
 	.simplebb-threads, .simplebb-postbit, .simplebb-tcontent { padding: 10px; }
 	.simplebb-threads {  }
 		.simplebb-naddbtn { float: right; }
-			.simplebb-naddbtn > a { display: block; padding: 10px 16px; background: #222; color: #fff; font-size: 0.85em; border-radius: 5px; }
-			.simplebb-naddbtn > a:hover { background: #1b8cb8; }
+			.simplebb-naddbtn > a { display: block; padding: 8px 16px; background: #222; color: #fff; font-size: 0.95em; border-radius: 5px; }
+			.simplebb-naddbtn > a:hover { background: #1b8cb8; text-decoration: none; }
 		.simplebb-ttitlebar { background: #ddd; padding: 5px 10px; margin: 4px 0 2px 0; border-top-left-radius: 4px; border-top-right-radius: 4px; }
 			.simplebb-ttname, .simplebb-ttarticle, .simplebb-ttcomments { float: left; color: #555; font-size: 0.85em;  }
 			.simplebb-ttlastmessage { float: right; color: #555; font-size: 0.85em; width: 30%; text-align: right; }
@@ -100,24 +100,33 @@
 	#simplebb-addnews {  }
 		#simplebb-addnews > h3 { display: block; padding: 14px 0 14px 6px; border-bottom: 1px dotted #ccc; font-size: 1.3em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
 		#simplebb-addnews > h3 .fa { margin-right: 10px; }
-		#simplebb-addnews > .simplebb-addcont { background: #f1f1f1; padding: 10px; border-radius: 5px; }
+		#simplebb-addnews > .simplebb-addcont { background: #f1f1f1; padding: 10px; border-radius: 5px; margin: 5px; }
 		.simplebb-add { background: #fff; box-shadow: 0 1px 2px #ccc; margin-top: 1px; padding: 10px; }
 			.simplebb-add > h3 { display: block; padding: 10px 0; border-bottom: 1px dotted #ccc; font-size: 1.1em; font-weight: normal; color: #555; margin: 0 0 10px 0; }
 			.simplebb-add > h3 .fa { margin-right: 8px; }
-		.simplebb-addtitle, .simplebb-addurl { float: left; width: 35%; }
+		.simplebb-addtitle, .simplebb-addurl { float: left; width: 45%; }
 		.simplebb-addtitle {  }
-			.simplebb-add input[type="text"] { width: 380px; background: #f1f1f1; padding: 8px; margin: 10px 1px; border: none; border-radius: 5px; box-shadow: inset 0 1px 2px #ccc; transition: all 0.3s ease-in; }
+			.simplebb-add input[type="text"] { width: 340px; background: #f1f1f1; padding: 8px; margin: 10px 0px; border: none; border-radius: 5px; box-shadow: inset 0 1px 2px #ccc; transition: all 0.3s ease-in; }
 			.simplebb-add input[type="text"]:hover, .simplebb-add input[type="text"]:focus { background: #e5e5e5; }
 			.simplebb-add .xfields { color: #f00; font-size: 0.8em; width: 90%; }
 			.simplebb-addtitle .fa, .simplebb-addurl .fa { margin-right: 8px; }
-			.simplebb-addtitle > span > button { position: absolute; margin: 0 0 0 20px; }
+			.simplebb-addtitle > span > button { margin: 0 0 0px 20px; border: 0px; line-height: 10px; height: 20px; }
+			.simplebb-addtitle > span > button:hover { cursor: pointer; }
 		.simplebb-addurl {  margin-left: 30px; }
+			.simplebb-addurl > input[type="text"] { margin-top: 14px !important; }
+		.simplebb-add label[for="tags"] > i { margin-right: 5px; }
 		.simplebb-addbtn { float: right; margin: 20px 0; }
-			.simplebb-btn { background: #222; color: #fff; font-size: 0.85em; border-radius: 5px; transition: all 0.3s ease-in; }
-			.simplebb-btn:hover { background: #1b8cb8; color: #fff; }
-				.simplebb-btnsml { padding: 3px 5px;  }
-				.simplebb-btnbig { padding: 10px 16px;  }
-	#simplebb-stats { background: #f1f1f1; padding: 10px; margin: 0.5%; border-radius: 5px; }
+			.simplebb-btn { background: #222; color: #fff; border: 0px; margin: 0 5px; font-size: 0.95em; height: 35px; border-radius: 5px; transition: all 0.3s ease-in; }
+			.simplebb-btn i { margin-right: 5px; }
+			.simplebb-btn:hover { background: #1b8cb8; color: #fff; cursor: pointer; }
+				.simplebb-btnsml { padding: 0px 16px; }
+				.simplebb-btnbig { padding: 5px 10px; font-size: 1.1em; }
+		#simplebb-addnews table { margin-top: 10px; display: block; background: #fff; }
+		#simplebb-addnews table td { padding: 10px; }
+		#simplebb-addnews table td input { margin: 2px 3px !important; }
+		#simplebb-addnews table td label { width: 180px; display: inline-block; transition: .4s; padding: 3px;  border-radius: 3px; }
+		#simplebb-addnews table td label:hover { cursor: pointer; background: #eee; transition: .4s; }
+#simplebb-stats { background: #f1f1f1; padding: 10px; margin: 0.5%; border-radius: 5px; }
 		#simplebb-stats > h3 { font-weight: normal; display: block; padding: 4px 0 10px 10px; color: #777; }
 		#simplebb-stats > h3 .fa { margin-right: 10px; }
 		.simplebb-statsbox { background: #fff; padding: 10px; box-shadow: 0 1px 2px #ccc; margin: 5px 0 0 0; font-size: 0.95em; line-height: 25px; }

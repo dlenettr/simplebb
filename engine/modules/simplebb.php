@@ -1,7 +1,7 @@
 <?php
 /*
 =============================================
- Name      : MWS SimpleBB v2.0
+ Name      : MWS SimpleBB v2.1
  Author    : Mehmet Hanoğlu ( MaRZoCHi )
  Site      : http://dle.net.tr/   (c) 2015
  License   : MIT License
