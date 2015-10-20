@@ -443,11 +443,12 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 			}
 			
 			$addn_link = ( $config['allow_alt_url'] ) ? $config['http_home_url'] . "addpost/" . $sel_cat . "/" : $PHP_SELF . "?do=addpost&cat=" . $sel_cat;
+			$back_url = ( ! empty( $_SESSION['referrer'] ) ) ? $_SESSION['referrer'] : $config['http_home_url'];
 
 			if ( $approve ) {
-				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$back_url}\">$lang[all_prev]</a>" );
 			} else {
-				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );
+				msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$back_url}\">$lang[all_prev]</a>" );
 			}
 			
 			if( $approve ) {

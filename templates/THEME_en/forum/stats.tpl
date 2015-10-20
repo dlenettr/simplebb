@@ -1,5 +1,5 @@
 <div id="simplebb-stats">
-	<h3><i class="fa fa-bar-chart-o"></i>Forum İstatistikleri</h3>
+	<h3><i class="fa fa-bar-chart-o"></i>Forum Stats</h3>
 	<div class="simplebb-csep"></div>
 	<div class="simplebb-statsbox">
 		<div>Üyelerimiz <strong>{posts-ok}</strong> onaylı konuda toplam <strong>{comments}</strong> yorum yaptılar. Foruma en son <strong>{date}</strong> tarihinde <a href="{url}" title="{title}"><strong>{title}</strong></a> başlıklı konu eklendi.</div>

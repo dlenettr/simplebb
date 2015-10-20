@@ -76,8 +76,6 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 			<search position="after"><![CDATA[include_once (ENGINE_DIR . '/modules/show.full.php');]]></search>
 			<add><![CDATA[
 // SimpleBB - 04
-				include_once (ENGINE_DIR . '/modules/show.forum.php');
-				$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // showfull
 				if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "thread"; }
 // SimpleBB - 04
 ]]></add>
@@ -159,7 +157,7 @@ else if ( isset( $full_link ) ) {
 			$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
 		} else {
 			if ( ! empty( $user['foto'] ) && file_exists( ROOT_DIR . strchr( $user['foto'], "/uploads" ) ) ) {
-				$tpl->result['content'] = str_replace( "{avatar}", $user['foto'] );
+				$tpl->result['content'] = str_replace( "{avatar}", $user['foto'], $tpl->result['content'] );
 			} else {
 				$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
 			}

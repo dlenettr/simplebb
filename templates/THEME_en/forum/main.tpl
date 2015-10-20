@@ -1,5 +1,5 @@
 <div id="simplebb">
-	[forum:main]<h3><i class="fa fa-comments-o"></i>Forumlar</h3>[/forum:main]
+	[forum:main]<h3><i class="fa fa-comments-o"></i>Forums</h3>[/forum:main]
 	[forum:inside]<h3><i class="fa fa-comments-o"></i>{category echo="name"}</h3>[/forum:inside]
 	[depth=1]
 		<!-- Kategorilerin üstü -->
@@ -13,13 +13,13 @@
 					<span>Forum</span>
 				</div>
 				<div class="simplebb-ftarticle">
-					<span>Konu</span>
+					<span>Thread</span>
 				</div>
 				<div class="simplebb-ftcomments">
-					<span>Yorum</span>
+					<span>Comment</span>
 				</div>
 				<div class="simplebb-ftlastmessage">
-					<span>Son Mesaj</span>
+					<span>Last Message</span>
 				</div>
 				<div class="clr"></div>
 			</div>
@@ -47,7 +47,7 @@
 						<span><i class="fa fa-calendar"></i>{lastpost-date}</span>
 						[/lastpost]
 						[not-lastpost]
-							<span>Henüz Mesaj Yok</span>
+							<span>Not posted yet</span>
 						[/not-lastpost]
 					</div>
 					<div class="clr"></div>
@@ -60,6 +60,18 @@
 	[/depth=1]
 
 	[depth=2]
+		<!-- Alt Forumlar -->
+		[sub-forums]
+		<div class="simplebb-subforums">
+			<h3><i class="fa fa-share-square-o"></i> Sub Forums</h3>
+			<div class="simplebb-csep"></div>
+			<ul class="simplebb-subforum-list">
+				{subforums}
+			</ul>
+			<div class="clr"></div>
+		</div>
+		[/sub-forums]
+
 		<!-- Kategori Konu listesi -->
 		<div class="simplebb-category">
 			<h3><i class="fa fa-share-square-o"></i>{category echo="name"}</h3>
@@ -67,16 +79,16 @@
 			<div class="simplebb-ttitlebar">
 				<div class="simplebb-tticon"></div>
 				<div class="simplebb-ttname">
-					<span>Konu</span>
+					<span>Thread</span>
 				</div>
 				<div class="simplebb-ttarticle">
-					<span>Gösterim</span>
+					<span>Views</span>
 				</div>
 				<div class="simplebb-ttcomments">
-					<span>Yorum</span>
+					<span>Comment</span>
 				</div>
 				<div class="simplebb-ttlastmessage">
-					<span>Son Mesaj</span>
+					<span>Last Post</span>
 				</div>
 				<div class="clr"></div>
 			</div>
@@ -98,16 +110,16 @@
 			<div class="simplebb-ttitlebar">
 				<div class="simplebb-tticon"></div>
 				<div class="simplebb-ttname">
-					<span>Konu</span>
+					<span>Thread</span>
 				</div>
 				<div class="simplebb-ttarticle">
-					<span>Gösterim</span>
+					<span>View</span>
 				</div>
 				<div class="simplebb-ttcomments">
-					<span>Yorum</span>
+					<span>Comment</span>
 				</div>
 				<div class="simplebb-ttlastmessage">
-					<span>Son Mesaj</span>
+					<span>Last Post</span>
 				</div>
 				<div class="clr"></div>
 			</div>

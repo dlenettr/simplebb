@@ -60,6 +60,18 @@
 	[/depth=1]
 
 	[depth=2]
+		<!-- Alt Forumlar -->
+		[sub-forums]
+		<div class="simplebb-subforums">
+			<h3><i class="fa fa-share-square-o"></i> Alt Forumlar</h3>
+			<div class="simplebb-csep"></div>
+			<ul class="simplebb-subforum-list">
+				{subforums}
+			</ul>
+			<div class="clr"></div>
+		</div>
+		[/sub-forums]
+
 		<!-- Список категорий. Начало -->
 		<div class="simplebb-category">
 			<h3><i class="fa fa-share-square-o"></i>{category echo="name"}</h3>

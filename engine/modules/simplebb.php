@@ -19,6 +19,7 @@ if ( $dle_module == "main" ) $forum_where = "";
 if ( $forum_compile == "before" ) {
 
 	$tpl->set( "{count_all}", $count_all );
+
 	if ( $dle_module == "showfull" ) { preg_match("/<meta property=\"og:title\" content=\"(.*?)\" \/>/", $metatags, $title ); $tpl->set ( '{page-title}', $title[1][0] ); } else { $tpl->set ( '{page-title}', $nam_e ); }
 
 	$forum_main_tpl = file_get_contents( ROOT_DIR . "/templates/" . $config['skin'] . "/forum/main.tpl" );
@@ -41,10 +42,16 @@ if ( $forum_compile == "before" ) {
 			$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
 			foreach ( $subcats as $cid ) {
 				$parent = $cat_info[ $cat_info[ $cid ]['parentid'] ];
-				$_furl = ( $config['allow_alt_url'] == "1" ) ? $cat_info[ $sbbsett['id'] ]['alt_name'] . "/" . $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
-				$subforums .= "<li><a href=\"http://{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
+				if ( $sbbsett['use_subdomain'] ) {
+					$_furl = ( $config['allow_alt_url'] == "1" ) ? $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
+					$subforums .= "<li><a href=\"http://{$cat_info[ $sbbsett['id'] ]['alt_name']}.{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
+				} else {
+					$_furl = ( $config['allow_alt_url'] == "1" ) ? $cat_info[ $sbbsett['id'] ]['alt_name'] . "/" . $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
+					$subforums .= "<li><a href=\"{$config['http_home_url']}{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
+				}
+
 				if ( $sbbsett['show_subcount'] ) {
-					$subforums .= " <span>( " . $subcounts[$cid] . " )</span></li>";
+					$subforums .= " <span>( " . intval( $subcounts[$cid] ) . " )</span></li>";
 				} else { $subforums .= "</li>"; }
 			}
 			$forum_main_tpl = str_replace( "{subforums}", $subforums, $forum_main_tpl );
@@ -67,6 +74,7 @@ if ( $forum_compile == "before" ) {
 		$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "$1", $forum_main_tpl );
 		$forum_main_tpl = str_replace( "{post.tpl}", $tpl->result['content'], $forum_main_tpl );
 	}
+
 	if ( in_array( $forum_where, array( "cat", "forum", "thread" ) ) ) {
 		$tpl->result['content'] = str_replace( "{content}", $tpl->result['content'], $forum_main_tpl );
 	}

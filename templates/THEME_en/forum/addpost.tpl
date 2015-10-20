@@ -1,14 +1,14 @@
 <div id="simplebb-addnews">
-	<h3><i class="fa fa-folder-open"></i>Seçilen Kategori: '{selected-cat}'</h3>
+	<h3><i class="fa fa-folder-open"></i>Selected Category: '{selected-cat}'</h3>
 	<div class="simplebb-addcont">
 		<div class="simplebb-add">
 			<div class="simplebb-addtitle">
-				<label for="title"><i class="fa fa-question-circle"></i>Konu Başlığı</label><span><button title="Makalenizi oluşturmadan önce konu başlığınız ile benzer makale olup olmadığını kontrol edin" class="simplebb-btn simplebb-btnsml" onclick="find_relates(); return false;"><i class="fa fa-info"></i>Benzer Konuları Göster</button></span>
+				<label for="title"><i class="fa fa-question-circle"></i>Thread Title</label><span><button title="Check same thread before adding" class="simplebb-btn simplebb-btnsml" onclick="find_relates(); return false;"><i class="fa fa-info"></i>Show Same Threads</button></span>
 				<div class="clr"></div>
 				<input type="text" id="title" name="title" value="{title}" maxlength="200" />
 			</div>[urltag]
 			<div class="simplebb-addurl">
-				<label for="alt_name"><i class="fa fa-question-circle"></i>URL Adresi</label>
+				<label for="alt_name"><i class="fa fa-question-circle"></i>URL Address</label>
 				<div class="clr"></div>
 				<input type="text" id="alt_name" name="alt_name" value="{alt-name}" maxlength="150" />
 			</div>[/urltag]
@@ -16,7 +16,7 @@
 			<div id="related_news"></div>
 		</div>
 		<div class="simplebb-add">
-			<h3><i class="fa fa-question-circle"></i>Konu içeriği:</h3>[not-wysywyg]
+			<h3><i class="fa fa-question-circle"></i>Thread Content:</h3>[not-wysywyg]
 			<div class="bb-editor">
 				{bbcode}
 				<textarea name="full_story" id="full_story" onfocus="setFieldName(this.name)" rows="20" class="f_textarea" >{full-story}</textarea>
@@ -30,7 +30,7 @@
 		</div>
 		<div class="simplebb-add">
 			<div>
-				<label for="tags"><i class="fa fa-question-circle"></i>Etiketler</label>
+				<label for="tags"><i class="fa fa-question-circle"></i>Tags</label>
 				<div class="clr"></div>
 				<input type="text" name="tags" id="tags" value="{tags}" maxlength="150" autocomplete="on" />
 			</div>
@@ -39,7 +39,7 @@
 			[question]
 			<tr>
 				<td class="label">
-					Soru:
+					Question:
 				</td>
 				<td>
 					<div>{question}</div>
@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td class="label">
-					Cevabınız:<span class="impot">*</span>
+					Answer:<span class="impot">*</span>
 				</td>
 				<td>
 					<div><input type="text" name="question_answer" class="f_input" /></div>
@@ -57,7 +57,7 @@
 			[sec_code]
 			<tr>
 				<td class="label">
-					Resimdeki kodu<br />girin:<span class="impot">*</span>
+					Enter code<br />on picture:<span class="impot">*</span>
 				</td>
 				<td>
 					<div>{sec_code}</div>
@@ -68,7 +68,7 @@
 			[recaptcha]
 			<tr>
 				<td class="label">
-					Resimde görünen,<br />iki kelimeyi girin:<span class="impot">*</span>
+					Enter two words,<br />on picture:<span class="impot">*</span>
 				</td>
 				<td>
 					<div>{recaptcha}</div>
@@ -81,7 +81,7 @@
 		</table>
 	</div>
 	<div class="simplebb-addbtn">
-		<button name="add" class="simplebb-btn simplebb-btnbig" type="submit"><span><i class="fa fa-sign-in"></i>Gönder</span></button>
-		<button name="nview" onclick="preview()" class="simplebb-btn simplebb-btnbig" type="submit"><span><i class="fa fa-eye"></i>Göster</span></button>
+		<button name="add" class="simplebb-btn simplebb-btnbig" type="submit"><span><i class="fa fa-sign-in"></i>Submit</span></button>
+		<button name="nview" onclick="preview()" class="simplebb-btn simplebb-btnbig" type="submit"><span><i class="fa fa-eye"></i>Preview</span></button>
 	</div>
 </div>
