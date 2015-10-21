@@ -145,7 +145,7 @@ class SimpleBB {
 		$template = str_replace( "[/link]", "</a>", $template );
 		$template = str_replace( "{metatitle}", $_forum['metatitle'], $template );
 		$template = str_replace( "{icon}", ( empty( $_forum['icon'] ) ) ? "envelope" : $_forum['icon'], $template );
-		$template = str_replace( "{desc}", $forum['descr'], $template );
+		$template = str_replace( "{desc}", $_forum['descr'], $template );
 		$template = str_replace( "{posts}", intval( $forum['posts'] ), $template );
 		$template = str_replace( "{comments}", intval( $_forum['comm'] ), $template );
 		if ( empty( $forum['lastposter'] ) ) {
