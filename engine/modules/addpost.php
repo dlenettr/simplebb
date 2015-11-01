@@ -238,18 +238,17 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 				$sec_code = 1;
 				$sec_code_session = false;
 	
-				if ($_POST["recaptcha_response_field"] AND $_POST["recaptcha_response_field"]) {
+				if ($_POST['g-recaptcha-response']) {
 				
-					$resp = recaptcha_check_answer ($config['recaptcha_private_key'],
-				                                     $_SERVER["REMOTE_ADDR"],
-				                                     $_POST["recaptcha_challenge_field"],
-				                                     $_POST["recaptcha_response_field"]);
+					$reCaptcha = new ReCaptcha($config['recaptcha_private_key']);
+
+					$resp = $reCaptcha->verifyResponse(get_ip(), $_POST['g-recaptcha-response'] );
 				
-				        if (!$resp->is_valid) {
+				    if ($resp === null OR !$resp->success) {
 	
 							$stop .= "<li>" . $lang['news_err_30'] . "</li>";
 	
-				        }
+				    }
 	
 				} else $stop .= "<li>" . $lang['news_err_30'] . "</li>";
 	
@@ -371,7 +370,7 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 			} else {
 
 				if ( $max_detected ) die( "Hacking attempt!" );
-				$added_time = time() + ($config['date_adjust'] * 60);
+				$added_time = time();
 				$thistime = date( "Y-m-d H:i:s", $added_time );
 				$approve = ( $config['forum_use_app'] ) ? "0" : "1";
 
@@ -414,13 +413,13 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 				if( ! $approve and $config['mail_news'] ) {
 					
 					include_once ENGINE_DIR . '/classes/mail.class.php';
-					$mail = new dle_mail( $config );
 					
-					$row = $db->super_query( "SELECT template FROM " . PREFIX . "_email WHERE name='new_news' LIMIT 0,1" );
+					$row = $db->super_query( "SELECT * FROM " . PREFIX . "_email WHERE name='new_news' LIMIT 0,1" );
+					$mail = new dle_mail( $config, $row['use_html'] );
 					
 					$row['template'] = stripslashes( $row['template'] );
 					$row['template'] = str_replace( "{%username%}", $member_id['name'], $row['template'] );
-					$row['template'] = str_replace( "{%date%}", langdate( "j F Y H:i", $added_time ), $row['template'] );
+					$row['template'] = str_replace( "{%date%}", langdate( "j F Y H:i", $added_time, true ), $row['template'] );
 					$row['template'] = str_replace( "{%title%}", stripslashes( stripslashes( $title ) ), $row['template'] );
 					
 					$category_list = explode( ",", $category_list );
@@ -453,7 +452,8 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 			
 			if( $approve ) {
 
-				clear_cache( array('news_', 'forum_', 'tagscloud_', 'topnews_', 'rss') );
+				clear_cache( array('news_', 'forum_', 'related_', 'tagscloud_', 'archives_', 'calendar_', 'topnews_', 'rss', 'stats') );
+
 
 			}
 		
@@ -504,7 +504,7 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 		$found = false;
 		
 		if( $id ) {
-			$row = $db->super_query( "SELECT * FROM " . PREFIX . "_post LEFT JOIN " . PREFIX . "_post_extras ON (" . PREFIX . "_post.id=" . PREFIX . "_post_extras.news_id) WHERE id = '{$id}' and approve = '0'" );
+			$row = $db->super_query( "SELECT * FROM " . PREFIX . "_post LEFT JOIN " . PREFIX . "_post_extras ON (" . PREFIX . "_post.id=" . PREFIX . "_post_extras.news_id) WHERE id = '{$id}' AND approve = '0'" );
 			if( $id == $row['id'] and ($member_id['name'] == $row['autor'] or $user_group[$member_id['user_group']]['allow_all_edit']) ) $found = true;
 			else $found = false;
 		}
@@ -539,6 +539,12 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 				$tpl->set( '{frage}', $poll['frage'] );
 				$tpl->set( '{votebody}', $poll['body'] );
 				$tpl->set( '{allowmvote}', $poll['multiple'] );
+
+			} else {
+				$tpl->set( '{votetitle}', '' );
+				$tpl->set( '{frage}', '' );
+				$tpl->set( '{votebody}', '' );
+				$tpl->set( '{allowmvote}', '' );
 			}
 		
 		} else {
@@ -572,11 +578,11 @@ HTML;
 		
 		if( $config['allow_multi_category'] ) {
 			
-			$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:1070px;height:140px;\" multiple=\"multiple\">";
+			$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:350px;height:140px;\" multiple=\"multiple\">";
 		
 		} else {
 			
-			$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:1070px;\">";
+			$cats = "<select data-placeholder=\"{$lang['addnews_cat_sel']}\" name=\"catlist[]\" id=\"category\" onchange=\"onCategoryChange(this)\" style=\"width:350px;\">";
 		}
 		
 		$cats .= $categories_list;
@@ -746,7 +752,7 @@ function preview(){";
 
 		ShowLoading('');
 
-		$.post( dle_root + 'engine/ajax/find_relates.php', { title: title, mode: 1 }, function(data){
+		$.post('engine/ajax/find_relates.php', { title: title, mode: 1 }, function(data){
 	
 			HideLoading('');
 	
