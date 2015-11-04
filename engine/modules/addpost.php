@@ -666,17 +666,20 @@ HTML;
 				$tpl->set( '[recaptcha]', "" );
 				$tpl->set( '[/recaptcha]', "" );
 
-				$tpl->set( '{recaptcha}', '
+				if ( $config['version_id'] < "10.6" ) {
+					$tpl->set( '{recaptcha}', '
 <script type="text/javascript">
 <!--
 	var RecaptchaOptions = {
         theme: \''.$config['recaptcha_theme'].'\',
         lang: \''.$lang['wysiwyg_language'].'\'
 	};
-
 //-->
 </script>
 <script type="text/javascript" src="//www.google.com/recaptcha/api/challenge?k='.$config['recaptcha_public_key'].'"></script>' );
+				} else {
+					$tpl->set( '{recaptcha}', "<div class=\"g-recaptcha\" data-sitekey=\"{$config['recaptcha_public_key']}\" data-theme=\"{$config['recaptcha_theme']}\"></div><script src='https://www.google.com/recaptcha/api.js?hl={$lang['wysiwyg_language']}'></script>" );
+				}
 
 				$tpl->set_block( "'\\[sec_code\\](.*?)\\[/sec_code\\]'si", "" );
 				$tpl->set( '{reg_code}', "" );
