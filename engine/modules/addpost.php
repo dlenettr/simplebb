@@ -372,7 +372,6 @@ if( ! $allow_addnews || ! in_array( $sel_cat, $forum->get_forums() ) ) {
 				if ( $max_detected ) die( "Hacking attempt!" );
 				$added_time = time();
 				$thistime = date( "Y-m-d H:i:s", $added_time );
-				$approve = ( $config['forum_use_app'] ) ? "0" : "1";
 
 				$db->query( "INSERT INTO " . PREFIX . "_post (date, autor, short_story, full_story, xfields, title, keywords, category, alt_name, allow_comm, approve, allow_main, fixed, allow_br, symbol, tags) values ('$thistime', '{$member_id['name']}', '$short_story', '$full_story', '$filecontents', '$title', '', '$category_list', '$alt_name', '$allow_comm', '$approve', '$allow_main', '$news_fixed', '$allow_br', '$catalog_url', '" . $_POST['tags'] . "')" );
 				
