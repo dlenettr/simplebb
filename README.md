@@ -8,7 +8,7 @@ simplebb v2.1 for DLE ( DataLife Engine )
 * Tarih  : 20.10.2015
 * Lisans : MIT License
 * DLE    : 10.6, 10.5
-* Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] ), Francais ( [Bashu] )
+* Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] ), French ( [Bashu] )
 
 
 Genel Açıklamalar :
