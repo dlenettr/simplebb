@@ -1,0 +1,49 @@
+<?php
+/*
+-------------------------------------------
+ Traduit par  : Bashu
+ Team : DEF - Datalife Engine France
+ Site        : http://dle-france.fr
+-------------------------------------------
+*/
+
+$lang = array_merge( $lang, array(
+
+// SimpleBB
+'sbb_a_0'		=>	"Simple BB Forum traduit en Français pour DLE par dle-france.fr.",
+'sbb_a_1'		=>	"Réglage du forum",
+'sbb_a_2'		=>	"Forum en sous domaine",
+'sbb_a_3'		=>	"Si vous souhaitez exécuter votre forum en tant que sous-domaines, il faut activer ce paramètre.",
+'sbb_a_6'		=>	"Limite de caractères pour les titres",
+'sbb_a_7'		=>	"Les titres seront abrégés selon les limites saisies.",
+'sbb_a_8'		=>	"Limite de caractères pour le dernier message",
+'sbb_a_9'		=>	"Limite des caractères dans la statistique",
+'sbb_a_10'		=>	"Voir les annonces",
+'sbb_a_11'		=>	"Active le code des annonces publicitaires dans le forum. <br>Vos annonces peuvent également être utiliser dans le forum en page d'accueil.",
+'sbb_a_14'		=>	"-- Choisir une catégorie --",
+'sbb_a_15'		=>	"Désignation de la catégorie qui fait office de forum principal",
+'sbb_a_16'		=>	"Les principales catégories sont affichés uniquement. <br>Sélectionnez la catégorie que vous souhaitez utiliser pour le forum.",
+'sbb_a_17'		=>	"Activez les approbations des sujets, pour faire une vérification",
+'sbb_a_18'		=>	"Si vous voulez que le modérateur donne son approbation aux sujets ajoutées.",
+'sbb_a_19'		=>	"Template personnalisé pour afficher les commentaire",
+'sbb_a_21'		=>	" Template personnalisé pour ajouter des commentaires",
+'sbb_a_22'		=>	"Entrez le nom du fichier tpl, sans le suffixe .tpl</b>",
+'sbb_a_23'		=>	"Afficher les sous-forums",
+'sbb_a_24'		=>	"Affiche les sous-forums dans la catégorie.",
+'sbb_a_25'		=>	"Affichage du nombre de réponse dans le sous-forum",
+'sbb_a_26'		=>	"Si l'option ci-dessus est actif, le numéro sera affiché dans les sous-forumss ajoutés à la liste des sujets trouvés.",
+'sbb_a_27'		=>	"Fichier modèle personnalisé pour la liste des sujets",
+'sbb_a_28'		=>	"Fichier modèle personnalisé pour l'objet",
+// SimpleBB
+
+
+// SimpleBB
+'sbb_s_0'		=>	"Vous ne pouvez pas visualiser cette section.",
+'sbb_s_1'		=>	"Sujet démarré sur les forums spécifiés",
+'sbb_s_2'		=>	"Une erreur est survenue",
+'sbb_s_3'		=>	"Ne postez pas de discussions dans cette catégorie.",
+// SimpleBB
+
+));
+
+?>
