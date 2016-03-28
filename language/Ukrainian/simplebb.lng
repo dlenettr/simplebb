@@ -1,8 +1,8 @@
 <?php
 /*
 -------------------------------------------
- Translator  : Corsair
- Site        : http://webexpert.in.ua
+ Translator  : WEBEXPERT STUDIO
+ Site        : http://webexpert.pp.ua
 -------------------------------------------
 */
 
@@ -22,15 +22,17 @@ $lang = array_merge( $lang, array(
 'sbb_a_14'		=>	"-- Оберіть категорію --",
 'sbb_a_15'		=>	"Категорія вашого форуму",
 'sbb_a_16'		=>	"Тільки основні категорії показані. Виберіть категорію, яку ви хочете використовувати в якості форуму.",
-'sbb_a_17'		=>	"Use confirmation for new threads",
-'sbb_a_18'		=>	"If you don't want to see new threads directly without moderator confirmation. You can activate this option",
-'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
-'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
-'sbb_a_22'		=>	"Dosya adını <b>.tpl soneki olmadan yazınız.</b>",
-'sbb_a_23'		=>	"Alt forumları göster",
-'sbb_a_24'		=>	"Kategori sayfasına girildiğinde, o kategoriye ait tüm alt forumları gösterir",
-'sbb_a_25'		=>	"Alt forumlardaki konu sayısını göster",
-'sbb_a_26'		=>	"Eğer üstteki ayar aktif ise, görüntülenen alt forumlarda kaç konu bulunduğu da listeye eklenir.",
+'sbb_a_17'		=>	"Відправляти нові теми на попередню модерацію",
+'sbb_a_18'		=>	"Увімкніть цю опцію, якщо ви бажаєте, щоб усі новостворені теми проходили попередню перевірку.",
+'sbb_a_19'		=>	"Файл шаблону для відображення коментарів",
+'sbb_a_21'		=>	"Файл шаблону для додавання коментарів",
+'sbb_a_22'		=>	"Введіть назву файлу без суфіксу <b>.tpl</b>",
+'sbb_a_23'		=>	"Показати підфоруми",
+'sbb_a_24'		=>	"Відображення на сторінці категорії всіх підфорумів даної категорії",
+'sbb_a_25'		=>	"Показує кількість тем в підфорумах",
+'sbb_a_26'		=>	"Якщо дана опція активна, то відображатиметься також список тем для кожного підфоруму.",
+'sbb_a_27'		=>	"Файл шаблону списку розділів",
+'sbb_a_28'		=>	"Файл шаблону для вмісту теми",
 // SimpleBB
 
 
@@ -38,7 +40,7 @@ $lang = array_merge( $lang, array(
 'sbb_s_0'		=>	"Ви не маєте доступу для перегляду цього розділу.",
 'sbb_s_1'		=>	"Тему створено у відповідному розділі форуму.",
 'sbb_s_2'		=>	"Виникла помилка",
-'sbb_s_3'		=>	"Bu kategoriye konu açamazsanız.",
+'sbb_s_3'		=>	"Не створюйте теми в цій категорії.",
 // SimpleBB
 
 ));
