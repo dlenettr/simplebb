@@ -1,8 +1,8 @@
 <?php
 /*
 -------------------------------------------
- Translator  : mrB4el
- Site        : http://www.minezone.pro
+ Translators : mrB4el (http://www.minezone.pro)
+               Corsair (http://webexpert.pp.ua)
 -------------------------------------------
 */
 
@@ -24,13 +24,15 @@ $lang = array_merge( $lang, array(
 'sbb_a_16'		=>	"Выбранная вами категория сайта будет использована в качестве корневой для форума.",
 'sbb_a_17'		=>	"Включить предмодерацию новых тем",
 'sbb_a_18'		=>	"Если вам требуется ручная предмодерация всех создаваемых тем, включите данную настройку",
-'sbb_a_19'		=>	"Yorum gösterimi için özel şablon dosyası",
-'sbb_a_21'		=>	"Yorum eklemek için özel şablon dosyası",
-'sbb_a_22'		=>	"Dosya adını <b>.tpl soneki olmadan yazınız.</b>",
-'sbb_a_23'		=>	"Alt forumları göster",
-'sbb_a_24'		=>	"Kategori sayfasına girildiğinde, o kategoriye ait tüm alt forumları gösterir",
-'sbb_a_25'		=>	"Alt forumlardaki konu sayısını göster",
-'sbb_a_26'		=>	"Eğer üstteki ayar aktif ise, görüntülenen alt forumlarda kaç konu bulunduğu da listeye eklenir.",
+'sbb_a_19'		=>	"Файл шаблона для отображения комментариев",
+'sbb_a_21'		=>	"Файл шаблона для добавления комментариев",
+'sbb_a_22'		=>	"Введите имя файла без суффикса <b>.tpl</b>",
+'sbb_a_23'		=>	"Показать подфорумы",
+'sbb_a_24'		=>	"Отображение на странице категории всех подфорумов данной категории",
+'sbb_a_25'		=>	"Показывает количество тем в подфорумах",
+'sbb_a_26'		=>	"Если включено, будет отображаться также список тем для каждого подфорума.",
+'sbb_a_27'		=>	"Файл шаблона списка разделов",
+'sbb_a_28'		=>	"Файл шаблона для содержания темы",
 // SimpleBB
 
 
@@ -38,7 +40,7 @@ $lang = array_merge( $lang, array(
 'sbb_s_0'		=>	"Вы не имеете доступа для просмотра этого раздела.",
 'sbb_s_1'		=>	"Тема создана в соответствующем разделе форума.",
 'sbb_s_2'		=>	"Произошла ошибка",
-'sbb_s_3'		=>	"Bu kategoriye konu açamazsanız.",
+'sbb_s_3'		=>	"Не создавайте темы в этой категории.",
 // SimpleBB
 
 ));
