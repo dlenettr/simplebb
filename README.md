@@ -217,7 +217,7 @@ Tarihçe
 [Mehmet Hanoğlu]:https://github.com/marzochi
 [DLEStarter]:http://dlestarter.com
 [mrB4el]:http://www.minezone.pro/
-[Corsair]:http://webexpert.in.ua/
+[Corsair]:http://webexpert.pp.ua/
 [Bashu]:http://dle-france.fr/
 [Ekran Görüntüsü: Ayarlar]:http://dle.net.tr/uploads/posts/1406114470_settings.png
 [Ekran Görüntüsü: Forum Bilgileri]:http://dle.net.tr/uploads/posts/1406113700_forum.png
