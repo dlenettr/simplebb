@@ -25,6 +25,7 @@
 					<textarea name="full_story" id="full_story" onfocus="setFieldName(this.name)" rows="20" class="f_textarea" >{full-story}</textarea>
 				</div>
 			[/not-wysywyg]
+			<div id="short" style="display: none">{shortarea}</div>
 			{fullarea}
 		</div>
 		<div class="simplebb-add">

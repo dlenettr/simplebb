@@ -1,9 +1,9 @@
 <?php
 /*
 =============================================
- Name      : MWS SimpleBB v2.1
+ Name      : MWS SimpleBB v2.2
  Author    : Mehmet Hanoğlu ( MaRZoCHi )
- Site      : http://dle.net.tr/   (c) 2015
+ Site      : http://dle.net.tr/   (c) 2017
  License   : MIT License
 =============================================
 */
@@ -35,7 +35,7 @@ $Turkish = array ( 'm01' => "Kuruluma Başla", 'm02' => "Yükle", 'm03' => "Kald
 $English = array ( 'm01' => "Start Installation", 'm02' => "Install", 'm03' => "Uninstall", 'm04' => "Author", 'm05' => "Release Date", 'm06' => "Module Page", 'm07' => "Support Forum", 'm08' => "Installation Finished", 'm10' => "delete this file to finish installation", 'm11' => "Module Uninstalled", 'm21' => "Back up your database before starting the installation for possible errors", 'm22' => "If you are sure that everything is okay, ", 'm23' => "click button.", 'm24' => "Upgrade", 'm25' => "Site", 'm26' => "Translation", 'm27' => "Error", 'm28' => "This module not compatible with your DLE.", 'm29' => "You can ask for compatible version from here" );
 $Russian = array ( 'm01' => "Начало установки", 'm02' => "Установить", 'm03' => "Удалить", 'm04' => "Автор", 'm05' => "Дата выпуска", 'm06' => "Страница модуля", 'm07' => "Форум поддержки", 'm08' => "Установка завершена", 'm10' => "удалите этот файл для окончания установки", 'm11' => "Модуль удален", 'm21' => "Сделайте резервное копирование базы данных для избежания возможных ошибок", 'm22' => "Если вы уверены что всё в порядке, ", 'm23' => "нажмите кнопку.", 'm24' => "Обновить", 'm25' => "сайт", 'm26' => "перевод", 'm27' => "Ошибка", 'm28' => "Этот модуль не совместим с вашей версией DLE.", 'm29' => "Вы можете сделать запрос относительно совместимой версии отсюда" );
 $Ukrainian = array ( 'm01' => "Початок встановлення", 'm02' => "Встановити", 'm03' => "Видалити", 'm04' => "Автор", 'm05' => "Дата релізу", 'm06' => "Сторінка модуля", 'm07' => "Форум підтримки", 'm08' => "Встановлення завершено", 'm10' => "Видаліть цей файл, щоб завершити встановлення", 'm11' => "Модуль деінстальовано", 'm21' => "Зробіть резервне копіювання бази даних для уникнення можливих помилок", 'm22' => "Якщо ви впевнені що все гаразд, ", 'm23' => "натисніть кнопку.", 'm24' => "Оновити", 'm25' => "Сайт", 'm26' => "Переклад", 'm27' => "Помилка", 'm28' => "Цей модуль не сумісний з вашою версією DLE.", 'm29' => "Ви можете зробити запит щодо сумісної версії звідси" );
-$lang = array_merge( $lang, $$config['langs'] );
+$lang = array_merge( $lang, ${$config['langs']} );
 
 function mainTable_head( $title ) {
 	echo <<< HTML
@@ -50,11 +50,11 @@ HTML;
 }
 
 $module = array(
-	'name'		=> "MWS SimpleBB v2.1",
+	'name'		=> "MWS SimpleBB v2.2",
 	'desc'		=> $lang['sbb_a_0'],
 	'id'		=> "simplebb",
 	'icon'		=> "simplebb.png",
-	'date'		=> "20.10.2015",
+	'date'		=> "10.02.2017",
 	'ifile'		=> "install_module.php",
 	'link'		=> "http://dle.net.tr",
 	'image'		=> "http://img.dle.net.tr/mws/simple_bb2.png",
@@ -78,7 +78,7 @@ if ( $is_logged && $member_id['user_group'] == "1" ) {
 		$mod->backup = True;
 		$mod->bootup( $path = ROOT_DIR, $logging = True );
 		if ( $config['version_id'] >= "10.5" ) {
-			$mod->file( ROOT_DIR. "/install/xml/simplebb_105.xml" );
+			$mod->file( ROOT_DIR. "/install/xml/simplebb_112.xml" );
 		} else {
 			mainTable_head( $lang['m27'] );
 			echo "<div style=\"padding:10px; background: #990000; color: #fff;\">{$lang['m28']}<br />{$lang['m29']} :<br /><br /><i>http://dle.net.tr</i></div>";

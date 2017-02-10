@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<id>SimpleBB</id>
-	<version>2.1</version>
+	<version>2.2</version>
 	<vqmver>2.4.1</vqmver>
 	<author>MaRZoCHi</author>
 	<file name="engine/classes/google.class.php">
@@ -66,7 +66,7 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 			include_once (ENGINE_DIR . '/modules/show.forum.php');
 			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
 			if ( $category_id == $sbbsett['id'] ) { $forum_where = "main"; }
-			else if ( in_array( $category_id, $forum->get_cats() ) ) { $forum_where = "cat"; } 
+			else if ( in_array( $category_id, $forum->get_cats() ) ) { $forum_where = "cat"; }
 			else if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "forum"; }
 // SimpleBB - 03
 ]]></add>
@@ -312,9 +312,109 @@ RewriteRule ^addpost/([0-9]+)(/?)$ index.php?do=addpost&cat=$1 [L]
 			<add><![CDATA[
 // SimpleBB - 20
 if ( isset( $forum ) ) {
-	$tpl->copy_template = str_replace( "{forum-cats}", implode( ",", $forum->get_forums() ), $tpl->copy_template );
+	$tpl->copy_template = str_replace( "{forum-forums}", implode( ",", $forum->get_forums() ), $tpl->copy_template );
+	$tpl->copy_template = str_replace( "{forum-cats}", implode( ",", $forum->get_cats() ), $tpl->copy_template );
+	$tpl->copy_template = str_replace( "{forum-all}", implode( ",", $forum->get_all() ), $tpl->copy_template );
 }
 // SimpleBB - 20
+]]></add>
+		</operation>
+	</file>
+
+	<file name="engine/modules/addpost.php">
+		<operation>
+			<ignoreif><![CDATA['forum_']]></ignoreif>
+			<search position="replace"><![CDATA['news_', 'related_', 'tagscloud_']]></search>
+			<add><![CDATA['news_', 'forum_', 'related_', 'tagscloud_']]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[if ( $approve ) { msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">{$lang['add_noch']}</a> {$lang['add_or']} <a href=\"{$back_url}\">{$lang['all_prev']}</a>" ); }]]></ignoreif>
+			<search position="replace"><![CDATA[if( $config['allow_alt_url'] ) msgbox( $lang['add_ok'], "{$msg} <a href=\"{$config['http_home_url']}" . "addnews.html\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );]]></search>
+			<add><![CDATA[
+//SimpleBB - Start
+			$addn_link = ( $config['allow_alt_url'] ) ? $config['http_home_url'] . "addpost/" . $sel_cat . "/" : $PHP_SELF . "?do=addpost&cat=" . $sel_cat;
+			$back_url = ( ! empty( $_SESSION['referrer'] ) ) ? $_SESSION['referrer'] : $config['http_home_url'];
+			if ( $approve ) { msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">{$lang['add_noch']}</a> {$lang['add_or']} <a href=\"{$back_url}\">{$lang['all_prev']}</a>" ); }
+// SimpleBB - End
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[else { msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">{$lang['add_noch']}</a> {$lang['add_or']} <a href=\"{$back_url}\">{$lang['all_prev']}</a>" ); }]]></ignoreif>
+			<search position="replace"><![CDATA[else msgbox( $lang['add_ok'], "{$msg} <a href=\"$PHP_SELF?do=addnews\">$lang[add_noch]</a> $lang[add_or] <a href=\"{$config['http_home_url']}\">$lang[all_prev]</a>" );]]></search>
+			<add><![CDATA[
+//SimpleBB - Start
+			else { msgbox( $lang['add_ok'], "{$msg} <a href=\"{$addn_link}\">{$lang['add_noch']}</a> {$lang['add_or']} <a href=\"{$back_url}\">{$lang['all_prev']}</a>" ); }
+// SimpleBB - End
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[forum/addpost.tpl]]></ignoreif>
+			<search position="replace"><![CDATA[$tpl->load_template( 'addnews.tpl' );]]></search>
+			<add><![CDATA[$tpl->load_template( 'forum/addpost.tpl' );]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[include ENGINE_DIR . '/data/simplebb.conf.php';]]></ignoreif>
+			<search position="before"><![CDATA[include_once ENGINE_DIR . '/classes/parse.class.php';]]></search>
+			<add><![CDATA[
+// SimpleBB - start
+include ENGINE_DIR . '/data/simplebb.conf.php';
+require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
+if ( ! isset( $_REQUEST['cat'] ) ) {
+	msgbox( $lang['sbb_s_2'], $lang['sbb_s_1'] . " <a href=\"{$config['http_home_url']}\">{$lang['all_prev']}</a>" );
+	return;
+}
+$sel_cat = intval( $db->safesql( $_REQUEST['cat'] ) );
+include_once ENGINE_DIR . '/modules/show.forum.php';
+$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
+// SimpleBB - end
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[if ( ! in_array( $sel_cat, $forum->get_forums() ) ) {]]></ignoreif>
+			<search position="before"><![CDATA[if( ! $allow_addnews ) {]]></search>
+			<add><![CDATA[
+// SimpleBB - start
+if ( ! in_array( $sel_cat, $forum->get_forums() ) ) {
+	msgbox( $lang['sbb_s_2'], $lang['sbb_s_3'] . "<br /><br /><a href=\"javascript:history.go(-1)\">{$lang['all_prev']}</a>" );
+	return;
+}
+// SimpleBB - end
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$approve = ! intval( $sbbsett['use_app'] );]]></ignoreif>
+			<search position="replace"><![CDATA[$approve = intval( $_POST['approve'] );]]></search>
+			<add><![CDATA[
+		// SimpleBB - Start
+		$approve = ! intval( $sbbsett['use_app'] );
+		// SimpleBB - End
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$tpl->set( '{selected-cat}', $cat_info[ $sel_cat ]['name'] );]]></ignoreif>
+			<search position="before"><![CDATA[$xfieldsaction = "categoryfilter";]]></search>
+			<add><![CDATA[
+// SimpleBB - start
+		$tpl->set( '{selected-cat}', $cat_info[ $sel_cat ]['name'] );
+		$tpl->copy_template .= <<< HTML
+<input type="hidden" value="{$sel_cat}" name="sel_cat" id="sel_cat" />
+<script>
+$(document).ready(function() {
+	var obj = $("#sel_cat");
+	onCategoryChange( obj );
+});
+</script>
+HTML;
+// SimpleBB - end
+]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[$category_list = $sel_cat;]]></ignoreif>
+			<search position="replace"><![CDATA[$category_list = $db->safesql( implode( ',', $category_list ) );]]></search>
+			<add><![CDATA[
+//SimpleBB - Start
+		$category_list = $sel_cat;
+// SimpleBB - End
 ]]></add>
 		</operation>
 	</file>

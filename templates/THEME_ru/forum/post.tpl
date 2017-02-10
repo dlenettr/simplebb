@@ -14,6 +14,7 @@
 		</div>
 		<div class="simplebb-tcontent">
 			{full-story}
+			[tags]<div class="simplebb-tags"><b>Etiketler:</b>{tags}</div>[/tags]
 		</div>[not-group=5]
 		<div class="simplebb-tbtn">
 			[edit]<i class="fa fa-pencil-square-o"></i>Редактировать[/edit]

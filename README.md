@@ -1,13 +1,13 @@
-simplebb v2.1 for DLE ( DataLife Engine )
+simplebb v2.2 for DLE ( DataLife Engine )
 ========
 ![simplebb logo][logo]
 
 * Yapımcı: [Mehmet Hanoğlu]
 * Dizayn : [Kadir Hanoğlu]
 * Site   : http://dle.net.tr
-* Tarih  : 20.10.2015
+* Tarih  : 10.02.2017
 * Lisans : MIT License
-* DLE    : 10.6, 10.5
+* DLE    : 11.2, 11.1, 11.0, 10.5+
 * Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] ), French ( [Bashu] )
 
 
@@ -82,15 +82,19 @@ Kurulum
 
 4) Forumun tüm kategorileri ve ayarlamaları tamam ise. Tüm dosyaları sitenize yükleyerek kuruluma geçebilirsiniz.
 
-5) Kurulum için install_module.php dosyasını çalıştırın. Kurulum xml sistemi ile otomatik olarak yapılıyor. Yani tüm dosyalarınız sistem tarafından düzenleniyor ve dosyaların orjinalleri arşivlenerek install/backup/ dizinine kaydediliyor.
+5) engine/modules/ klasöründeki addnews.php dosyasını kopyalayın ve adını addpost.php yaparak aynı dizine atın. ( addnews.php dosyası ile aynı dosya olacak sadece adı farklı olacak )
 
-6) Kurulumdan hemen sonra admin paneline girerek "Sistem Ayarları" na geçiniz. ( [Ekran Görüntüsü: Ayarlar] ) 
+6) Kurulum için install_module.php dosyasını çalıştırın. Kurulum xml sistemi ile otomatik olarak yapılıyor. Yani tüm dosyalarınız sistem tarafından düzenleniyor ve dosyaların orjinalleri arşivlenerek install/backup/ dizinine kaydediliyor.
 
-7) Eğer subdomain kullanacaksanız, ayarı aktifleştirdikten sonra yukarıdaki açıklamalarda bulunan "Subdomain Kullanımı" başlığını okuyup uygulayınız.
+7) Kurulumdan hemen sonra admin paneline girerek "Sistem Ayarları" na geçiniz. ( [Ekran Görüntüsü: Ayarlar] )
 
-8) Sitenizdeki herhangi bir kategoriye eriştiğiniz gibi /forum olarak erişebilirsiniz. ( Forum için hangi url'yi belirediyseniz. [Ekran Görüntüsü: Forum Kategorisi] )
+8) Eğer subdomain kullanacaksanız, ayarı aktifleştirdikten sonra yukarıdaki açıklamalarda bulunan "Subdomain Kullanımı" başlığını okuyup uygulayınız.
 
-9) Temanızda main.tpl dosyasını açarak </head> tagının üstüne aşağıdaki kodu ekleyin
+9) Sitenizdeki herhangi bir kategoriye eriştiğiniz gibi /forum olarak erişebilirsiniz. ( Forum için hangi url'yi belirediyseniz. [Ekran Görüntüsü: Forum Kategorisi] )
+
+10) Temanızda main.tpl dosyasını açarak </head> tagının üstüne aşağıdaki kodu ekleyin
+
+11) Arşivdeki THEME_tr, THEME_ru, THEME_en, ... klasörleri içindeki "forum" klasörünü kullandığınız temaya kopyalayın. Diğer klasörleri silin.
 
 ~~~
 [forum]<link media="screen" href="{THEME}/forum/css/simplebb.css" type="text/css" rel="stylesheet" />[/forum]
@@ -112,6 +116,12 @@ Güncelleme ( v2.0 => v2.1 )
 --------------
 * Normal bir şekilde kurulum yapın.
 
+
+Güncelleme ( v2.1 => v2.2 )
+--------------
+* Eğer default temayı kullanıyorsanız sadece simplebb.css dosyasını güncelleyiniz.
+* addpost.tpl dosyasını güncelleyiniz.
+* engine/modules/ klasöründeki addnews.php dosyanızı kopyalarak addpost.php yapın ve aynı dizine atın, üzerine yazdırın ve sonrasında kurulum yapın.
 
 Kaldırma
 --------------
@@ -143,11 +153,13 @@ Herhangi bir .tpl dosyasında kullanılabilir taglar
 {category echo="name"} : Mevcut kategori adı ( show.short sayfasında çalışmaz )
 {page-title}           : show.full içinde sayfa başlığı ( {title} ) yerine kullanılabilir.
 {count_all}            : Kategori sayfalarında, o kategoriye ait kaç adet makalenin bulunduğunu gösterir
-{lastposter-foto}      : [lastpost] içinde kullanılabilir, son yorum yazan kullanıcının avatar url'si [/lastpost] 
+{lastposter-foto}      : [lastpost] içinde kullanılabilir, son yorum yazan kullanıcının avatar url'si [/lastpost]
 {user-group}           : show.full içinde kullanıcı grubunu temsil eder. Panelden belirlenen stil ile gösterir.
 {avatar}               : show.full içinde kullanıcının avatar urlsini çeker.
 {user-group-icon}      : show.full içinde kullanıcı grup ikonu.
 {forum-cats}           : custom içinde kullanılabilir foruma ait kategori id leri listesi
+{forum-forums}         : custom içinde kullanılabilir foruma ait forumlar id leri listesi ( v2.2 )
+{forum-all}            : custom içinde kullanılabilir foruma ait forumlar ve kategoriler id leri listesi ( v2.2 )
 ~~~
 
 Kullanılan eklentiler: [Eklenti #163], [Eklenti #45], [Eklenti #41], [Eklenti #776], [Eklenti #1316]
@@ -170,6 +182,13 @@ Bilgiler
 Detaylı bilgi : http://forum.dle.net.tr/gelistiriciler/fikirler-ve-projeler/39-simplebb-forum.html
 
 Modül sayfası : http://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-form-simplebb.html
+
+Yenilikler ( 2.2 )
+-----------------------
+* Tasarım yeni sürümler ile uyumlu hale getirildi.
+* Konu ekleme paneli, var olan sürüme uygun olacak şekilde kurulabilir hale getirildi.
+* 11.2 sürüme ile tamamen uyumlu hale getirildi.
+* customcomments çalışabilir hale getirildi.
 
 
 Yenilikler ( 2.1 )
@@ -206,6 +225,7 @@ Yenilikler ( v1.1 )
 
 Tarihçe
 -----------------------
+* 10.02.2017 (v2.2)
 * 20.10.2015 (v2.1)
 * 13.10.2015 (v2.0)
 * 03.10.2014 (v1.1)
