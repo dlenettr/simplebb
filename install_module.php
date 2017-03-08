@@ -29,6 +29,8 @@ require_once ENGINE_DIR . "/classes/mysql.php";
 require_once ENGINE_DIR . "/data/dbconfig.php";
 require_once ENGINE_DIR . "/modules/sitelogin.php";
 
+date_default_timezone_set ( $config['date_adjust'] );
+
 @header( "Content-type: text/html; charset=" . $config['charset'] );
 require_once(ROOT_DIR."/language/".$config['langs']."/adminpanel.lng");
 require_once(ROOT_DIR."/language/".$config['langs']."/simplebb.lng");
