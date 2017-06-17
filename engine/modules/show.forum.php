@@ -34,7 +34,7 @@ class SimpleBB {
 	private $comments = array();
 	public $bbname = "";
 
-	public function SimpleBB( &$config, &$db, &$tpl, &$cat_info, &$user_groups, &$member_id ) {
+	public function __construct( &$config, &$db, &$tpl, &$cat_info, &$user_groups, &$member_id ) {
 		include ENGINE_DIR . "/data/simplebb.conf.php";
 		$this->config = $config;
 		$this->sett = $sbbsett;
