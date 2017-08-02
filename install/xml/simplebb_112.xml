@@ -166,6 +166,26 @@ else if ( isset( $full_link ) && $dle_module == "showfull" ) {
 ]]></add>
 		</operation>
 		<operation>
+			<ignoreif><![CDATA[// SimpleBB - 10]]></ignoreif>
+			<search position="before"><![CDATA[if (stripos ( $tpl->result['content'], "[hide" ) !== false ) {]]></search>
+			<add><![CDATA[
+		// SimpleBB - 10
+		$user = $db->super_query("SELECT foto, user_group FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
+		$tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
+		$tpl->result['content'] = str_replace( "{user-group-icon}", $user_group[ $user['user_group'] ]['icon'], $tpl->result['content'] );
+		if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
+			$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
+		} else {
+			if ( ! empty( $user['foto'] ) && file_exists( ROOT_DIR . strchr( $user['foto'], "/uploads" ) ) ) {
+				$tpl->result['content'] = str_replace( "{avatar}", $user['foto'], $tpl->result['content'] );
+			} else {
+				$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
+			}
+		}
+		// SimpleBB - 10
+]]></add>
+		</operation>
+		<operation>
 			<ignoreif><![CDATA[// SimpleBB - 11]]></ignoreif>
 			<search position="after"><![CDATA[$category_id = intval( $row['category'] );]]></search>
 			<add><![CDATA[
