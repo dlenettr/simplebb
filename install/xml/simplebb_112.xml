@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<id>SimpleBB</id>
-	<version>2.2</version>
+	<version>2.3</version>
 	<vqmver>2.4.1</vqmver>
 	<author>MaRZoCHi</author>
 	<file name="engine/classes/google.class.php">
 		<operation>
-			<ignoreif><![CDATA[$loc = str_replace ( "http://" . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], "http://" . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $loc );]]></ignoreif>
-			<search position="replace"><![CDATA[$loc = htmlspecialchars( $loc, ENT_QUOTES, 'ISO-8859-1' );]]></search>
-			<add><![CDATA[// SimpleBB
-		global $config;
+			<ignoreif><![CDATA[// SimpleBB - Link Replace]]></ignoreif>
+			<search position="before"><![CDATA[$loc = htmlspecialchars( $loc, ENT_QUOTES, 'ISO-8859-1' );]]></search>
+			<add><![CDATA[
+		// SimpleBB - Link Replace
 		$cat_info = get_vars( "category" );
-		if ( $sbbsett['use_subdomain'] AND ! empty( $cat_info[ $sbbsett['id'] ]['alt_name'] ) ) {
-			$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
-			$loc = str_replace ( "http://" . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], "http://" . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $loc );
+		if ( $this->simplebb['use_subdomain'] AND ! empty( $cat_info[ $this->simplebb['id'] ]['alt_name'] ) ) {
+			$main_host = str_replace( $cat_info[ $this->simplebb['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
+			$http_prefix = ( substr( $this->home, 0, 5 ) === "https" ) ? "https" : "http";
+			$loc = str_replace ( $http_prefix . "://" . $main_host . "/" . $cat_info[ $this->simplebb['id'] ]['alt_name'], $http_prefix . "://" . $cat_info[ $this->simplebb['id'] ]['alt_name'] . "." . $main_host, $loc );
 		}
-		// SimpleBB]]></add>
+		// SimpleBB - Link Replace]]></add>
+		</operation>
+		<operation>
+			<ignoreif><![CDATA[var $simplebb = array();]]></ignoreif>
+			<search position="after"><![CDATA[class googlemap {]]></search>
+			<add><![CDATA[
+	var $simplebb = array();
+]]></add>
+		</operation>
+	</file>
+	<file name="engine/inc/googlemap.php">
+		<operation>
+			<ignoreif><![CDATA[// SimpleBB - GM start]]></ignoreif>
+			<search position="after"><![CDATA[$map = new googlemap($config);]]></search>
+			<add><![CDATA[
+	// SimpleBB - GM start
+	include_once ENGINE_DIR.'/data/simplebb.conf.php';
+	$map->simplebb = $sbbsett;
+	// SimpleBB - GM end
+]]></add>
 		</operation>
 	</file>
 	<file name="engine/engine.php">
@@ -49,12 +69,10 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 			<search position="replace"><![CDATA[$allow_list = explode ( ',', $user_group[$member_id['user_group']]['allow_cats'] );]]></search>
 			<add><![CDATA[
 // SimpleBB - 02
-		require_once (ENGINE_DIR . '/modules/show.forum.php');
+		require_once (ENGINE_DIR . '/modules/simplebb.php');
 		$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // notaviablemain
-		$forum_cats = array_merge( $forum->get_cats(), $forum->get_forums() );
-		if ( $user_group[$member_id['user_group']]['allow_cats'] == "all" ) { $all_cats = array_keys( $cat_info ); }
-		else { $all_cats = explode ( ',', $user_group[$member_id['user_group']]['allow_cats'] ); }
-		$allow_list = array_diff( $all_cats, $forum_cats );
+		$all_cats = ( $user_group[$member_id['user_group']]['allow_cats'] == "all" ) ? array_keys( $cat_info ) : explode ( ',', $user_group[$member_id['user_group']]['allow_cats'] );
+		$allow_list = array_diff( $all_cats, $forum->get_all() );
 // SimpleBB - 02
 ]]></add>
 		</operation>
@@ -63,8 +81,10 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 			<search position="before"><![CDATA[if ($active) {]]></search>
 			<add><![CDATA[
 // SimpleBB - 03
-			include_once (ENGINE_DIR . '/modules/show.forum.php');
-			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
+			if ( ! isset( $forum ) ) {
+				include_once (ENGINE_DIR . '/modules/simplebb.php');
+				$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
+			}
 			if ( $category_id == $sbbsett['id'] ) { $forum_where = "main"; }
 			else if ( in_array( $category_id, $forum->get_cats() ) ) { $forum_where = "cat"; }
 			else if ( in_array( $category_id, $forum->get_forums() ) ) { $forum_where = "forum"; }
@@ -87,12 +107,13 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 // SimpleBB - 05
 				if ( $category_id == $sbbsett['id'] ) {
 					if ( $sbbsett['use_subdomain'] && strpos( $_SERVER['SERVER_NAME'], $cat_info[ $sbbsett['id'] ]['alt_name'] . "." ) !== 0 ) {
+						$http_prefix = ( $config['only_ssl'] ) ? "https://" : "http://";
 						header("HTTP/1.0 301 Moved Permanently");
-						header("Location: http://{$cat_info[ $sbbsett['id'] ]['alt_name']}.{$_SERVER['SERVER_NAME']}");
+						header("Location: {$http_prefix}{$cat_info[ $sbbsett['id'] ]['alt_name']}.{$_SERVER['SERVER_NAME']}");
 						die("Redirect");
 					}
 					$forum->run();
-					$tpl->result["content"] = $forum->html( );
+					$tpl->result["content"] = $forum->html();
 				} else {
 // SimpleBB - 05
 ]]></add>
@@ -108,13 +129,12 @@ require_once ROOT_DIR . "/language/" . $config['langs'] . "/simplebb.lng";
 		</operation>
 		<operation>
 			<ignoreif><![CDATA[$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );]]></ignoreif>
-			<search position="before"><![CDATA[if ($config['allow_rss']) $metatags .= <<<HTML]]></search>
+			<search position="before"><![CDATA[if ($canonical) {]]></search>
 			<add><![CDATA[
 // SimpleBB - 07
-else if ( isset( $full_link ) && $dle_module == "showfull" ) {
+if ( isset( $full_link ) && $dle_module == "showfull" ) {
 	$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
-	$metatags .= "
-<link rel=\"canonical\" href=\"" . str_replace ( "http://" . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], "http://" . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $full_link ) . "\" />";
+	$canonical = str_replace ( $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $full_link );
 }
 // SimpleBB - 07
 ]]></add>
@@ -147,27 +167,7 @@ else if ( isset( $full_link ) && $dle_module == "showfull" ) {
 	<file name="engine/modules/show.full.php">
 		<operation>
 			<ignoreif><![CDATA[// SimpleBB - 10]]></ignoreif>
-			<search position="before"><![CDATA[if( $user_group[$member_id['user_group']]['allow_hide'] ) $tpl->result['content'] = str_ireplace( "[hide]", "", str_ireplace( "[/hide]", "", $tpl->result['content']) );]]></search>
-			<add><![CDATA[
-		// SimpleBB - 10
-		$user = $db->super_query("SELECT foto, user_group FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
-		$tpl->result['content'] = str_replace( "{user-group}", $user_group[$user['user_group']]['group_prefix'].$user_group[$user['user_group']]['group_name'].$user_group[$user['user_group']]['group_suffix'], $tpl->result['content'] );
-		$tpl->result['content'] = str_replace( "{user-group-icon}", $user_group[ $user['user_group'] ]['icon'], $tpl->result['content'] );
-		if ( count( explode( "@", $user['foto'] ) ) == 2 ) {
-			$tpl->result['content'] = str_replace( "{avatar}", "http://www.gravatar.com/avatar/" . md5( trim( $user['foto'] ) ), $tpl->result['content'] );
-		} else {
-			if ( ! empty( $user['foto'] ) && file_exists( ROOT_DIR . strchr( $user['foto'], "/uploads" ) ) ) {
-				$tpl->result['content'] = str_replace( "{avatar}", $user['foto'], $tpl->result['content'] );
-			} else {
-				$tpl->result['content'] = str_replace( "{avatar}", $config['http_home_url'] . "templates/" . $config['skin'] . "/dleimages/noavatar.png", $tpl->result['content'] );
-			}
-		}
-		// SimpleBB - 10
-]]></add>
-		</operation>
-		<operation>
-			<ignoreif><![CDATA[// SimpleBB - 10]]></ignoreif>
-			<search position="before"><![CDATA[if (stripos ( $tpl->result['content'], "[hide" ) !== false ) {]]></search>
+			<search position="after"><![CDATA[$tpl->compile( 'content' );]]></search>
 			<add><![CDATA[
 		// SimpleBB - 10
 		$user = $db->super_query("SELECT foto, user_group FROM " . PREFIX . "_users WHERE name = '{$row['autor']}'");
@@ -283,7 +283,7 @@ function custom_cat_print( $matches = array() ) {
 			<add><![CDATA[
 // SimpleBB - 16
 $forum_compile = "after";
-include ROOT_DIR . '/engine/modules/simplebb.php';
+include ROOT_DIR . '/engine/modules/show.forum.php';
 // SimpleBB - 16
 ]]></add>
 		</operation>
@@ -293,7 +293,7 @@ include ROOT_DIR . '/engine/modules/simplebb.php';
 			<add><![CDATA[
 // SimpleBB - 17
 $forum_compile = "before";
-include ROOT_DIR . '/engine/modules/simplebb.php';
+include ROOT_DIR . '/engine/modules/show.forum.php';
 // SimpleBB - 17
 ]]></add>
 		</operation>
@@ -340,7 +340,6 @@ if ( isset( $forum ) ) {
 ]]></add>
 		</operation>
 	</file>
-
 	<file name="engine/modules/addpost.php">
 		<operation>
 			<ignoreif><![CDATA['forum_']]></ignoreif>
@@ -384,7 +383,7 @@ if ( ! isset( $_REQUEST['cat'] ) ) {
 	return;
 }
 $sel_cat = intval( $db->safesql( $_REQUEST['cat'] ) );
-include_once ENGINE_DIR . '/modules/show.forum.php';
+include_once ENGINE_DIR . '/modules/simplebb.php';
 $forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id ); // category
 // SimpleBB - end
 ]]></add>
@@ -418,13 +417,10 @@ if ( ! in_array( $sel_cat, $forum->get_forums() ) ) {
 		$tpl->set( '{selected-cat}', $cat_info[ $sel_cat ]['name'] );
 		$tpl->copy_template .= <<< HTML
 <input type="hidden" value="{$sel_cat}" name="sel_cat" id="sel_cat" />
-<script>
-$(document).ready(function() {
-	var obj = $("#sel_cat");
-	onCategoryChange( obj );
-});
-</script>
 HTML;
+		$onload_scripts[] = <<< JAVASCRIPT
+onCategoryChange( document.getElementById("sel_cat") );
+JAVASCRIPT;
 // SimpleBB - end
 ]]></add>
 		</operation>

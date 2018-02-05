@@ -135,8 +135,5 @@
 	[/depth=4]
 
 </div>
-<div id="sidebar">
 
-</div>
-<div class="clr"></div>
 {forum-stats}

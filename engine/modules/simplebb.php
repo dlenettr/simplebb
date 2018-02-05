@@ -1,10 +1,11 @@
 <?php
 /*
 =============================================
- Name      : MWS SimpleBB v2.1
+ Name      : MWS SimpleBB v2.3
  Author    : Mehmet Hanoğlu ( MaRZoCHi )
- Site      : http://dle.net.tr/   (c) 2015
+ Site      : https://dle.net.tr/
  License   : MIT License
+ Date      : 05.02.2018
 =============================================
 */
 
@@ -12,124 +13,326 @@ if ( ! defined( 'DATALIFEENGINE' ) ) {
 	die( "Hacking attempt!" );
 }
 
-require_once ENGINE_DIR . "/data/simplebb.conf.php";
 
-if ( $dle_module == "main" ) $forum_where = "";
+class SimpleBB {
+	private $config = Null;
+	private $db = Null;
+	private $tpl = Null;
+	private $cats = Null;
+	private $groups = Null;
+	private $member = Null;
+	private $html = "";
+	private $sett = array();
+	private $tpls = array();
+	private $_main_cats = array();
+	private $_main_cat_ids = array();
+	private $_main_forums = array();
+	private $_forum_cat_ids = array();
+	private $_forum_ids = array();
+	private $lastpost = array();
+	private $comments = array();
+	private $stats_html = "";
+	public $bbname = "";
 
-if ( $forum_compile == "before" ) {
+	public function __construct( &$config, &$db, &$tpl, &$cat_info, &$user_groups, &$member_id ) {
+		include ENGINE_DIR . "/data/simplebb.conf.php";
+		$this->config = $config;
+		$this->sett = $sbbsett;
+		$this->db = $db;
+		$this->tpl = $tpl;
+		$this->cats = $cat_info;
+		$this->groups = $user_groups;
+		$this->member = $member_id;
+		$this->bbname = $this->cats[ $this->sett['id'] ]['alt_name'];
+		$this->sett['avatarsize'] = "100";
+		$this->debug = false;
+		if ( $this->debug ) echo "__construct()" . PHP_EOL;
+		$this->FindMainCats();
+	}
 
-	$tpl->set( "{count_all}", $count_all );
-
-	if ( $dle_module == "showfull" ) { preg_match("/<meta property=\"og:title\" content=\"(.*?)\" \/>/", $metatags, $title ); $tpl->set ( '{page-title}', $title[1][0] ); } else { $tpl->set ( '{page-title}', $nam_e ); }
-
-	$forum_main_tpl = file_get_contents( ROOT_DIR . "/templates/" . $config['skin'] . "/forum/main.tpl" );
-
-	if ( $forum_where == "cat" ) {
-		$forum_main_tpl = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "$1", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $forum_main_tpl );
-
-		if ( isset( $category_id ) && $sbbsett['show_subforums'] ) {
-			$subforums = "";
-			foreach ( $cat_info as $cid => $cat ) { if ( $cat['parentid'] == $category_id ) { $subcats[] = $cat['id']; } }
-			if ( count( $subcats ) > 0 && $sbbsett['show_subcount'] ) {
-				$subcounts = array();
-				$db->query( "SELECT COUNT(id) as count, category FROM " . PREFIX . "_post WHERE category IN(" . implode( ",", $subcats ) . ") GROUP BY category" );
-				while( $d = $db->get_row() ) { $subcounts[ $d['category'] ] = $d['count']; }
-				$db->free();
+	private function FindMainCats() {
+		if ( $this->debug ) echo "FindMainCats()" . PHP_EOL;
+		foreach( $this->cats as $cat ) {
+			if ( $cat['parentid'] == $this->sett['id'] ) {
+				$this->_main_cats[ $cat['id'] ] = $cat;
 			}
-			$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
-			foreach ( $subcats as $cid ) {
-				$parent = $cat_info[ $cat_info[ $cid ]['parentid'] ];
-				if ( $sbbsett['use_subdomain'] ) {
-					$_furl = ( $config['allow_alt_url'] == "1" ) ? $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
-					$subforums .= "<li><a href=\"http://{$cat_info[ $sbbsett['id'] ]['alt_name']}.{$main_host}/{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
-				} else {
-					$_furl = ( $config['allow_alt_url'] == "1" ) ? $cat_info[ $sbbsett['id'] ]['alt_name'] . "/" . $parent['alt_name'] . "/" . $cat_info[$cid]['alt_name'] . "/" : "index.php?do=cat&category=" . $cat_info[$cid]['alt_name'];
-					$subforums .= "<li><a href=\"{$config['http_home_url']}{$_furl}\">" . $cat_info[$cid]['name'] . "</a>";
-				}
-
-				if ( $sbbsett['show_subcount'] ) {
-					$subforums .= " <span>( " . intval( $subcounts[$cid] ) . " )</span></li>";
-				} else { $subforums .= "</li>"; }
-			}
-			$forum_main_tpl = str_replace( "{subforums}", $subforums, $forum_main_tpl );
-			$forum_main_tpl = preg_replace( "#\\[sub-forums\\](.*?)\\[/sub-forums\\]#is", "$1", $forum_main_tpl );
-		} else {
-			$forum_main_tpl = preg_replace( "#\\[sub-forums\\](.*?)\\[/sub-forums\\]#is", "", $forum_main_tpl );
 		}
-
-		$forum_main_tpl = str_replace( "{threads.tpl}", $tpl->result['content'], $forum_main_tpl );
-	} else if ( $forum_where == "forum" ) {
-		$forum_main_tpl = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "$1", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = str_replace( "{threads.tpl}", $tpl->result['content'], $forum_main_tpl );
-	} else if ( $forum_where == "thread" ) {
-		$forum_main_tpl = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $forum_main_tpl );
-		$forum_main_tpl = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "$1", $forum_main_tpl );
-		$forum_main_tpl = str_replace( "{post.tpl}", $tpl->result['content'], $forum_main_tpl );
-	}
-
-	if ( in_array( $forum_where, array( "cat", "forum", "thread" ) ) ) {
-		$tpl->result['content'] = str_replace( "{content}", $tpl->result['content'], $forum_main_tpl );
-	}
-
-} else if ( $forum_compile == "after" ) {
-
-	// Category Echo
-	if ( stripos( $tpl->result['main'], "{category" ) !== false ) {
-		$tpl->result['main'] = preg_replace_callback ( "#\\{category(.+?)\\}#i", "custom_cat_print", $tpl->result['main'] );
-	}
-	// Category Echo
-
-	if ( $sbbsett['use_subdomain'] AND ! empty( $cat_info[ $sbbsett['id'] ]['alt_name'] ) ) {
-		$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
-		$tpl->result['main'] = str_replace ( "http://www." . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], "http://" . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $tpl->result['main'] );
-		$tpl->result['main'] = str_replace ( "http://" . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'], "http://" . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host, $tpl->result['main'] );
-	}
-
-	if ( strpos( $tpl->result['main'], "{forum-stats}" ) !== false ) {
-		if ( ! isset( $forum ) ) {
-			include_once (ENGINE_DIR . '/modules/show.forum.php');
-			$forum = new SimpleBB( $config, $db, $tpl, $cat_info, $user_groups, $member_id );
-		}
-		$tpl->result['main'] = str_replace( "{forum-stats}", $forum->get_stats(), $tpl->result['main'] );
-	}
-
-	if ( stripos( $tpl->result['main'], "[forum" ) !== false ) {
-		if ( in_array( $forum_where, array( "main", "cat", "forum", "thread" ) ) || $dle_module == "addpost" ) {
-			$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "$1", $tpl->result['main'] );
-			$tpl->result['main'] = preg_replace( "#\\[not-forum\\](.*?)\\[/not-forum\\]#is", "", $tpl->result['main'] );
-		} else {
-			$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "", $tpl->result['main'] );
-			$tpl->result['main'] = preg_replace( "#\\[not-forum\\](.*?)\\[/not-forum\\]#is", "$1", $tpl->result['main'] );
-		}
-		if ( $forum_where == "forum" OR $forum_where == "cat" ) {
-			foreach ( $banners as $name => $value ) {
-				$tpl->result['main'] = str_replace ( "{banner_" . $name . "}", $value, $tpl->result['main'] );
-				if ( $value ) {
-					$tpl->result['main'] = str_replace ( "[banner_" . $name . "]", "", $tpl->result['main'] );
-					$tpl->result['main'] = str_replace ( "[/banner_" . $name . "]", "", $tpl->result['main'] );
+		$this->_main_cat_ids = array_keys( $this->_main_cats );
+		foreach( $this->_main_cat_ids as $main_cat_id ) {
+			foreach( $this->cats as $main_forum ) {
+				if ( $main_forum['parentid'] == $main_cat_id ) {
+					$this->_forum_ids[] = $main_forum['id'];
 				}
 			}
-			if ( stripos( $tpl->result['main'], "{custom" ) !== false) {
-				$tpl->result['main'] = preg_replace_callback ( "#\\{custom(.+?)\\}#i", "custom_print", $tpl->result['main'] );
+		}
+		$this->_forum_ids = array_unique( $this->_forum_ids );
+	}
+
+	private function FindMainForums() {
+		if ( $this->debug ) echo "FindMainForums()" . PHP_EOL;
+		foreach( $this->_main_cat_ids as $main_cat_id ) {
+			$this->_forum_cat_ids[] = $main_cat_id;
+			$this->_main_forums[ $main_cat_id ] = array();
+			foreach( $this->cats as $main_forum ) {
+				if ( $main_forum['parentid'] == $main_cat_id ) {
+					$this->_main_forums[ $main_cat_id ][ $main_forum['id'] ] = $this->lastpost[ $main_forum['id'] ];
+					$this->_forum_cat_ids[] = $main_forum['id'];
+				}
 			}
-			$tpl->result['main'] = preg_replace( "#\\[forum:inside\\](.*?)\\[/forum:inside\\]#is", "$1", $tpl->result['main'] );
 		}
-		if ( ! empty( $forum_where ) && $forum_where != "inside" ) {
-			$tpl->result['main'] = preg_replace( "#\\[forum:" . $forum_where . "\\](.*?)\\[/forum:" . $forum_where . "\\]#is", "$1", $tpl->result['main'] );
+	}
+
+	private function GenerateStats() {
+		if ( $this->debug ) echo "GenerateStats()" . PHP_EOL;
+		$where = implode( ",", $this->_forum_cat_ids );
+		if ( count( $this->_forum_cat_ids ) > 0 ) {
+			$this->LoadStatsTemplate();
+			$row = $this->db->super_query( "SELECT title, autor, id, alt_name, date, category FROM " . PREFIX . "_post WHERE category IN ({$where}) ORDER BY date DESC LIMIT 0,1" );
+			$_p = $row; unset( $row );
+			$this->db->query( "SELECT COUNT(id) as count, approve FROM " . PREFIX . "_post WHERE category IN ({$where}) GROUP BY approve" );
+			while( $row = $this->db->get_row() ) {
+				if ( $row['approve'] == "1" ) $_p['ocount'] = $row['count'];
+				else $_p['ncount'] = $row['count'];
+			}
+			$_p['tcount'] = $_p['ncount'] + $_p['ocount'];
+			$row = $this->db->super_query( "SELECT COUNT(c.id) as count FROM " . PREFIX . "_comments as c LEFT JOIN " . PREFIX . "_post as p ON p.id = c.post_id WHERE p.category IN ({$where}) AND c.approve = '1'" );
+			$_p['ccount'] = $row['count'];
+			unset( $row, $where );
+		} else $_p = array();
+		return $_p;
+	}
+
+	private function _StatTemplate( $_post ) {
+		$template = $this->tpls['stats'];
+		$_post['upage'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . "user/" . urlencode( $_post['autor'] ) . "/" : $PHP_SELF . "?subaction=userinfo&user=" . urlencode( $_post['autor'] );
+		$_post['url'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . $this->bbname . "/" . $this->cats[ $this->cats[ $_post['category'] ]['parentid'] ]['alt_name'] . "/" . $this->cats[ $_post['category'] ]['alt_name'] . "/" . $_post['id'] . "-" . $_post['alt_name'] . ".html" : $this->config['http_home_url'] . "index.php?newsid=" . $_post['id'];
+		$template = str_replace( "{posts}", $_post['tcount'], $template );
+		$template = str_replace( "{posts-ok}", intval( $_post['ocount'] ), $template );
+		$template = str_replace( "{posts-no}", intval( $_post['ncount'] ), $template );
+		$template = str_replace( "{comments}", intval( $_post['ccount'] ), $template );
+		$template = str_replace( "{date}", $_post['date'], $template );
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_post['title'] ), $this->sett['stat_title_limit'] ), $template );
+		$template = str_replace( "{author}", $_post['autor'], $template );
+		$template = str_replace( "{author-link}", $_post['upage'], $template );
+		$template = str_replace( "{author-box}", "<a onclick=\"ShowProfile('" . urlencode( $_post['autor'] ) . "', '" . $_post['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $user_page . "\">", $template );
+		$template = str_replace( "{url}", $_post['url'], $template );
+		return $template;
+	}
+
+	private function _ForumTemplate( $_cat, $_forum, $forum ) {
+		$template = $this->tpls['forum'];
+		$_forum['url'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" : $this->config['http_home_url'] . "index.php?do=cat&category=" . $_forum['alt_name'];
+		$_forum['rlink'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/rss.xml" : $this->config['http_home_url'] . "engine/rss.php?do=cat&category=" . $_forum['alt_name'];
+		$_forum['lpost'] = $this->_SubSTR( $this->_NormalName( $forum['lastpost'] ), $this->sett['post_limit'] );
+		$_forum['upage'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . "user/" . urlencode( $forum['lastposter'] ) . "/" : $PHP_SELF . "?subaction=userinfo&user=" . urlencode( $forum['lastposter'] );
+		$_forum['lurl'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" . $_forum['alt_name'] . "/" . $forum['post_id'] . "-" . $forum['url'] . ".html" : $this->config['http_home_url'] . "index.php?newsid=" . $forum['post_id'];
+		$template = str_replace( "{title}", $this->_SubSTR( $this->_NormalName( $_forum['name'] ), $this->sett['title_limit'] ), $template );
+		$template = str_replace( "{url}", $_forum['url'], $template );
+		$template = str_replace( "{rss-link}", $_forum['rlink'], $template );
+		$template = str_replace( "[link]", "<a href=\"" . $_forum['url'] . "\">", $template );
+		$template = str_replace( "[/link]", "</a>", $template );
+		$template = str_replace( "{metatitle}", $_forum['metatitle'], $template );
+		$template = str_replace( "{icon}", ( empty( $_forum['icon'] ) ) ? "envelope" : $_forum['icon'], $template );
+		$template = str_replace( "{desc}", $_forum['descr'], $template );
+		$template = str_replace( "{posts}", intval( $forum['posts'] ), $template );
+		$template = str_replace( "{comments}", intval( $_forum['comm'] ), $template );
+		if ( empty( $forum['lastposter'] ) ) {
+			$template = preg_replace( "'\\[not-lastpost\\](.*?)\\[/not-lastpost\\]'si", "$1", $template );
+			$template = preg_replace( "'\\[lastpost\\](.*?)\\[/lastpost\\]'si", "", $template );
+		} else {
+			$template = str_replace( "{lastposter}", $forum['lastposter'], $template );
+			$template = str_replace( "{lastposter-url}", $_forum['upage'], $template );
+			$template = str_replace( "{lastposter-foto}", $forum['avatar'], $template );
+			$template = str_replace( "{lastposter-link}", "<a onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\" href=\"" . $_forum['upage'] . "\">" . $forum['lastposter'] . "</a>", $template );
+			$template = str_replace( "{lastposter-box}", "onclick=\"ShowProfile('" . urlencode( $forum['lastposter'] ) . "', '" . $_forum['upage'] . "', '" . $this->groups[$this->member['user_group']]['admin_editusers'] . "'); return false;\"", $template );
+			$template = str_replace( "{lastpost}", $_forum['lpost'], $template );
+			$template = str_replace( "{lastpost-url}", $_forum['lurl'], $template );
+			$template = str_replace( "{lastpost-link}", "<a href=\"" . $_forum['lurl'] . "\">" . $_forum['lpost'] . "</a>", $template );
+			$template = str_replace( "{lastpost-date}", $forum['date'], $template );
+			$template = preg_replace( "'\\[not-lastpost\\](.*?)\\[/not-lastpost\\]'si", "", $template );
+			$template = preg_replace( "'\\[lastpost\\](.*?)\\[/lastpost\\]'si", "$1", $template );
 		}
-		$tpl->result['main'] = preg_replace( "#(\\[forum:([a-z]+)\\](.*?)\\[/forum:([a-z]+)\\])#is", "", $tpl->result['main'] );
-		$tpl->result['main'] = preg_replace( "#(\\[/forum:([a-z]+)\\])#is", "", $tpl->result['main'] );
+		return $template;
+	}
+
+	private function _CategoryTemplate( $_cat, $_forum_html ) {
+		$template = $this->tpls['category'];
+		$_cat['url'] = ( $this->config['allow_alt_url'] ) ? $this->config['http_home_url'] . $this->bbname . "/" . $_cat['alt_name'] . "/" : $this->config['http_home_url'] . "index.php?do=cat&category=" . $_cat['alt_name'];
+		$template = str_replace( "{title}", $_cat['name'], $template );
+		$template = str_replace( "{metatitle}", $_cat['metatitle'], $template );
+		$template = str_replace( "{desc}", $_cat['descr'], $template );
+		$template = str_replace( "{icon}", $_cat['icon'], $template );
+		$template = str_replace( "{url}", $_cat['url'], $template );
+		$template = str_replace( "[link]", "<a href=\"" . $_cat['url'] . "\">", $template );
+		$template = str_replace( "[/link]", "</a>", $template );
+		$template = str_replace( "{forums}", $_forum_html, $template );
+		return $template;
+	}
+
+	private function _MainTemplate( $_cat_html, $_stats_html ) {
+		$template = $this->tpls['main'];
+		$template = preg_replace( "#\\[categories\\](.*?)\\[/categories\\]#is", $_cat_html, $template );
+		$template = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "$1", $template );
+		$template = preg_replace( "#\\[depth=2\\](.*?)\\[/depth=2\\]#is", "", $template );
+		$template = preg_replace( "#\\[depth=3\\](.*?)\\[/depth=3\\]#is", "", $template );
+		$template = preg_replace( "#\\[depth=4\\](.*?)\\[/depth=4\\]#is", "", $template );
+		$template = str_replace( "{forum-stats}", $_stats_html, $template );
+
+		if ( $this->config['allow_banner'] && $this->sett['show_banners'] && stripos( $template, "{banner" ) !== false ) {
+			$db = &$this->db;
+			include_once ENGINE_DIR . '/modules/banners.php';
+			if ( count ( $banners ) ) {
+				foreach ( $banners as $name => $value ) {
+					$template = str_replace( "{banner_" . $name . "}", $value, $template );
+					if ( $value ) {
+						$template = str_replace( "[banner_" . $name . "]", "", $template );
+						$template = str_replace( "[/banner_" . $name . "]", "", $template );
+					}
+				}
+			}
+			$template = preg_replace( "'{banner_(.*?)}'si", "", $template );
+			$template = preg_replace( "'\\[banner_(.*?)\\](.*?)\\[/banner_(.*?)\\]'si", "", $template );
+		}
+
+		if ( stripos( $template, "{custom" ) !== false ) {
+			$template = preg_replace_callback ( "#\\{custom(.+?)\\}#i", "custom_print", $template );
+		}
+		return $template;
+	}
+
+	private function _NormalName( $text ) {
+		return htmlspecialchars( strip_tags( stripslashes( $text ) ), ENT_QUOTES, $this->config['charset'] );
+	}
+
+	private function _SubSTR( $text, $limit ) {
+		if ( empty( $limit ) OR $limit == "0" ) {
+			return $text;
+		} else {
+			return dle_substr( $text, 0, $limit, $this->config['charset'] );
+		}
+
+	}
+
+	private function GetCategoryInfo( $cat_id, $is_forum = False ) {
+		if ( $this->debug ) echo "GetCategoryInfo( cat_id:" . $cat_id . ", is_forum: " . $is_forum . " )" . PHP_EOL;
+		$data = $this->cats[ $cat_id ];
+		if ( $is_forum ) {
+			$data['comm'] = $this->comments[ $cat_id ];
+		}
+		return $data;
+	}
+
+
+	private function GetForumInfos() {
+		if ( $this->debug ) echo "GetForumInfos()" . PHP_EOL;
+		if ( count( $this->_forum_ids ) > 0 ) {
+			$where = implode( ",", $this->_forum_ids );
+			$this->db->query("SELECT COUNT(p.id) as posts, p.title, p.autor, p.id, p.comm_num, p.alt_name, p.date, p.category, u.foto FROM (SELECT title, autor, id, comm_num, alt_name, date, category, approve FROM " . PREFIX . "_post ORDER BY date DESC) p LEFT JOIN " . PREFIX . "_users u ON u.name = p.autor WHERE p.category IN ({$where}) AND p.approve = '1' GROUP BY p.category");
+			while( $data = $this->db->get_row() ) {
+				if ( strpos( $data['foto'], "@" ) !== false ) {
+					$data['foto'] = "http://www.gravatar.com/avatar/" . md5( trim( $data['foto'] ) ) . "?s=" . intval( $this->sett['avatarsize'] );
+				} else if ( empty( $data['foto'] ) ) {
+					$data['foto'] = $this->config['http_home_url'] . "templates/" . $this->config['skin'] . "/dleimages/noavatar.png";
+				}
+				$this->lastpost[ $data['category'] ] = array(
+					"lastpost" 		=> $data['title'],
+					"lastposter" 	=> $data['autor'],
+					"comments" 		=> $data['comm_num'],
+					"url" 			=> $data['alt_name'],
+					"post_id" 		=> $data['id'],
+					"date" 			=> $data['date'],
+					"posts" 		=> $data['posts'],
+					"avatar"		=> $data['foto']
+				);
+			}
+			$this->db->free();
+		}
+	}
+
+	private function FindComments() {
+		if ( $this->debug ) echo "FindComments()" . PHP_EOL;
+		if ( count( $this->_forum_ids ) > 0 ) {
+			$where = implode( ",", $this->_forum_ids );
+			$this->db->query("SELECT SUM(comm_num) as comm, category FROM " . PREFIX . "_post WHERE category IN ({$where}) AND approve = '1' GROUP BY category" );
+			while( $data = $this->db->get_row() ) {
+				$this->comments[ $data['category'] ] = $data['comm'];
+			}
+		}
+	}
+
+	private function LoadTemplates() {
+		if ( $this->debug ) echo "LoadTemplates()" . PHP_EOL;
+		$this->tpl->load_template( "forum/main.tpl" );
+		$this->tpls['main'] = $this->tpl->copy_template;
+		preg_match_all( "#\\[forums\\](.*?)\\[/forums\\]#is", $this->tpls['main'], $matches );
+		$this->tpls['forum'] = $matches[1][0];
+		preg_match_all( "#\\[categories\\](.*?)\\[/categories\\]#is", $this->tpls['main'], $matches );
+		$matches[1][0] = preg_replace( "#\\[forums\\](.*?)\\[/forums\\]#is", "{forums}", $matches[1][0] );
+		$this->tpls['category'] = $matches[1][0];
+		$this->tpl->clear();
+	}
+
+	private function LoadStatsTemplate() {
+		if ( $this->debug ) echo "LoadStatsTemplate()" . PHP_EOL;
+		$this->tpl->load_template( "forum/stats.tpl" );
+		$this->tpls['stats'] = $this->tpl->copy_template;
+	}
+
+	private function CreateMain() {
+		if ( $this->debug ) echo "CreateMain()" . PHP_EOL;
+		foreach( $this->_main_forums as $cat_id => $forum_ids ) {
+			$_cat = $this->GetCategoryInfo( $cat_id );
+			$_forum_html = "";
+			foreach( $forum_ids as $forum_id => $forum ) {
+				$_forum = $this->GetCategoryInfo( $forum_id, $is_forum = True );
+				$_forum_html .= $this->_ForumTemplate( $_cat, $_forum, $forum );
+			}
+			$_cat_html .= $this->_CategoryTemplate( $_cat, $_forum_html );
+		}
+		if ( strpos( $this->tpls['main'], '{forum-stats}' ) !== false ) {
+			$this->stats_html = $this->_StatTemplate( $this->GenerateStats() );
+		}
+		$_main_html = $this->_MainTemplate( $_cat_html, $this->stats_html );
+		$this->html = $_main_html;
+	}
+
+	public function run() {
+		if ( $this->debug ) echo "run()" . PHP_EOL;
+		$this->LoadTemplates();
+		$this->GetForumInfos();
+		$this->FindMainForums();
+		$this->FindComments();
+		$this->CreateMain();
+	}
+
+	public function get_stats() {
+		if ( $this->debug ) echo "get_stats()" . PHP_EOL;
+		if ( ! empty( $this->stats_html ) ) {
+			return $this->stats_html;
+		}
+		$this->LoadStatsTemplate();
+		$this->GetForumInfos();
+		$this->FindMainForums();
+		return $this->_StatTemplate( $this->GenerateStats() );
+	}
+
+	public function get_forums() {
+		return $this->_forum_ids;
+	}
+
+	public function get_cats() {
+		return array_keys( $this->_main_cats );
+	}
+
+	public function get_all() {
+		return array_merge( $this->_forum_ids, array_keys( $this->_main_cats ) );
+	}
+
+	public function html() {
+		if ( $this->debug ) echo "html()" . PHP_EOL;
+		return $this->html;
 	}
 
 }
-
 
 ?>

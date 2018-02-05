@@ -40,7 +40,7 @@
 						<span><i class="fa fa-comments-o"></i>{comments}</span>
 					</div>
 					<div class="simplebb-flastmessage">
-						[lastpost] 
+						[lastpost]
 						<a href="{lastpost-url}"><i class="fa fa-file-text-o"></i>{lastpost}</a>
 						<img src="{lastposter-foto}" alt="{lastposter}" />
 						<span><i class="fa fa-user"></i>{lastposter}</span>
@@ -135,8 +135,4 @@
 	[/depth=4]
 
 </div>
-<div id="sidebar">
-
-</div>
-<div class="clr"></div>
 {forum-stats}

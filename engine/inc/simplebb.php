@@ -1,10 +1,11 @@
 <?php
 /*
 =============================================
- Name      : MWS SimpleBB v2.1
+ Name      : MWS SimpleBB v2.3
  Author    : Mehmet Hanoğlu ( MaRZoCHi )
- Site      : http://dle.net.tr/   (c) 2015
+ Site      : https://dle.net.tr/
  License   : MIT License
+ Date      : 05.02.2018
 =============================================
 */
 
@@ -41,7 +42,6 @@ if ( $_REQUEST['action'] == "save" ) {
 	$save_con['use_app'] = intval($save_con['use_app']);
 	$save_con['show_subforums'] = intval($save_con['show_subforums']);
 	$save_con['show_subcount'] = intval($save_con['show_subcount']);
-
 
 	$find = array(); $replace = array();
 	$find[] = "'\r'"; $replace[] = "";
@@ -88,16 +88,9 @@ if ( $_REQUEST['action'] == "save" ) {
 
 }
 
-function en_serialize( $value ) { return str_replace( '"', "'", serialize( $value ) ); }
-function de_serialize( $value ) { return unserialize( str_replace("'", '"', $value ) ); }
-
-function showRow($title = "", $description = "", $field = "", $id = "") {
+function showRow( $title = "", $description = "", $field = "", $id = "" ) {
 	$_id = ( ! empty( $id ) ) ? " id=\"{$id}\"" : "";
-	echo "<tr{$_id}><td class=\"col-xs-10 col-sm-6 col-md-7\"><h6>{$title}</h6><span class=\"note large\">{$description}</span></td><td class=\"col-xs-2 col-md-5 alsettingstd\">{$field}</td></tr>";
-}
-
-function showSep( ) {
-	echo "<tr><td class=\"col-xs-10 col-sm-6 col-md-7\" colspan=\"2\">&nbsp;</td></tr>";
+	echo "<tr{$_id}><td class=\"col-xs-6 col-sm-6 col-md-7\"><h6 class=\"media-heading text-semibold\">{$title}</h6><span class=\"text-muted text-size-small hidden-xs\">{$description}</span></td><td class=\"col-xs-6 col-sm-6 col-md-5\">{$field}</td></tr>";
 }
 
 function makeDropDown($options, $name, $selected) {
@@ -115,7 +108,7 @@ function makeDropDown($options, $name, $selected) {
 
 function makeCheckBox($name, $selected) {
 	$selected = $selected ? "checked" : "";
-	return "<input class=\"iButton-icons-tab\" type=\"checkbox\" name=\"{$name}\" value=\"1\" {$selected}>";
+	return "<input class=\"switch\" type=\"checkbox\" name=\"{$name}\" value=\"1\" {$selected}>";
 }
 
 function makeMultiSelect($options, $name, $selected, $class = '') {
@@ -134,7 +127,7 @@ function makeMultiSelect($options, $name, $selected, $class = '') {
 	return $output;
 }
 
-echoheader( "<i class=\"icon-comments\"></i>MWS SimpleBB", $lang['sbb_a_0'] );
+echoheader( "<i class=\"fa fa-comments\"></i> MWS SimpleBB v2.3", $lang['sbb_a_0'] );
 
 $_ACTION = ( isset( $_REQUEST['action'] ) ) ? $_REQUEST['action'] : false;
 
@@ -142,18 +135,13 @@ if ( ! $_ACTION ) {
 
 echo <<< HTML
 {$fail}
-<form action="{$PHP_SELF}?mod=simplebb&action=save" name="conf" id="conf" method="post">
-<div class="box">
-	<div class="box-header">
-		<div class="title">{$lang['sbb_a_1']}</div>
-		<!--ul class="box-toolbar">
-			<li class="toolbar-link">
-				<a href="{$PHP_SELF}?mod=simplebb&action=list"><i class="icon-reorder"></i> Listeye Bak</a>
-			</li>
-		</ul-->
+<form action="{$PHP_SELF}?mod=simplebb&action=save" name="conf" id="conf" class="systemsettings" method="post">
+<div class="panel panel-flat">
+	<div class="panel-heading">
+		<b>{$lang['sbb_a_1']}</b>
 	</div>
-	<div class="box-content">
-		<table class="table table-normal">
+	<div class="table-responsive">
+		<table class="table table-striped">
 HTML;
 
 	$main_cats = array( "" => $lang['sbb_a_14'] );
@@ -161,11 +149,11 @@ HTML;
 
 	showRow( $lang['sbb_a_15'], $lang['sbb_a_16'], makeDropDown( $main_cats, "save_con[id]", "{$sbbsett['id']}" ) );
 
-	showRow( $lang['sbb_a_6'], $lang['sbb_a_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[title_limit]\" value=\"{$sbbsett['title_limit']}\" size=\"20\" />" );
+	showRow( $lang['sbb_a_6'], $lang['sbb_a_7'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[title_limit]\" value=\"{$sbbsett['title_limit']}\" size=\"20\" />" );
 
-	showRow( $lang['sbb_a_8'], $lang['sbb_a_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[post_limit]\" value=\"{$sbbsett['post_limit']}\" size=\"20\" />" );
+	showRow( $lang['sbb_a_8'], $lang['sbb_a_7'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[post_limit]\" value=\"{$sbbsett['post_limit']}\" size=\"20\" />" );
 
-	showRow( $lang['sbb_a_9'], $lang['sbb_a_7'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[stat_title_limit]\" value=\"{$sbbsett['stat_title_limit']}\" size=\"20\" />" );
+	showRow( $lang['sbb_a_9'], $lang['sbb_a_7'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[stat_title_limit]\" value=\"{$sbbsett['stat_title_limit']}\" size=\"20\" />" );
 
 	showRow( $lang['sbb_a_2'], $lang['sbb_a_3'], makeCheckBox( "save_con[use_subdomain]", "{$sbbsett['use_subdomain']}" ) );
 
@@ -173,26 +161,26 @@ HTML;
 
 	showRow( $lang['sbb_a_17'], $lang['sbb_a_18'], makeCheckBox( "save_con[use_app]", "{$sbbsett['use_app']}" ) );
 
-	showRow( $lang['sbb_a_19'], $lang['sbb_a_22'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[comments_tpl]\" value=\"{$sbbsett['comments_tpl']}\" size=\"30\" />" );
+	showRow( $lang['sbb_a_19'], $lang['sbb_a_22'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[comments_tpl]\" value=\"{$sbbsett['comments_tpl']}\" size=\"30\" />" );
 
-	showRow( $lang['sbb_a_21'], $lang['sbb_a_22'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[addcomm_tpl]\" value=\"{$sbbsett['addcomm_tpl']}\" size=\"30\" />" );
+	showRow( $lang['sbb_a_21'], $lang['sbb_a_22'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[addcomm_tpl]\" value=\"{$sbbsett['addcomm_tpl']}\" size=\"30\" />" );
 
-	showRow( $lang['sbb_a_27'], $lang['sbb_a_22'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[shortstory_tpl]\" value=\"{$sbbsett['shortstory_tpl']}\" size=\"30\" />" );
+	showRow( $lang['sbb_a_27'], $lang['sbb_a_22'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[shortstory_tpl]\" value=\"{$sbbsett['shortstory_tpl']}\" size=\"30\" />" );
 
-	showRow( $lang['sbb_a_28'], $lang['sbb_a_22'], "<input type=\"text\" style=\"text-align: center;\"  name=\"save_con[fullstory_tpl]\" value=\"{$sbbsett['fullstory_tpl']}\" size=\"30\" />" );
+	showRow( $lang['sbb_a_28'], $lang['sbb_a_22'], "<input type=\"text\" class=\"form-control\" style=\"text-align: center;\"  name=\"save_con[fullstory_tpl]\" value=\"{$sbbsett['fullstory_tpl']}\" size=\"30\" />" );
 
 	showRow( $lang['sbb_a_23'], $lang['sbb_a_24'], makeCheckBox( "save_con[show_subforums]", "{$sbbsett['show_subforums']}" ) );
 
 	showRow( $lang['sbb_a_25'], $lang['sbb_a_26'], makeCheckBox( "save_con[show_subcount]", "{$sbbsett['show_subcount']}" ) );
 
-	showRow( "", "", "<div style=\"margin-top:10px;\" align=\"right\">
-		<input type=\"hidden\" name=\"user_hash\" value=\"{$dle_login_hash}\" />
-		<input type=\"submit\" class=\"btn btn-green\" value=\"{$lang['user_save']}\">
-		</div>"
-	);
-
 echo <<< HTML
 		</table>
+	</div>
+	<div class="panel-footer">
+		<div class="pull-right">
+			<input type="hidden" name="user_hash" value="{$dle_login_hash}" />
+			<button class="btn bg-teal btn-raised" id="save"><i class="fa fa-floppy-o"></i>{$lang['user_save']}</button>
+		</div>
 	</div>
 </div>
 </form>
