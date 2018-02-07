@@ -252,18 +252,16 @@ if ( isset( $full_link ) && $dle_module == "showfull" ) {
 			<add><![CDATA[
 // SimpleBB - 15
 function custom_cat_print( $matches = array() ) {
-	global $db, $cat_info, $config, $user_group, $category_id, $_TIME, $lang, $category_id, $PHP_SELF;
-	if ( !count($matches) ) return "";
+	global $cat_info, $category_id, $db;
+	if ( !count( $matches ) ) return "";
 	$param_str = trim( $matches[1] );
-	if( preg_match( "#echo=['\"](.+?)['\"]#i", $param_str, $match ) ) {
+	if ( preg_match( "#echo=['\"](.+?)['\"]#i", $param_str, $match ) ) {
 		$echo = $db->safesql( trim( $match[1] ) );
-		if ( $echo == "name" ) { $key = "name"; }
-		else if ( $echo == "url" ) { $key = "alt_name"; }
-		else if ( $echo == "description" ) { $key = "descr"; }
-		else if ( $echo == "keywords" ) { $key = "keywords"; }
-		else if ( $echo == "title" ) { $key = "metatitle"; }
-		else if ( $echo == "id" ) { $key = "id"; }
-		else { if ( in_array( $echo, array_keys( $cat_info[ $category_id ] ) ) ) { $key = $echo; } }
+		if ( $echo == "url" ) $key = "alt_name";
+		else if ( $echo == "description" ) $key = "descr";
+		else if ( $echo == "title" ) $key = "metatitle";
+		else if ( array_key_exists( $echo, $cat_info[ $category_id ] ) ) $key = $echo;
+		else return "";
 		return $cat_info[ $category_id ][ $key ];
 	} else return "";
 }

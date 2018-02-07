@@ -19,16 +19,13 @@ if ( $dle_module == "main" ) $forum_where = "";
 
 if ( $forum_compile == "before" ) {
 
-	$tpl->set( "{count_all}", $count_all );
-
-	if ( $dle_module == "showfull" ) {
-		preg_match("#<meta property=\"og:title\" content=\"(.*?)\">#is", $metatags, $title );
-		$tpl->set ( '{page-title}', $title[1][0] );
-	} else {
-		$tpl->set ( '{page-title}', $nam_e );
-	}
-
 	$forum_main_tpl = file_get_contents( ROOT_DIR . "/templates/" . $config['skin'] . "/forum/main.tpl" );
+
+	if ( preg_match("#<meta property=\"og:title\" content=\"(.*?)\">#is", $metatags, $title ) ) {
+		$forum_main_tpl = str_replace('{thread-title}', trim( $title[1] ), $forum_main_tpl );
+	}
+	$forum_main_tpl = str_replace('{thread-title}', "", $forum_main_tpl );
+	$forum_main_tpl = str_replace('{count_all}', intval( $count_all ), $forum_main_tpl );
 
 	if ( $forum_where == "cat" ) {
 		$forum_main_tpl = preg_replace( "#\\[depth=1\\](.*?)\\[/depth=1\\]#is", "", $forum_main_tpl );
@@ -42,7 +39,7 @@ if ( $forum_compile == "before" ) {
 			if ( count( $subcats ) > 0 && $sbbsett['show_subcount'] ) {
 				$subcounts = array();
 				$db->query( "SELECT COUNT(id) as count, category FROM " . PREFIX . "_post WHERE category IN(" . implode( ",", $subcats ) . ") GROUP BY category" );
-				while( $d = $db->get_row() ) { 
+				while( $d = $db->get_row() ) {
 					$subcounts[ $d['category'] ] = $d['count'];
 				}
 				$db->free();
@@ -100,13 +97,13 @@ if ( $forum_compile == "before" ) {
 		$main_host = str_replace( $cat_info[ $sbbsett['id'] ]['alt_name'] . ".", "", $_SERVER['HTTP_HOST'] );
 		$http_prefix = ( $config['only_ssl'] ) ? "https://" : "http://";
 
-		$tpl->result['main'] = str_replace ( 
+		$tpl->result['main'] = str_replace (
 			$http_prefix . "www." . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'],
 			$http_prefix . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host,
 			$tpl->result['main']
 		);
 
-		$tpl->result['main'] = str_replace ( 
+		$tpl->result['main'] = str_replace (
 			$http_prefix . $main_host . "/" . $cat_info[ $sbbsett['id'] ]['alt_name'],
 			$http_prefix . $cat_info[ $sbbsett['id'] ]['alt_name'] . "." . $main_host,
 			$tpl->result['main']

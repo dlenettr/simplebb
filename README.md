@@ -1,11 +1,11 @@
-simplebb v2.3 for DLE ( DataLife Engine )
+simplebb v2.3.1 for DLE ( DataLife Engine )
 ========
 ![simplebb logo][logo]
 
 * Yapımcı: [Mehmet Hanoğlu]
 * Dizayn : [Kadir Hanoğlu]
 * Site   : https://dle.net.tr
-* Tarih  : 05.02.2018
+* Tarih  : 07.02.2018
 * Lisans : MIT License
 * DLE    : 12.1, 12.0
 * Translations: English ( [DLEStarter] ), Russian ( [mrB4el] ), Ukrainian ( [Corsair] ), French ( [Bashu] )
@@ -19,6 +19,12 @@ Bilgiler
 Detaylı bilgi : https://forum.dle.net.tr/gelistiriciler/fikirler-ve-projeler/39-simplebb-forum.html
 
 Modül sayfası : https://dle.net.tr/dle-modul/155-dle-icin-ucretsiz-forum-simplebb.html
+
+Yenilikler ( 2.3.1 )
+-----------------------
+* Kurulumdaki açıklama hatası giderildi.
+* {page-title} tagı {thread-title} olarak değiştirildi ve forum/main.tpl çalışacak hale getirildi.
+* {count-all} tagı forum/main.tpl çalışacak hale getirildi.
 
 Yenilikler ( 2.3 )
 -----------------------
@@ -69,6 +75,7 @@ Yenilikler ( v1.1 )
 
 Tarihçe
 -----------------------
+* 07.02.2018 (v2.3.1)
 * 05.02.2018 (v2.3)
 * 10.02.2017 (v2.2)
 * 20.10.2015 (v2.1)

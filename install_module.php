@@ -53,6 +53,7 @@ date_default_timezone_set ( $config['date_adjust'] );
 
 @header( "Content-type: text/html; charset=" . $config['charset'] );
 require_once(ROOT_DIR."/language/".$config['langs']."/adminpanel.lng");
+require_once(ROOT_DIR."/language/".$config['langs']."/simplebb.lng");
 
 $Turkish = array ( 'm01' => "Kuruluma Başla", 'm02' => "Yükle", 'm03' => "Kaldır", 'm04' => "Yapımcı", 'm05' => "Çıkış Tarihi", 'm08' => "Kurulum Tamamlandı", 'm10' => "dosyasını silerek kurulumu bitirebilirsiniz", 'm11' => "Modül Kaldırıldı", 'm21' => "Kuruluma başlamadan önce olası hatalara karşı veritabanınızı yedekleyin", 'm22' => "Eğer herşeyin tamam olduğuna eminseniz", 'm23' => "butonuna basabilirsiniz.", 'm24' => "Güncelle", 'm25' => "Site", 'm26' => "Çeviri", 'm27' => "Hata", 'm28' => "Bu modül DLE sürümünüz ile uyumlu değil.", 'm29' => "Buradan sürümünüze uygun modülü isteyebilirsiniz" );
 $English = array ( 'm01' => "Start Installation", 'm02' => "Install", 'm03' => "Uninstall", 'm04' => "Author", 'm05' => "Release Date", 'm06' => "Module Page", 'm07' => "Support Forum", 'm08' => "Installation Finished", 'm10' => "delete this file to finish installation", 'm11' => "Module Uninstalled", 'm21' => "Back up your database before starting the installation for possible errors", 'm22' => "If you are sure that everything is okay, ", 'm23' => "click button.", 'm24' => "Upgrade", 'm25' => "Site", 'm26' => "Translation", 'm27' => "Error", 'm28' => "This module not compatible with your DLE.", 'm29' => "You can ask for compatible version from here" );
@@ -80,11 +81,11 @@ function mainTable_foot( $footer = "" ) {
 }
 
 $module = array(
-	'name'		=> "MWS SimpleBB v2.3",
+	'name'		=> "MWS SimpleBB v2.3.1",
 	'desc'		=> $lang['sbb_a_0'],
 	'id'		=> "simplebb",
 	'icon'		=> "simplebb.png",
-	'date'		=> "05.02.2018",
+	'date'		=> "07.02.2018",
 	'ifile'		=> "install_module.php",
 	'link'		=> "https://dle.net.tr",
 	'image'		=> "https://img.dle.net.tr/mws/simple_bb2.png",
