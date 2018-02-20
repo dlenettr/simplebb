@@ -431,5 +431,15 @@ JAVASCRIPT;
 // SimpleBB - End
 ]]></add>
 		</operation>
+		<operation>
+			<ignoreif><![CDATA[$category = [$sel_cat];]]></ignoreif>
+			<search position="replace"><![CDATA[$category = $catlist;]]></search>
+			<add><![CDATA[
+//SimpleBB - Start
+		//$category = $catlist;
+		$category = [$sel_cat];
+//SimpleBB - End
+]]></add>
+		</operation>
 	</file>
 </modification>
