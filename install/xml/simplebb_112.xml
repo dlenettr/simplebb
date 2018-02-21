@@ -149,18 +149,8 @@ if ( isset( $full_link ) && $dle_module == "showfull" ) {
 			<search position="replace" index="1"><![CDATA[if ($do == "cat" and $category != '' and $subaction == '') {]]></search>
 			<add><![CDATA[
 // SimpleBB - 08
-			if ($do == "cat" and $category != '' and $subaction == '' AND $category_id != $sbbsett['id']) {
+			if ($do == "cat" and $category != '' and $subaction == '' AND ! in_array($category_id,$forum->get_all())) {
 // SimpleBB - 08
-]]></add>
-		</operation>
-		<operation>
-			<ignoreif><![CDATA[// SimpleBB - 09]]></ignoreif>
-			<search position="replace"><![CDATA[if ($re_cat != $_GET['category'] OR substr ( $_SERVER['REQUEST_URI'], - 1, 1 ) != '/' ) {]]></search>
-			<add><![CDATA[
-				// SimpleBB - 09
-				$bb_cat = $cat_info[ $sbbsett['id'] ]['alt_name'];
-				if ( strpos( $re_cat, $bb_cat . "/" ) === false AND ( $re_cat != $_GET['category'] OR substr ( $_SERVER['REQUEST_URI'], - 1, 1 ) != '/' ) ) {
-				// SimpleBB - 09
 ]]></add>
 		</operation>
 	</file>
