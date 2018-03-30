@@ -118,7 +118,7 @@ if ( $forum_compile == "before" ) {
 		$tpl->result['main'] = str_replace( "{forum-stats}", $forum->get_stats(), $tpl->result['main'] );
 	}
 
-	if ( stripos( $tpl->result['main'], "[forum" ) !== false ) {
+	if ( stripos( $tpl->result['main'], "[forum" ) !== false || stripos( $tpl->result['main'], "[not-forum" ) !== false ) {
 		if ( in_array( $forum_where, array( "main", "cat", "forum", "thread" ) ) || $dle_module == "addpost" ) {
 			$tpl->result['main'] = preg_replace( "#\\[forum\\](.*?)\\[/forum\\]#is", "$1", $tpl->result['main'] );
 			$tpl->result['main'] = preg_replace( "#\\[not-forum\\](.*?)\\[/not-forum\\]#is", "", $tpl->result['main'] );
@@ -134,9 +134,6 @@ if ( $forum_compile == "before" ) {
 					$tpl->result['main'] = str_replace ( "[/banner_" . $name . "]", "", $tpl->result['main'] );
 				}
 			}
-			if ( stripos( $tpl->result['main'], "{custom" ) !== false) {
-				$tpl->result['main'] = preg_replace_callback ( "#\\{custom(.+?)\\}#i", "custom_print", $tpl->result['main'] );
-			}
 			$tpl->result['main'] = preg_replace( "#\\[forum:inside\\](.*?)\\[/forum:inside\\]#is", "$1", $tpl->result['main'] );
 		}
 		if ( ! empty( $forum_where ) && $forum_where != "inside" ) {
@@ -144,6 +141,9 @@ if ( $forum_compile == "before" ) {
 		}
 		$tpl->result['main'] = preg_replace( "#(\\[forum:([a-z]+)\\](.*?)\\[/forum:([a-z]+)\\])#is", "", $tpl->result['main'] );
 		$tpl->result['main'] = preg_replace( "#(\\[/forum:([a-z]+)\\])#is", "", $tpl->result['main'] );
+	}
+	if ( stripos( $tpl->result['main'], "{custom" ) !== false) {
+		$tpl->result['main'] = preg_replace_callback ( "#\\{custom(.+?)\\}#i", "custom_print", $tpl->result['main'] );
 	}
 
 }
